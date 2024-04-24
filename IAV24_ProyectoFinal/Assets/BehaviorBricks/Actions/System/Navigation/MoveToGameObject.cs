@@ -1,6 +1,7 @@
 ﻿using Pada1.BBCore.Tasks;
 using Pada1.BBCore;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace BBUnity.Actions
 {
@@ -16,7 +17,15 @@ namespace BBUnity.Actions
         [Help("Target game object towards this game object will be moved")]
         public GameObject target;
 
-        private UnityEngine.AI.NavMeshAgent navAgent;
+        [InParam("closeDistance")]
+        [Help("Distance to aim for when approaching the game object")]
+        public float closeDistance;
+
+        [InParam("lockToFirstGameObjectPosition")]
+        [Help("Whether destination should be updated when target object moves or should remain set to the target's original position")]
+        public bool lockToFirstGameObjectPosition;
+
+        private NavMeshAgent navAgent;
 
         private Transform targetTransform;
 
@@ -31,19 +40,35 @@ namespace BBUnity.Actions
             }
             targetTransform = target.transform;
 
-            navAgent = gameObject.GetComponent<UnityEngine.AI.NavMeshAgent>();
+            navAgent = gameObject.GetComponent<NavMeshAgent>();
             if (navAgent == null)
             {
                 Debug.LogWarning("The " + gameObject.name + " game object does not have a Nav Mesh Agent component to navigate. One with default values has been added", gameObject);
-                navAgent = gameObject.AddComponent<UnityEngine.AI.NavMeshAgent>();
+                navAgent = gameObject.AddComponent<NavMeshAgent>();
             }
-			navAgent.SetDestination(targetTransform.position);
-            
-            #if UNITY_5_6_OR_NEWER
-                navAgent.isStopped = false;
-            #else
+            NavMeshPath path = new NavMeshPath();
+            if (navAgent.CalculatePath(targetTransform.position, path))
+            {
+                var corners = path.corners;
+                var fullDistance = 0f;
+
+                for (int i = 1; i < corners.Length; i++)
+                {
+                    fullDistance += Vector3.Distance(corners[i - 1], corners[i]);
+                }
+
+                if (fullDistance > closeDistance)
+                {
+                    navAgent.SetDestination(targetTransform.position);
+                }
+            }
+
+
+#if UNITY_5_6_OR_NEWER
+            navAgent.isStopped = false;
+#else
                 navAgent.Resume();
-            #endif
+#endif
         }
 
         /// <summary>Method of Update of MoveToGameObject.</summary>
@@ -53,24 +78,30 @@ namespace BBUnity.Actions
         {
             if (target == null)
                 return TaskStatus.FAILED;
-            if (!navAgent.pathPending && navAgent.remainingDistance <= navAgent.stoppingDistance)
+            if (navAgent.pathPending)
+                return TaskStatus.RUNNING;
+            if (navAgent.destination == null || navAgent.remainingDistance <= Mathf.Max(navAgent.stoppingDistance, closeDistance))
                 return TaskStatus.COMPLETED;
-            else if (navAgent.destination != targetTransform.position)
+            else if (!lockToFirstGameObjectPosition && navAgent.destination != targetTransform.position)
+            {
+                Debug.Log("a");
                 navAgent.SetDestination(targetTransform.position);
-            return TaskStatus.RUNNING;
+                return TaskStatus.RUNNING;
+            }
+            else return TaskStatus.RUNNING;
         }
         /// <summary>Abort method of MoveToGameObject </summary>
         /// <remarks>When the task is aborted, it stops the navAgentMesh.</remarks>
         public override void OnAbort()
         {
 
-        #if UNITY_5_6_OR_NEWER
-            if(navAgent!=null)
+#if UNITY_5_6_OR_NEWER
+            if (navAgent != null)
                 navAgent.isStopped = true;
-        #else
+#else
             if (navAgent!=null)
                 navAgent.Stop();
-        #endif
+#endif
 
         }
     }

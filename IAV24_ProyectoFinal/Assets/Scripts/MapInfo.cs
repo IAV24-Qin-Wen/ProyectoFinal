@@ -16,7 +16,6 @@ public class MapInfo : MonoBehaviour
     {
         public GameObject go;
         public int ID;
-        public float progress;
     }
     [SerializeField]
     private List<GeneratorInfo> generators;

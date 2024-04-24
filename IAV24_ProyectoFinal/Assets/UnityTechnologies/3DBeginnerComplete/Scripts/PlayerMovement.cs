@@ -51,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
             m_AudioSource.Stop ();
         }
 
-        Vector3 desiredForward = Vector3.RotateTowards (transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
+        Vector3 desiredForward = Vector3.RotateTowards (transform.forward, m_Movement*1000, turnSpeed * Time.deltaTime, 0f);
         m_Rotation = Quaternion.LookRotation (desiredForward);
     }
 

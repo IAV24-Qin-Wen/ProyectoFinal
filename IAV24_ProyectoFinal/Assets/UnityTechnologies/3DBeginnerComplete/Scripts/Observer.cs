@@ -1,34 +1,46 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class GeneratorList : MonoBehaviour
+public class Observer : MonoBehaviour
 {
-    [System.Serializable]
-    public class MedkitInfo
+    public Transform player;
+    public GameEnding gameEnding;
+
+    bool m_IsPlayerInRange;
+
+    void OnTriggerEnter(Collider other)
     {
-        public GameObject go;
-        public int roomID;
-        public bool used;
+        if (other.transform == player)
+        {
+            m_IsPlayerInRange = true;
+        }
     }
 
-    [System.Serializable]
-    public class RoomInfo
+    void OnTriggerExit(Collider other)
+
     {
-        public GameObject go;
-        public int previousGo;
-        public int buttonGo;
-        public bool needToBeActivated;
-        public bool activated;
-
+        if (other.transform == player)
+        {
+            m_IsPlayerInRange = false;
+        }
     }
-    [SerializeField]
-    private List<RoomInfo> rooms;
 
-    [SerializeField]
-    private List<MedkitInfo> medkits;
+    void Update()
+    {
+        if (m_IsPlayerInRange)
+        {
+            Vector3 direction = player.position - transform.position + Vector3.up;
+            Ray ray = new Ray(transform.position, direction);
+            RaycastHit raycastHit;
 
-    public List<RoomInfo> GetRooms() { return rooms; }
-    public List<MedkitInfo> GetMedkits() { return medkits; }
+            if (Physics.Raycast(ray, out raycastHit))
+            {
+                if (raycastHit.collider.transform == player)
+                {
+                    gameEnding.CaughtPlayer();
+                }
+            }
+        }
+    }
 
 }
