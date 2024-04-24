@@ -15,17 +15,14 @@ namespace BBCore.Conditions
         [Help("Object to evaluate")]
         public GameObject objectToCheck;
 
-        [InParam("expectedToBeNull")]
-        [Help("Whether we expect this game object to be null or not")]
-        public bool expectedToBeNull;
-
         /// <summary>
         /// Checks whether two booleans have the same value.
         /// </summary>
         /// <returns>the value of compare first boolean with the second boolean.</returns>
 		public override bool Check()
         {
-            return expectedToBeNull ? objectToCheck == null : objectToCheck != null;
+            Debug.Log(objectToCheck == null);
+            return objectToCheck == null;
         }
     }
 }

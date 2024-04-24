@@ -84,11 +84,11 @@ namespace BBUnity.Actions
                 return TaskStatus.COMPLETED;
             else if (!lockToFirstGameObjectPosition && navAgent.destination != targetTransform.position)
             {
-                Debug.Log("a");
+       
                 navAgent.SetDestination(targetTransform.position);
-                return TaskStatus.RUNNING;
+            return TaskStatus.RUNNING;
             }
-            else return TaskStatus.RUNNING;
+            return TaskStatus.RUNNING;
         }
         /// <summary>Abort method of MoveToGameObject </summary>
         /// <remarks>When the task is aborted, it stops the navAgentMesh.</remarks>

@@ -3158,6 +3158,79 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!1 &927972626 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1796301030082368667, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
+    type: 3}
+  m_PrefabInstance: {fileID: 6311368596308520381}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &927972636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927972626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 946314501, guid: 4dc89775807b4e84cac33f32258c8524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxTasksPerTick: 500
+  behavior: {fileID: 11400000, guid: f9f2144e4d8296843afe2ceb57f43707, type: 2}
+  paused: 0
+  restartWhenFinished: 0
+  blackboard:
+    intParams: 05000000
+    intParamsNames:
+    - NumGenerators
+    intParamsLostDefaultValue: 
+    boolParams: 
+    boolParamsNames: []
+    boolParamsLostDefaultValue: 
+    floatParams: []
+    floatParamsNames: []
+    floatParamsLostDefaultValue: 
+    stringParams: []
+    stringParamsNames: []
+    stringParamsLostDefaultValue: 
+    colorParams: []
+    colorParamsNames: []
+    colorParamsLostDefaultValue: 
+    objectParams:
+    - {fileID: 1601085468}
+    objectParamsNames:
+    - Map
+    objectParamsLostDefaultValue: 
+    layerMaskParams: []
+    layerMaskParamsNames: []
+    layerMaskParamsLostDefaultValue: 
+    enumParamsNames: []
+    enumParamsLostDefaultValue: 
+    vector2Params: []
+    vector2ParamsNames: []
+    vector2ParamsLostDefaultValue: 
+    vector3Params: []
+    vector3ParamsNames: []
+    vector3ParamsLostDefaultValue: 
+    vector4Params: []
+    vector4ParamsNames: []
+    vector4ParamsLostDefaultValue: 
+    rectParams: []
+    rectParamsNames: []
+    rectParamsLostDefaultValue: 
+    animationCurveParams: []
+    animationCurveParamsNames: []
+    animationCurveParamsLostDefaultValue: 
+    boundsParams: []
+    boundsParamsNames: []
+    boundsParamsLostDefaultValue: 
+    gradientParams: []
+    gradientParamsNames: []
+    gradientParamsLostDefaultValue: 
+    quaternionParams: []
+    quaternionParamsNames: []
+    quaternionParamsLostDefaultValue: 
 --- !u!1001 &933650293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6981,18 +7054,33 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
+      propertyPath: blackboard.intParams.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
+        type: 3}
       propertyPath: blackboard.floatParams.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
+      propertyPath: blackboard.intParams.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
+        type: 3}
       propertyPath: blackboard.objectParams.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
       propertyPath: blackboard.floatParams.Array.data[0]
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
+        type: 3}
+      propertyPath: blackboard.intParamsNames.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
@@ -7003,7 +7091,7 @@ PrefabInstance:
         type: 3}
       propertyPath: blackboard.objectParams.Array.data[1]
       value: 
-      objectReference: {fileID: 1255290194}
+      objectReference: {fileID: 1601085468}
     - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
       propertyPath: blackboard.floatParamsNames.Array.size
@@ -7011,8 +7099,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
+      propertyPath: blackboard.intParamsNames.Array.data[0]
+      value: NumGenerators
+      objectReference: {fileID: 0}
+    - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
+        type: 3}
       propertyPath: blackboard.objectParamsNames.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
@@ -7023,6 +7116,11 @@ PrefabInstance:
         type: 3}
       propertyPath: blackboard.objectParamsNames.Array.data[0]
       value: visionSensorObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 250040877454942119, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
+        type: 3}
+      propertyPath: blackboard.objectParamsNames.Array.data[1]
+      value: Map
       objectReference: {fileID: 0}
     - target: {fileID: 821116171079703493, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
@@ -7172,7 +7270,7 @@ PrefabInstance:
     - target: {fileID: 5771475510536323268, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
       propertyPath: m_Speed
-      value: 0.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5771475510536323268, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
@@ -7265,11 +7363,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.75
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3253135825047533773, guid: 9bb1a6337ab6a2247a6a59efc00f07c3, type: 3}
     m_RemovedGameObjects:
     - {fileID: 1583487571465180656, guid: 9bb1a6337ab6a2247a6a59efc00f07c3, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1796301030082368667, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 927972636}
     - targetCorrespondingSourceObject: {fileID: 840687062082477123, guid: 9bb1a6337ab6a2247a6a59efc00f07c3,
         type: 3}
       insertIndex: -1
