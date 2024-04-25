@@ -59,7 +59,7 @@ MonoBehaviour:
     hasParent=\"True\">\r\n          <BehaviorTree id=\"0\" />\r\n          <ActionNode
     id=\"13\" />\r\n          <SequenceNode id=\"1\" />\r\n        </data>\r\n     
     </_data>\r\n    </ActionNode>\r\n    <ActionNode id=\"14\">\r\n      <_data>\r\n       
-    <data breakpoint=\"0\" selected=\"True\" position=\"767.0002 508.9999\" name=\"Navigation/AutoMove\"
+    <data breakpoint=\"0\" selected=\"False\" position=\"767.0002 508.9999\" name=\"Navigation/AutoMove\"
     description=\"Moves the game object to a given position by using a NavMeshAgent\"
     cardinality=\"0\" hasParent=\"True\">\r\n          <BehaviorTree id=\"0\" />\r\n         
     <ActionNode id=\"14\" />\r\n          <SequenceNode id=\"1\" />\r\n        </data>\r\n     
