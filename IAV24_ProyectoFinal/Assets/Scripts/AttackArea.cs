@@ -1,58 +1,91 @@
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using LiquidSnake.Enemies;
-public class AttackArea : MonoBehaviour
+
+namespace BehaviorDesigner.Runtime.Tactical
 {
-    [SerializeField]
-    private string targetTag;
-    public GameEnding gameEnding;
-    [SerializeField]
-    private VisionSensor vision;
-    bool isTargetInaArea;
-
-    void OnTriggerEnter(Collider other)
+    /// <summary>
+    /// Example component which will attack by firing a bullet.
+    /// </summary>
+    public class AttackArea : MonoBehaviour, IAttackAgent
     {
-        if (other.CompareTag(targetTag))
+        // The furthest distance that the agent is able to attack from
+        public float attackDistance;
+        // The amount of time it takes for the agent to be able to attack again
+        public float repeatAttackDelay;
+        // The maximum angle that the agent can attack from
+        public float attackAngle;
+
+        // The last time the agent attacked
+        private float lastAttackTime;
+
+        [SerializeField]
+        private GameObject attackArea;
+
+        private Animator animator;
+
+        /// <summary>
+        /// Initialize the default values.
+        /// </summary>
+        private void Awake()
         {
-            isTargetInaArea = true;
+            lastAttackTime = -repeatAttackDelay;
         }
-    }
-    void OnTriggerStay(Collider other)
-    {
-        if (other.CompareTag(targetTag))
+
+        private void Start()
         {
-            isTargetInaArea = true;
+            animator= GetComponent<Animator>();
+            attackArea.SetActive(false);
         }
-    }
-
-    void OnTriggerExit(Collider other)
-
-    {
-        if (other.CompareTag(targetTag))
+        /// <summary>
+        /// Returns the furthest distance that the agent is able to attack from.
+        /// </summary>
+        /// <returns>The distance that the agent can attack from.</returns>
+        public float AttackDistance()
         {
-            isTargetInaArea = false;
+            return attackDistance;
         }
-    }
 
-    void Update()
-    { GameObject go;
-        if (isTargetInaArea && (go=vision.GetClosestTarget())!=null)
+        /// <summary>
+        /// Can the agent attack?
+        /// </summary>
+        /// <returns>Returns true if the agent can attack.</returns>
+        public bool CanAttack()
         {
-       
-            Vector3 direction =go.transform.position - transform.position + Vector3.up;
-            Ray ray = new Ray(transform.position, direction);
-            RaycastHit raycastHit;
+            return lastAttackTime + repeatAttackDelay < Time.time;
+        }
 
-            if (Physics.Raycast(ray, out raycastHit))
-            {
-                if (raycastHit.collider.CompareTag(targetTag))
-                {
-                    Debug.Log("Attack");
-                    //gameEnding.CaughtPlayer();
-                }
-            }
+        /// <summary>
+        /// Returns the maximum angle that the agent can attack from.
+        /// </summary>
+        /// <returns>The maximum angle that the agent can attack from.</returns>
+        public float AttackAngle()
+        {
+            return attackAngle;
+        }
+
+        public void Attacking()
+        {
+            attackArea.SetActive(true);
+            Invoke("DisableAttack", 0.5f);
+            animator.SetBool("attack", false);
+        }
+
+        public void DisableAttack()
+        {
+            attackArea.SetActive(false);
+            
+
+        }
+
+        /// <summary>
+        /// Does the actual attack. 
+        /// </summary>
+        /// <param name="targetPosition">The position to attack.</param>
+        public void Attack(Vector3 targetPosition)
+        {
+            animator.SetBool("attack", true);
+            lastAttackTime = Time.time;
+            Invoke("Attacking", 0.2f);
+            
         }
     }
 }
-
