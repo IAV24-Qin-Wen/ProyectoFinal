@@ -61,7 +61,7 @@ namespace LiquidSnake.UI
 
             fillImage.fillAmount = (float)newValue / _observable.MaxValue();
 
-            if(_timeWithoutStimuli > timeUntilRebound && !barsInSync)
+            if (_timeWithoutStimuli > timeUntilRebound && !barsInSync)
             {
                 // nos ha llegado un estímulo mientras estábamos actualizando la barra oscura.
                 // forzamos a que la barra oscura tenga el fill amount de la base, pero sólo si las barras 
@@ -102,7 +102,7 @@ namespace LiquidSnake.UI
             // una idea de cuánto tiempo ha pasado desde que excedimos el tiempo hasta el rebound.
             _timeWithoutStimuli = Mathf.Min(_timeWithoutStimuli, timeUntilRebound + reboundTime);
 
-            if(_timeWithoutStimuli > timeUntilRebound)
+            if (_timeWithoutStimuli > timeUntilRebound)
             {
                 // cuánto hemos avanzado desde que excedimos el tiempo until rebound
                 // este valor será 0 cuando acabemos de alcanzar timeUntilRebound y

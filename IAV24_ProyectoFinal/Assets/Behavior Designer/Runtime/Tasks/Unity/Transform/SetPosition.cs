@@ -31,7 +31,6 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.UnityTransform
             }
 
             targetTransform.position = position.Value;
-
             return TaskStatus.Success;
         }
 

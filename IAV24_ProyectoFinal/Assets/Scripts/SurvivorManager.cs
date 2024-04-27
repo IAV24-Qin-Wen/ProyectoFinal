@@ -28,7 +28,7 @@ public class SurvivorManager : MonoBehaviour
             while (!spawned)
             {
                 aux = UnityEngine.Random.Range(0, spawnPoints.transform.childCount);
-                Debug.Log(aux);
+
                 if (!used[aux])
                 {
                     used[aux] = spawned = true;

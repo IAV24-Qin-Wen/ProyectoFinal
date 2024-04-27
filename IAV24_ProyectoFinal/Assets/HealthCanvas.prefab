@@ -312,8 +312,8 @@ GameObject:
   - component: {fileID: 335338916453365303}
   - component: {fileID: 2445706736933231220}
   - component: {fileID: 3584066965185548004}
-  - component: {fileID: 4587593279473544192}
-  - component: {fileID: 8134273249088600397}
+  - component: {fileID: 5641868819342461855}
+  - component: {fileID: 5488620734235079461}
   m_Layer: 0
   m_Name: HealthCanvas
   m_TagString: Untagged
@@ -341,7 +341,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 19.81, y: 2.95}
+  m_AnchoredPosition: {x: 19.809998, y: 2.9500122}
   m_SizeDelta: {x: 1, y: 0.15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &335338916453365303
@@ -389,7 +389,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &3584066965185548004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,7 +407,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &4587593279473544192
+--- !u!114 &5641868819342461855
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -416,10 +416,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9173352090621144199}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc054b06516c72440ae2d1f0c79678ab, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c64efdbfac6ea84da09bf6fbde7f15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8134273249088600397
+--- !u!114 &5488620734235079461
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 9173352090621144199}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8877479ff6f4a1f4b83682fcb3efab01, type: 3}
+  m_Script: {fileID: 11500000, guid: 07dda106b0aa21e428a99be6f6d493f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fillImage: {fileID: 4498920250734667339}

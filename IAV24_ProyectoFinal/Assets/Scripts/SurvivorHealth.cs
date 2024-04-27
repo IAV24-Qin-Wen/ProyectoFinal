@@ -1,5 +1,7 @@
 
+using Pada1.BBCore.Framework;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace BehaviorDesigner.Runtime.Tactical
 {
@@ -8,10 +10,21 @@ namespace BehaviorDesigner.Runtime.Tactical
     /// </summary>
     public class SurvivorHealth : MonoBehaviour, IDamageable
     {
-        // The amount of health to begin with
-        public float startHealth = 100;
+        public float startHealth = 1;
 
         private float currentHealth;
+
+        public bool isCaught=false;
+        public bool isAlive = false;
+
+        //si ya no le quedan oportunidades, se muere. Se resta 1 oportunidad cada vez que es pillado por el asesino 
+        public int opportunities;
+
+        BehaviorTree behaviorTree;
+        NavMeshAgent navMesh;
+
+        Animator animator;
+
 
         /// <summary>
         /// Initailzies the current health.
@@ -21,6 +34,13 @@ namespace BehaviorDesigner.Runtime.Tactical
             currentHealth = startHealth;
         }
 
+        public void Start()
+        {
+            behaviorTree=GetComponent<BehaviorTree>();
+            animator= GetComponent<Animator>();
+            navMesh=GetComponent<NavMeshAgent>();
+        }
+
         /// <summary>
         /// Take damage. Deactivate if the amount of remaining health is 0.
         /// </summary>
@@ -28,16 +48,30 @@ namespace BehaviorDesigner.Runtime.Tactical
         public void Damage(float amount)
         {
             currentHealth = Mathf.Max(currentHealth - amount, 0);
-            if (currentHealth == 0)
+            if (currentHealth <= 0)
             {
-                 Debug.Log("Damaged");
+                --opportunities;
+                if (opportunities <= 0)
+                {
+                    isAlive = false;
+                }
+                isCaught=true;
+                behaviorTree.SendEvent<object>("Caught", true);
+                animator.SetBool("caught", true);
+                navMesh.enabled = false;
             }
         }
 
         // Is the object alive?
         public bool IsAlive()
         {
-            return currentHealth > 0;
+            return isAlive;
+        }
+
+        // Is the object alive?
+        public bool IsCaught()
+        {
+            return isCaught;
         }
 
         /// <summary>
@@ -46,7 +80,6 @@ namespace BehaviorDesigner.Runtime.Tactical
         public void ResetHealth()
         {
             currentHealth = startHealth;
-            gameObject.SetActive(true);
         }
     }
 }
