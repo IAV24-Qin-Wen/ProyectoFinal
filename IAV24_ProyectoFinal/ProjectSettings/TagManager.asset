@@ -7,6 +7,8 @@ TagManager:
   - Vision
   - Bullet
   - Survivor
+  - Mino
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
