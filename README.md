@@ -132,6 +132,31 @@ public class SurvivorAI : MonoBehaviour
 
 ## Pathfinding
 
+```mermaid
+graph TD;
+    subgraph Árbol de comportamiento
+        A[Prioridad]
+        B[Repairing Generator]
+        C[Fleeing]
+        D[Hiding]
+        E[Rescuing Teammate]
+        F[Letting Down Pallet]
+        A -->|Generator found| B
+        B -->|Killer proximity| C
+        C -->|No killer nearby| B
+        C -->|Hiding spot detected| D
+        D -->|Killer proximity| C
+        C -->|Teammate needs rescue| E
+        A -->|Teammate needs rescue| E
+        B -->|Teammate needs rescue| E
+        E -->|Rescue successful or killer approach| C
+        C -->|Pallet needed| F
+        F -->|Pallet dropped| C
+        B -->|Finish repairing| A
+        A -->|Killer proximity| C
+    end
+```
+
 ## Diseño de la solución
 
 Se usarán **árboles de comportamiento** para la toma de decisiones
