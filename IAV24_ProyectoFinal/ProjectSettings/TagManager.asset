@@ -9,6 +9,8 @@ TagManager:
   - Survivor
   - Mino
   - SpawnPoint
+  - Hook
+  - Generator
   layers:
   - Default
   - TransparentFX
