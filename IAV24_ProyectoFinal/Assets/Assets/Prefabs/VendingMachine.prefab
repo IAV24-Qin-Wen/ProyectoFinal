@@ -370,6 +370,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6078864680841985698}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: fb1217aa0cc1dc7408dcc6ca4bd13544,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3710150164792245841}
   m_SourcePrefab: {fileID: 100100000, guid: fb1217aa0cc1dc7408dcc6ca4bd13544, type: 3}
 --- !u!1 &191026967680389645 stripped
 GameObject:
@@ -455,6 +459,20 @@ MonoBehaviour:
   OnProgressCompleted:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3710150164792245841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191026967680389645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d454ff132ff924a269062f7596073f81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _value: 1
+  _map: {fileID: 0}
 --- !u!4 &715362809162778807 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: fb1217aa0cc1dc7408dcc6ca4bd13544,
@@ -545,6 +563,11 @@ PrefabInstance:
       propertyPath: _observable
       value: 
       objectReference: {fileID: 6078864680841985698}
+    - target: {fileID: 5923854024267997876, guid: a6d99b2de4e032a41b636be825b2ceb2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6956850676088094208, guid: a6d99b2de4e032a41b636be825b2ceb2,
         type: 3}
       propertyPath: m_Pivot.x
@@ -675,17 +698,22 @@ PrefabInstance:
     - target: {fileID: 7959189756108892126, guid: a6d99b2de4e032a41b636be825b2ceb2,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.9966067
+      value: 0.018357964
       objectReference: {fileID: 0}
     - target: {fileID: 7959189756108892126, guid: a6d99b2de4e032a41b636be825b2ceb2,
         type: 3}
       propertyPath: m_Color.g
-      value: 1
+      value: 0.01886791
       objectReference: {fileID: 0}
     - target: {fileID: 7959189756108892126, guid: a6d99b2de4e032a41b636be825b2ceb2,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.8660377
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7959189756108892126, guid: a6d99b2de4e032a41b636be825b2ceb2,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9173352090621144199, guid: a6d99b2de4e032a41b636be825b2ceb2,
         type: 3}
