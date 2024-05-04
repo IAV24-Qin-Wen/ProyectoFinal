@@ -24,7 +24,6 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             if (generator.Value != null)
             {
                 generatorPos.Value = generator.Value.transform.position;
-                Debug.Log(generatorPos);
                 return TaskStatus.Success;
             }
 
