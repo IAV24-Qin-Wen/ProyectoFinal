@@ -17,6 +17,8 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement {
         NavMeshAgent agent;
         Vector3 velocity;
         CharacterController character;
+        public float delayUpdateDirection = .1f;
+        float timer;
 
         // Use this for initialization
         public override void OnStart()
@@ -29,13 +31,18 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement {
         // Returns success if an object was found otherwise failure
         public override TaskStatus OnUpdate()
         {
-            Debug.Log("Map: "+moveDirection.Value);
+            if (Time.time > timer)
+            {
+               
+                timer = Time.time + delayUpdateDirection;
+                agent.SetDestination(transform.position + velocity);
+            }
 
-            agent.SetDestination(transform.position + velocity);
             velocity = moveDirection.Value;
             velocity.Normalize();
             velocity *= speed;
             velocity.y = 0;
+            Debug.Log("Timer: " + velocity);
 
             //		transform.position += _velocity * Time.deltaTime;
             if (character && character.enabled)

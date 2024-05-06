@@ -1,6 +1,8 @@
 using LiquidSnake.Utils;
 using UnityEngine;
 using UnityEngine.Events;
+using ThreadNinja;
+using System.Collections.Generic;
 
 namespace LiquidSnake.Character
 {
@@ -19,10 +21,25 @@ namespace LiquidSnake.Character
         [SerializeField]
         private float maxProgress = 100;
 
+        [SerializeField]
+        private float minValue = 0, maxValue = 50;
+
+        InfluencePropagator propagator;
+
+        void Start()
+        {
+            propagator = GetComponent<InfluencePropagator>();
+            SetValue();
+        }
+
         //----------------------------------------------------------------------------
         //               Implementación de BoundedObservableComponent
         //----------------------------------------------------------------------------
         #region Comunicación por Eventos
+        public void SetValue()
+        {
+            propagator.Value=((float)(((maxValue - minValue) / maxProgress) * currentProgress));
+        }
 
         /// <summary>
         /// Evento que notifica de la muerte del personaje cuando sus puntos de vida llegan a 0.
@@ -61,6 +78,7 @@ namespace LiquidSnake.Character
 
             // notificamos del cambio 
             OnChange?.Invoke(prevProgress, currentProgress);
+            SetValue();
 
             if (currentProgress >= maxProgress)
             {
@@ -76,6 +94,7 @@ namespace LiquidSnake.Character
 
             // notificamos del cambio en currentHealth
             OnChange?.Invoke(currentProgress, 0);
+            SetValue();
         }
         #endregion
     }

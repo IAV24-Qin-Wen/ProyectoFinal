@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
+using BehaviorDesigner.Runtime.Tasks.Unity.UnityCapsuleCollider;
 namespace BehaviorDesigner.Runtime.Tasks.Movement
 {
     [TaskDescription("Get Map influenced Direction")]
@@ -18,43 +20,52 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         [UnityEngine.Serialization.FormerlySerializedAs("sensibility")]
         public float sensibility = 0.0f;
 
+
+        [UnityEngine.Serialization.FormerlySerializedAs("lastDirSimilarity")]
+        public float lastDirSimilarity = 0.0f;
+
+
+        [UnityEngine.Serialization.FormerlySerializedAs("lastDirection")]
+        public SharedVector3 lastDirection;
+
         Mover mover;
 
-        //Vector3 direction;
-        //float timer;
-        //public static int pathfindingIterationsPerFrame;
+        [UnityEngine.Serialization.FormerlySerializedAs("ifDirectionIsSimilarTimes")]
+        public int ifDirectionIsSimilarTimes;
+        
+        int times;
+        
 
         // Use this for initialization
         public override void OnStart()
         {
-            //navmesh performance and init
-            //pathfindingIterationsPerFrame = pathfindingIterationsPerFrame + 10;
-            //NavMesh.pathfindingIterationsPerFrame = pathfindingIterationsPerFrame;
-            //delayUpdateDirection += Random.value * delayUpdateDirection;
-            mover= GetComponent<Mover>();
+            times = 0;
+            mover =gameObject.GetComponent<Mover>();
         }
 
         // Returns success if an object was found otherwise failure
         public override TaskStatus OnUpdate()
         {
-            //if (Time.time > timer)
-            //{
-            //    direction = Vector3.zero;
-            //    timer = Time.time + delayUpdateDirection;
-            //    var directions = gameObject.GetComponents<IDirection>();
-            //    int i = 0;
-            //    foreach (var d in directions)
-            //    {
-            //        direction += d.GetDirection();
-            //        Debug.Log(i);
-            //        ++i;
-            //    }
-            //}
-            ////Debug.Log("A: " + direction);
-            //else return TaskStatus.Failure;
-            m_ReturnedDirection.Value = mover.direction;
-
+         
+            m_ReturnedDirection.Value = mover.getDirection();
+            Debug.Log("Dir " + m_ReturnedDirection.Value);
+            if (Mathf.Abs(m_ReturnedDirection.Value.magnitude - lastDirection.Value.magnitude) <= lastDirSimilarity)
+            {
+                times++;
+                if (times > ifDirectionIsSimilarTimes)
+                {
+                    times = 0;
+                    return TaskStatus.Failure;
+                }
+            }
+            else times = 0;
+            lastDirection.Value = m_ReturnedDirection.Value;
             return (m_ReturnedDirection.Value.magnitude > sensibility) ? TaskStatus.Success : TaskStatus.Failure;
+        }
+        public override void OnReset()
+        {
+            // Reset the public properties back to their original values
+            times = 0;
         }
     }
 }

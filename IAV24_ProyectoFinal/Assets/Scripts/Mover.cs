@@ -31,7 +31,7 @@ public class Mover : MonoBehaviour
 	[SerializeField]
 	float delayUpdateDirection=.1f;
 	float timer;
-
+	public Vector3 getDirection() { return direction; }
 	protected virtual void Update()
 	{
 		if (Time.time > timer) {

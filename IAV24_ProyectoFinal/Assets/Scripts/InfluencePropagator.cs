@@ -13,35 +13,35 @@ using System.Collections;
 
 public interface IPropagator
 {
-	Vector2I GridPosition { get; }
-	float Value { get; }
+    Vector2I GridPosition { get; }
+    float Value { get; set; }
 }
 
 [DefaultExecutionOrder(-800)]
 public class InfluencePropagator : MonoBehaviour, IPropagator
 {
-	[SerializeField]
-	float _value=1;
-	public float Value { get{ return enabled? _value:0; } }
+    [SerializeField]
+    float _value = 1;
+    public float Value { get { return enabled ? _value : 0; } set { _value = value; } }
 
-	[SerializeField]
-	InfluenceMapControl _map;
+    [SerializeField]
+    InfluenceMapControl _map;
 
-	public Vector2I GridPosition
-	{
-		get
-		{
-			return _map.GetGridPosition(transform.position);
-		}
-	}
-		
-	void OnEnable()
-	{
-		_map.RegisterPropagator(this);
-	}
-	void OnDisable()
-	{
-		_map.DeregisterPropagator(this);
-	}
+    public Vector2I GridPosition
+    {
+        get
+        {
+            return _map.GetGridPosition(transform.position);
+        }
+    }
+
+    void OnEnable()
+    {
+        _map.RegisterPropagator(this);
+    }
+    void OnDisable()
+    {
+        _map.DeregisterPropagator(this);
+    }
 
 }

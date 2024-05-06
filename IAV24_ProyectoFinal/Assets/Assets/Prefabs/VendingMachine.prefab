@@ -456,6 +456,8 @@ MonoBehaviour:
       m_Calls: []
   currentProgress: 0
   maxProgress: 100
+  minValue: 0
+  maxValue: 50
   OnProgressCompleted:
     m_PersistentCalls:
       m_Calls: []
