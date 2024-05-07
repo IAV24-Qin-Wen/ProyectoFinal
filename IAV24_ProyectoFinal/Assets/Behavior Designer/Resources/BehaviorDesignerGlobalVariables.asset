@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mVariableData:
     variableStartIndex: 
-    JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"MyLevelMap","IsShared":true,"IsGlobal":true,"GameObjectmValue":0}]}'
+    JSONSerialization: '{"Variables":[{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"MyLevelMap","IsShared":true,"IsGlobal":true,"GameObjectmValue":0},{"Type":"BehaviorDesigner.Runtime.SharedGameObject","Name":"Killer","IsShared":true,"IsGlobal":true,"GameObjectmValue":1}]}'
     fieldSerializationData:
       typeName: []
       fieldNameHash: 
@@ -22,6 +22,7 @@ MonoBehaviour:
       dataPosition: 
       unityObjects:
       - {fileID: 3288396274910667030, guid: da9b2d31167b87c4fb4b3339047eef78, type: 3}
+      - {fileID: 1796301030082368667, guid: 9bb1a6337ab6a2247a6a59efc00f07c3, type: 3}
       byteData: 
       byteDataArray: 
   mVersion: 1.7.9

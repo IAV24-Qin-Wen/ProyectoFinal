@@ -10,20 +10,16 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
 
         private float verticalOffset = 1f;
 
-        [Tooltip("The position of the found generator")]
-        [UnityEngine.Serialization.FormerlySerializedAs("generatorPos")]
-        public SharedVector3 generatorPos;
-
         [Tooltip("The generator found")]
         [UnityEngine.Serialization.FormerlySerializedAs("generator")]
-        public SharedGameObject generator;
+        public SharedGameObjectList generators;
 
         public override TaskStatus OnUpdate()
         {
-            generator = DetectClosestTarget();
-            if (generator.Value != null)
+            GameObject generator;
+            if ((generator = DetectClosestTarget())!= null)
             {
-                generatorPos.Value = generator.Value.transform.position;
+                generators.Value.Add(generator);
                 return TaskStatus.Success;
             }
 

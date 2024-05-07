@@ -19,7 +19,12 @@ namespace LiquidSnake.Character
 
 
         [SerializeField]
-        private float maxProgress = 100;
+        private float maxProgress = 90;
+        
+        [SerializeField]
+        private float tickTimer = 1.0f;
+
+        private float timerProgress = 0.0f;
 
         [SerializeField]
         private float minValue = 0, maxValue = 50;
@@ -95,6 +100,26 @@ namespace LiquidSnake.Character
             // notificamos del cambio en currentHealth
             OnChange?.Invoke(currentProgress, 0);
             SetValue();
+        }
+
+        private void OnTriggerStay(Collider other)
+        {
+            if (!other.CompareTag("Survivor")) return;
+
+            Debug.Log("Rapairing...");
+            timerProgress += Time.deltaTime;
+            if(timerProgress > tickTimer)
+            {
+                Fix(2.0f);
+                timerProgress = 0.0f;
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (!other.CompareTag("Survivor")) return;
+            Debug.Log("Exited");
+            timerProgress = 0.0f;
         }
         #endregion
     }
