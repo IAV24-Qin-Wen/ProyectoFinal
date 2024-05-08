@@ -17,7 +17,6 @@ namespace LiquidSnake.Character
         [SerializeField]
         private float currentProgress = 0;
 
-
         [SerializeField]
         private float maxProgress = 90;
         
@@ -78,18 +77,28 @@ namespace LiquidSnake.Character
 
             float prevProgress = currentProgress;
 
-            // aplicamos un decremento sobre los puntos de salud del personaje
-            currentProgress = Mathf.Max(currentProgress + number, 100);
-
+            currentProgress += number;
             // notificamos del cambio 
             OnChange?.Invoke(prevProgress, currentProgress);
             SetValue();
 
             if (currentProgress >= maxProgress)
             {
+                currentProgress = Mathf.Max(currentProgress, maxProgress);
                 OnProgressCompleted?.Invoke();
             }
         }
+
+        public float getProgress()
+        {
+            return currentProgress;
+        }
+        
+        public float getMaxProgress()
+        {
+            return maxProgress;
+        }
+
         public void Reset()
         {
             // guardamos la salud anterior para notificar de ella en el cambio.
@@ -106,10 +115,10 @@ namespace LiquidSnake.Character
         {
             if (!other.CompareTag("Survivor")) return;
 
-            Debug.Log("Rapairing...");
             timerProgress += Time.deltaTime;
             if(timerProgress > tickTimer)
             {
+                Debug.Log(currentProgress);
                 Fix(2.0f);
                 timerProgress = 0.0f;
             }

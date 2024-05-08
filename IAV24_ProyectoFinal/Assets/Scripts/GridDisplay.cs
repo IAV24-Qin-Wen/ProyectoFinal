@@ -89,7 +89,7 @@ public class GridDisplay : MonoBehaviour
 				verts.Add(tr);
 			}
 		}
-		Debug.Log("verts: " + verts.Count);
+		//Debug.Log("verts: " + verts.Count);
 		
 		List<Color> colors = new List<Color>();
 		for (int yIdx = 0; yIdx < _data.Height; ++yIdx)
@@ -150,7 +150,7 @@ public class GridDisplay : MonoBehaviour
 			tris.Add(br);
 			
 		}
-		Debug.Log("tris: " + tris.Count);
+		//Debug.Log("tris: " + tris.Count);
 		
 		_mesh.vertices = verts.ToArray();
 		_mesh.normals = norms.ToArray();

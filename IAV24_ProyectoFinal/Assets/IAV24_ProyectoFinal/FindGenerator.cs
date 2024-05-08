@@ -19,6 +19,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             GameObject generator;
             if ((generator = DetectClosestTarget())!= null)
             {
+                Debug.Log("Generator found");
                 generators.Value.Add(generator);
                 return TaskStatus.Success;
             }

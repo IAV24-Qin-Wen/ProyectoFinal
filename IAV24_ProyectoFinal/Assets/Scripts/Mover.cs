@@ -9,8 +9,8 @@ public class Mover : MonoBehaviour
     protected CharacterController character;
     protected NavMeshAgent agent;
 	 
-	[SerializeField]
-	float _speed=2f;
+	//[SerializeField]
+	// float _speed=2f;
 
 	public static int pathfindingIterationsPerFrame;
 

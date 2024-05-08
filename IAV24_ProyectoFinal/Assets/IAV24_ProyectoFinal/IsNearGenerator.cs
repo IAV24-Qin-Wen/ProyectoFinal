@@ -1,4 +1,5 @@
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityGameObject;
+using LiquidSnake.Character;
 using UnityEngine;
 
 namespace BehaviorDesigner.Runtime.Tasks.Movement
@@ -19,8 +20,6 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         public SharedGameObjectList gens;
 
         private float m_SqrMagnitude; // distance * distance, optimization so we don't have to take the square root
-        private Collider[] m_OverlapColliders;
-        private Collider2D[] m_Overlap2DColliders;
 
         public override void OnStart()
         {
@@ -36,7 +35,8 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
 
             foreach (var obj in gens.Value)
             {
-                if (IsWithinDistance(obj))
+                Progress aux = obj.GetComponent<Progress>();
+                if (aux.getProgress() < aux.getMaxProgress() && IsWithinDistance(obj))
                 {
                     m_ReturnedObject.Value = obj;
                 }
