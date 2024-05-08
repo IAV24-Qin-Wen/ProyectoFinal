@@ -12,7 +12,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
     public class GetMapInfluenceDirection : Conditional
     {
         [UnityEngine.Serialization.FormerlySerializedAs("returnedDirection")]
-        public SharedVector3 m_ReturnedDirection;
+        public SharedVector3 mapDirection;
 
         //[UnityEngine.Serialization.FormerlySerializedAs("delayUpdateDirection")]
         //public float delayUpdateDirection = .1f;
@@ -32,40 +32,40 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
 
         [UnityEngine.Serialization.FormerlySerializedAs("ifDirectionIsSimilarTimes")]
         public int ifDirectionIsSimilarTimes;
-        
-        int times;
-        
 
+
+        [UnityEngine.Serialization.FormerlySerializedAs("SimilarTimes")]
+        public SharedInt times;
+
+        [UnityEngine.Serialization.FormerlySerializedAs("map")]
+        public SharedGameObject mapGO;
+        private InfluenceMapControl map;
         // Use this for initialization
         public override void OnStart()
         {
-            times = 0;
-            mover =gameObject.GetComponent<Mover>();
+            map = mapGO.Value.GetComponent<InfluenceMapControl>();
+
+            mover = gameObject.GetComponent<Mover>();
         }
 
         // Returns success if an object was found otherwise failure
         public override TaskStatus OnUpdate()
         {
-         
-            m_ReturnedDirection.Value = mover.getDirection();
-            Debug.Log("Dir " + m_ReturnedDirection.Value);
-            if (Mathf.Abs(m_ReturnedDirection.Value.magnitude - lastDirection.Value.magnitude) <= lastDirSimilarity)
+            if ((Mathf.Abs(mapDirection.Value.magnitude - lastDirection.Value.magnitude)) <= lastDirSimilarity)
             {
-                times++;
-                if (times > ifDirectionIsSimilarTimes)
+                times.Value++;
+                if (times.Value > ifDirectionIsSimilarTimes)
                 {
-                    times = 0;
+                    times.Value = 0;
                     return TaskStatus.Failure;
                 }
             }
-            else times = 0;
-            lastDirection.Value = m_ReturnedDirection.Value;
-            return (m_ReturnedDirection.Value.magnitude > sensibility) ? TaskStatus.Success : TaskStatus.Failure;
+            else times.Value = 0;
+            lastDirection.Value = mapDirection.Value;
+            Vector3 aux = mapDirection.Value + gameObject.transform.position;
+            Debug.Log(map+" "+Mathf.Abs(map.GetInfluence(map.GetGridPosition(aux)) - map.GetInfluence(map.GetGridPosition(gameObject.transform.position))));
+            return (Mathf.Abs(map.GetInfluence(map.GetGridPosition(aux)) - map.GetInfluence(map.GetGridPosition(gameObject.transform.position))) > sensibility) ? TaskStatus.Success : TaskStatus.Failure;
         }
-        public override void OnReset()
-        {
-            // Reset the public properties back to their original values
-            times = 0;
-        }
+
     }
 }

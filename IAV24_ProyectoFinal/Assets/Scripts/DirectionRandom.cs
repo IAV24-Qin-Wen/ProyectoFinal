@@ -10,8 +10,6 @@ public class DirectionRandom : MonoBehaviour,IDirection  {
 	float weight=1;
 	public Vector3 GetDirection()
 	{
-		var direction = weight*( new Vector3(Random.Range(-50, 50),0,Random.Range(-50,50))-transform.position).normalized;
-
 		return weight*( new Vector3(
 			Random.Range(-50, 50),
 			0,

@@ -1,7 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace BehaviorDesigner.Runtime.Tasks.Movement {
+namespace BehaviorDesigner.Runtime.Tasks.Movement
+{
 
     [TaskDescription("Maneja la direccion del asesino dependiendo del mapa de influencia")]
     [TaskCategory("IAV24")]
@@ -14,39 +15,39 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement {
         [UnityEngine.Serialization.FormerlySerializedAs("speed")]
         public float speed = 2.0f;
 
-        NavMeshAgent agent;
-        Vector3 velocity;
-        CharacterController character;
+        [UnityEngine.Serialization.FormerlySerializedAs("directionAcum")]
+        public SharedVector3 directionAcum;
+
+
+
         public float delayUpdateDirection = .1f;
-        float timer;
+
+        private BehaviorTree behaviorTree;
+        
 
         // Use this for initialization
         public override void OnStart()
         {
             base.OnStart();
-            character = GetComponent<CharacterController>();
-            agent=GetComponent<NavMeshAgent>();
+            behaviorTree = gameObject.GetComponent<BehaviorTree>();
         }
 
         // Returns success if an object was found otherwise failure
         public override TaskStatus OnUpdate()
         {
-            if (Time.time > timer)
-            {
-               
-                timer = Time.time + delayUpdateDirection;
-                agent.SetDestination(transform.position + velocity);
-            }
 
-            velocity = moveDirection.Value;
-            velocity.Normalize();
-            velocity *= speed;
-            velocity.y = 0;
-            Debug.Log("Timer: " + velocity);
+            Debug.Log("start; " + directionAcum.Value);
 
-            //		transform.position += _velocity * Time.deltaTime;
-            if (character && character.enabled)
-                character.SimpleMove(velocity);
+            behaviorTree.SendEvent<object>("Move", gameObject.transform.position + directionAcum.Value);
+
+
+            directionAcum.Value = moveDirection.Value;
+            directionAcum.Value.Normalize();
+            directionAcum.Value *= speed;
+            Debug.Log("first; " + directionAcum.Value);
+            directionAcum.Value.Set(directionAcum.Value.x, 0, directionAcum.Value.z);
+            Debug.Log("last; " + directionAcum.Value);
+
             return TaskStatus.Success;
         }
     }
