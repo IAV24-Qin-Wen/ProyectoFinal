@@ -9,20 +9,26 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
     [TaskDescription("Moves to the closest target and starts attacking as soon as the agent is within distance")]
     [HelpURL("https://www.opsive.com/support/documentation/behavior-designer-tactical-pack/")]
     [TaskIcon("Assets/Behavior Designer Tactical/Editor/Icons/{SkinColor}AttackIcon.png")]
+
+
     public class Attack : NavMeshTacticalGroup
     {
+        [UnityEngine.Serialization.FormerlySerializedAs("attacked")]
+        public SharedBool attacked;
         public override TaskStatus OnUpdate()
         {
             var baseStatus = base.OnUpdate();
-            if (baseStatus != TaskStatus.Running || !started) {
+            if (baseStatus != TaskStatus.Running || !started)
+            {
                 return baseStatus;
             }
 
-            if (MoveToAttackPosition()) {
-                tacticalAgent.TryAttack();
+            if (MoveToAttackPosition())
+            {
+                attacked.Value = tacticalAgent.TryAttack();
             }
-
-            return TaskStatus.Running;
+            if (attacked.Value) return TaskStatus.Success;
+            else return TaskStatus.Running;
         }
     }
 }
