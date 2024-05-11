@@ -12,7 +12,6 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
     [TaskIcon("c8e612848487a184f9090d416c932c47", "cc64e7434e679324c8cb39430f19eda8")]
     public class GetAvailableHookPosiiton : Action
     {
-        List<MapInfo.HookInfo> hookInfos;
        
         [UnityEngine.Serialization.FormerlySerializedAs("returnedPosition")]
         public SharedVector3 m_ReturnedPosition;
@@ -20,28 +19,30 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         [Tooltip("Level")]
         [UnityEngine.Serialization.FormerlySerializedAs("level")]
         public SharedGameObject level ;
+        MapInfo mapInfo;
         public override void OnStart()
         {
-            hookInfos = level.Value.GetComponent<MapInfo>().GetHooks();
+            mapInfo = level.Value.GetComponent<MapInfo>();
         }
         public override TaskStatus OnUpdate()
         {
            
-            if (!FindAvailableHook()) return TaskStatus.Failure;
+            if (!FindAvailableRandomHook()) return TaskStatus.Failure;
             else return TaskStatus.Success;
         }
 
-        private bool FindAvailableHook()
+        private bool FindAvailableRandomHook()
         {
             bool found = false;
-            int i = 0;
-            while (i < hookInfos.Count && !found)
+            int hookId;
+            while (!found)
             {
-                if (!hookInfos[i].used) { 
+                hookId = Random.Range(0, mapInfo.hooks.Count);
+                if (!mapInfo.hooks[hookId].used) { 
                     found = true;
-                    m_ReturnedPosition.Value= hookInfos[i].go.transform.Find("HookPoint").transform.position;
+                    mapInfo.hooks[hookId].used=true;
+                    m_ReturnedPosition.Value= mapInfo.hooks[hookId].go.transform.Find("HookPoint").transform.position;
                 }
-                ++i;
             }
             return found;
         } 

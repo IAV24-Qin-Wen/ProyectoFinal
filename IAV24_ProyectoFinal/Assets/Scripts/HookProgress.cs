@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace LiquidSnake.Character
 {
 
-    public class Progress : BoundedObservableComponent<float>, IResetteable
+    public class HookProgress : BoundedObservableComponent<float>, IResetteable
     {
 
         //----------------------------------------------------------------------------
@@ -19,7 +19,7 @@ namespace LiquidSnake.Character
 
         [SerializeField]
         private float maxProgress = 90;
-        
+
         [SerializeField]
         private float tickTimer = 1.0f;
 
@@ -29,6 +29,9 @@ namespace LiquidSnake.Character
         private float minValue = 0, maxValue = 50;
 
         InfluencePropagator propagator;
+       
+        [SerializeField]
+        private float speed =50;
 
         void Start()
         {
@@ -42,7 +45,7 @@ namespace LiquidSnake.Character
         #region Comunicación por Eventos
         public void SetValue()
         {
-            propagator.Value=((float)(((maxValue - minValue) / maxProgress) * currentProgress));
+            propagator.Value = ((float)(((maxValue - minValue) / maxProgress) * currentProgress));
         }
 
         /// <summary>
@@ -75,7 +78,7 @@ namespace LiquidSnake.Character
         //----------------------------------------------------------------------------
         #region Métodos públicos e implementación de IResetteable
 
-        public void Fix(float number)
+        public void SetProgress(float number)
         {
 
             float prevProgress = currentProgress;
@@ -96,7 +99,7 @@ namespace LiquidSnake.Character
         {
             return currentProgress;
         }
-        
+
         public float getMaxProgress()
         {
             return maxProgress;
@@ -114,25 +117,18 @@ namespace LiquidSnake.Character
             SetValue();
         }
 
-        private void OnTriggerStay(Collider other)
+         void Update()
         {
-            if (!other.CompareTag("Survivor")) return;
-
+           
             timerProgress += Time.deltaTime;
-            if(timerProgress > tickTimer)
+            if (timerProgress > tickTimer)
             {
-                Debug.Log(currentProgress);
-                Fix(2.0f);
+                SetProgress(speed);
                 timerProgress = 0.0f;
             }
         }
 
-        private void OnTriggerExit(Collider other)
-        {
-            if (!other.CompareTag("Survivor")) return;
-            Debug.Log("Exited");
-            timerProgress = 0.0f;
-        }
+    
         #endregion
     }
 } // namespace LiquidSnake.Character

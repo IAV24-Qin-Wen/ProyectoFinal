@@ -25,7 +25,7 @@ namespace BBUnity.Actions
 
         public override TaskStatus OnUpdate()
         {
-            position = map.GetGenerators()[ID].go.transform.position;
+            position = map.generators[ID].go.transform.position;
             return TaskStatus.COMPLETED;
 
         }

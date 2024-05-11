@@ -34,7 +34,8 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         public override void OnStart()
         {
             map = mapGO.Value.GetComponent<InfluenceMapControl>();
-            list = level.Value.GetComponent<MapInfo>().sharedTransformList;
+            list.Value = level.Value.GetComponent<MapInfo>().sharedTransformList.Value;
+            Debug.Log(list.Value.Count);
         }
 
         // Returns success if an object was found otherwise failure

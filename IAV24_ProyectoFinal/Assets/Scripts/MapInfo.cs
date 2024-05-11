@@ -19,10 +19,9 @@ public class MapInfo : MonoBehaviour
         public int ID;
     }
     [SerializeField]
-    private List<GeneratorInfo> generators;
+    public List<GeneratorInfo> generators;
     public SharedTransformList sharedTransformList;
-   [SerializeField]
-    private List<HookInfo> hooks;
+    public List<HookInfo> hooks;
     void Start()
     {
         sharedTransformList = new SharedTransformList();
@@ -30,11 +29,9 @@ public class MapInfo : MonoBehaviour
         {
             sharedTransformList.Value.Add(generators[i].go.transform);
         }
-        Debug.Log("fjfj "+ sharedTransformList.Value.Count);
+        Debug.Log("fjfj " + sharedTransformList.Value.Count);
 
     }
-    public List<GeneratorInfo> GetGenerators() { return generators; }
 
-    public List<HookInfo> GetHooks() { return hooks; }
 
 }
