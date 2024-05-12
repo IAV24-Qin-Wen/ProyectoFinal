@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using static MapInfo;
 
 namespace BehaviorDesigner.Runtime.Tasks.Movement
 {
@@ -10,17 +12,22 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
 
         private float verticalOffset = 1f;
 
-        [Tooltip("The generator found")]
-        [UnityEngine.Serialization.FormerlySerializedAs("generator")]
-        public SharedGameObjectList generators;
+        [UnityEngine.Serialization.FormerlySerializedAs("levelMap")]
+        public SharedGameObject mapinfo;
 
         public override TaskStatus OnUpdate()
         {
             GameObject generator;
             if ((generator = DetectClosestTarget())!= null)
             {
-                Debug.Log("Generator found");
-                generators.Value.Add(generator);
+                //Debug.Log("Generator found");
+                foreach(GeneratorInfo gen in mapinfo.Value.GetComponent<MapInfo>().generators) { 
+                    if(ReferenceEquals(generator, gen))
+                    {
+                        gen.found = true;
+                        break;
+                    }
+                }
                 return TaskStatus.Success;
             }
 

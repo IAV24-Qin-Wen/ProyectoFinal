@@ -12,6 +12,7 @@ TagManager:
   - Hook
   - Generator
   - CaughtSurvivor
+  - Killer
   layers:
   - Default
   - TransparentFX

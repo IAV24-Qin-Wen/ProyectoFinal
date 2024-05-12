@@ -28,6 +28,8 @@ namespace LiquidSnake.Character
         [SerializeField]
         private float minValue = 0, maxValue = 50;
 
+        private bool finished;
+
         InfluencePropagator propagator;
 
         void Start()
@@ -88,6 +90,7 @@ namespace LiquidSnake.Character
             if (currentProgress >= maxProgress)
             {
                 currentProgress = Mathf.Max(currentProgress, maxProgress);
+                finished = true;
                 OnProgressCompleted?.Invoke();
             }
         }
@@ -101,6 +104,8 @@ namespace LiquidSnake.Character
         {
             return maxProgress;
         }
+
+        public bool isFinished() { return finished; }
 
         public void Reset()
         {
@@ -121,7 +126,7 @@ namespace LiquidSnake.Character
             timerProgress += Time.deltaTime;
             if(timerProgress > tickTimer)
             {
-                Debug.Log(currentProgress);
+                //Debug.Log(currentProgress);
                 Fix(2.0f);
                 timerProgress = 0.0f;
             }

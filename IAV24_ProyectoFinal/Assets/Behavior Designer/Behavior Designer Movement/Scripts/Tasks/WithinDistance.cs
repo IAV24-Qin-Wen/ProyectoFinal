@@ -120,6 +120,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             }
 
             if (m_ReturnedObject.Value != null) {
+                Debug.Log("Killer close");
                 return TaskStatus.Success;
             }
 

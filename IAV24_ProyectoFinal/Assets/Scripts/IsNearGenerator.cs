@@ -16,8 +16,8 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         public SharedBool m_LineOfSight;
         [Tooltip("The object variable that will be set when a object is found what the object is")]
         public SharedGameObject m_ReturnedObject;
-        [Tooltip("The gens this survivor has found")]
-        public SharedGameObjectList gens;
+        [UnityEngine.Serialization.FormerlySerializedAs("levelMap")]
+        public SharedGameObject mapinfo;
 
         private float m_SqrMagnitude; // distance * distance, optimization so we don't have to take the square root
 
@@ -33,12 +33,11 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         {
             m_ReturnedObject.Value = null;
 
-            foreach (var obj in gens.Value)
+            foreach (var obj in mapinfo.Value.GetComponent<MapInfo>().generators)
             {
-                Progress aux = obj.GetComponent<Progress>();
-                if (aux.getProgress() < aux.getMaxProgress() && IsWithinDistance(obj))
+                if (!obj.progress.isFinished() && IsWithinDistance(obj.go))
                 {
-                    m_ReturnedObject.Value = obj;
+                    m_ReturnedObject.Value = obj.go;
                 }
             }
 

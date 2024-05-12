@@ -16,7 +16,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Unity.SharedVariables
         public override TaskStatus OnUpdate()
         {
             targetVariable.Value = ((targetValue.Value != null || valueCanBeNull.Value) ? targetValue.Value : gameObject);
-            UnityEngine.Debug.Log(targetVariable.Value);
+            //UnityEngine.Debug.Log(targetVariable.Value);
 
             return TaskStatus.Success;
         }

@@ -35,7 +35,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         {
             map = mapGO.Value.GetComponent<InfluenceMapControl>();
             list.Value = level.Value.GetComponent<MapInfo>().sharedTransformList.Value;
-            Debug.Log(list.Value.Count);
+            //Debug.Log(list.Value.Count);
         }
 
         // Returns success if an object was found otherwise failure

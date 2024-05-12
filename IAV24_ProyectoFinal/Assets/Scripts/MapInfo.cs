@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using BehaviorDesigner.Runtime.Tasks;
 using BehaviorDesigner.Runtime;
+using LiquidSnake.Character;
+
 public class MapInfo : MonoBehaviour
 {
     [System.Serializable]
@@ -17,6 +19,8 @@ public class MapInfo : MonoBehaviour
     {
         public GameObject go;
         public int ID;
+        public bool found;
+        public Progress progress;
     }
     [SerializeField]
     public List<GeneratorInfo> generators;

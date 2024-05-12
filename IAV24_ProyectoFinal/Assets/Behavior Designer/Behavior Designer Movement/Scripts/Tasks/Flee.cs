@@ -33,6 +33,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         // Return running if the agent is still fleeing
         public override TaskStatus OnUpdate()
         {
+            Debug.Log(m_Target);
             if (Vector3.Magnitude(transform.position - m_Target.Value.transform.position) > m_FleedDistance.Value) {
                 return TaskStatus.Success;
             }
