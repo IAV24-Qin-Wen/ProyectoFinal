@@ -171,7 +171,11 @@ graph TD;
 #### 3. Cooperación
 - Los supervivientes pueden compartir información sobre la ubicación del asesino, los generadores encontrados y su progreso y su localización en caso de ser atrapado.
 - Debido a la compartición de información y a la toma de decisiones que tiene en cuenta a los compañeros de equipo, en ocasiones se conseguirá que aparezca una cooperación emergente entre los supervivientes. La información compartida hace que los supervivientes aparentan corrdinarse, aunque si se perdiese uno funcionaría igual.
-- Para sincronizarse se usan además envío y esperas de señales o eventos. 
+- Para sincronizarse se usan además envío y esperas de señales o eventos.
+- La información sobre los generadores (posición, progreso, completado...) se guardan en una lista común para todos los supervivientes.
+- Cuando se encuentra un generador, cada superviviente decide si ir o no dependiendo de su distancia o si ya están reparando otro generador.
+- Cuando un superviviente es colgado de un gancho, se envía un evento a todos los otros supervivientes para informarles de ello.
+- Para facilitar la comunicación entre los supervivientes se usa un manager que instancia y guarda las referencias a los supervivientes.
 
 ## Pruebas y métricas
 ### Pruebas
