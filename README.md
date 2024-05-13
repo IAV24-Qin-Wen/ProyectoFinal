@@ -18,6 +18,9 @@ Este proyecto consiste en una competición entre dos bandos, los supervivientes 
 El juego cuenta con los siguientes comportamientos:
 </p>
 <p align="justify">  
+### Resumen:
+Las cosas nuevas que se van a implementear van a ser los mapas de influencia y la comunicación entre IAs.
+También se usarán cosas de las prácticas anteriores como el merodeo, los sentidos, las mallas de navegación...
 
 ### A. Escena
 - Es un mundo virtual 3D en donde están distribuidos una cantidad N de **generadores** (máquinas con luz verde) y una cantidad M de **ganchos** (ganchos con luz roja) repartidos por el mapa.
@@ -27,25 +30,25 @@ El juego cuenta con los siguientes comportamientos:
 - Se puede alternar el modo de cámara entre perspectiva y ortogonal vista cenital con la tecla Ctrl.
 - Se puede observar visualmente el mapa de influencias afectado por los generadores, en color verde, y por los ganchos, en color rojo.
 
-### B. Supervivientes
+### D. Asesino
+- El asesino tiene un **mapa de influencia** que va variando según cambia el estado del juego (número y disposición de generadores, estado de los ganchos, ...), de tal manera que cada vez que detecte un cambio en el lugar más influido
+del mapa, irá directamente a ese sitio y merodeará desde allí.
+- El comportamiento del asesino está controlado por un **árbol de comportamiento**.
+- El asesino **merodea** por el mapa en el resto del tiempo.
+- Cuando descubre a los supervivientes, **persigue** ,aumentando su velocidad, al más cercano hasta que esté en su alcance e intenta atacar.
+- Cuando intenta atacar, da igual si ha podido golpear al superviviente o no, tiene un tiempo de recuperación para volver a moverse.
+- Se muestra visualmente su área de visión (pirámide) y área de ataque (esfera).
+
+### E. Supervivientes
+- Los supervivientes pueden **comunicarse entre ellos** para enviar información relevante (han descubierto un nuevo generador, ha sido atrapado y necesita ayuda...).
 - Los supervivientes deben salir de la mansión, para esto deberán **reparar** una cantidad N de generadores repartidos por el mapa. Es controlado por un **árbol de comportamiento** complejo.
-- Los supervivientes pueden **comunicarse entre ellos** para enviar información relevante (han descubierto un nuevo generador, ha sido atrapado y necesita ayuda,...).
 - Los generadores tardan un tiempo T en ser reparados, los supervivientes no pueden moverse mientras estan reparando un generador.
 - Una vez reparados todos los generadores las puertas pueden ser desbloqueadas.
 - Para desbloquear una puerta, los supervivientes tardan un tiempo T, los supervivientes no pueden moverse mientras desbloquean la puerta.
 - Cuando un superviviente ha sido golpeado, se teletransporta a uno de los ganchos disponibles.
 - Los supervivientes atrapados en un gancho no pueden moverse hasta que les rescata otro superviviente.
-- Los supervivientes mueren tras estar un tiempo X enganchados, o tras ser enganchados X veces.
+- Los supervivientes mueren tras estar un tiempo X enganchados, o tras ser enganchados Y veces.
 
-### C. Asesino
-- El comportamiento del asesino está controlado por un **árbol de comportamiento**.
-- El asesino **merodea** por el mapa en el resto del tiempo.
-- Cuando descubre a los supervivientes, **persigue** ,aumentando su velocidad, al más cercano hasta que esté en su alcance e intenta atacar.
-- Cuando intenta atacar, da igual si ha podido golpear al superviviente o no, tiene un tiempo de recuperación para volver a moverse.
-- El asesino tiene un **mapa de influencia** que va variando según cambia el estado del juego (número y disposición de generadores, estado de los ganchos, ...), de tal manera que cada vez que detecte un cambio en el lugar más influido
-del mapa, irá directamente a ese sitio y merodeará desde allí.
-- Se muestra visualmente su área de visión (pirámide) y área de ataque (esfera).
-  
 </p>
 
 ## Punto de partida
@@ -86,65 +89,69 @@ Los índices mostrados a continuación son relativos al apartado del enunciado a
 #### 1. Diseño de nivel
 Como se muestra en la imagen, habra 1 asesino, 4 supervivientes, 5 generadores, 4 ganchos y 1 puerta.
 
-### B. Supervivientes:
-
-#### 1. Diagrama de los estados:
-
-```mermaid
-graph TD;
-    subgraph SurvivorAI
-        A[Searching for Generators]
-        B[Repairing Generator]
-        C[Fleeing]
-        D[Rescuing Teammate]
-        A -->|Generator found| B
-        B -->|Killer proximity| C
-        C -->|No killer nearby| B
-        D -->|Killer proximity| C
-        A -->|Teammate needs rescue| D
-        B -->|Teammate needs rescue| D
-        D -->|Rescue successful or killer approach| C
-        B -->|Finish repairing| A
-        A -->|Killer proximity| C
-    end
-```
-#### 2. Arbol de comportamiento
-
-#### 3. Cooperación
- Los sobrevivientes pueden compartir información sobre la ubicación del asesino, los generadores encontrados y su progreso y su localización en caso de ser atrapado.
-
-### C. Asesino:
+### D. Asesino:
 
 #### 1. Diagrama de los estados:
 
 ```mermaid
 graph TD;
     subgraph KillerAI
-        H[Wandering]
-        I[Chasing]
-        J[Attacking]
-        K[Seeking the most influenced point]
+        H[Merodeando]
+        I[Persiguiendo]
+        J[Atacando]
+        K[Buscando punto más influyente]
     
-        H -->|Survivor detected| I
-        H -->|The most influenced point has changed| K
-        K -->|Reached the point| H
-        I -->|Close enough to survivor| J
-        J -->|Survivor escapes or misses attack| H
+        H -->|Superviviente detectado| I
+        H -->|El punto más influyente ha cambiado| K
+        K -->|Llegado al punto| H
+        I -->|Superviviente suficientemente cerca| J
+        J -->|Superviviente escapa / Superviviente esquiva el attaque| H
     end
 ```
 #### 2. Arbol de comportamiento
 
+#### 3. Mapa de influencia
+El asesino tiene varios mapas de influencia que determinan la zona por la que va a patrullar. Los distintos mapas de influencia se combinan para determinar el punto más importante
+
+### E. Supervivientes:
+
+#### 1. Diagrama de los estados:
+
+```mermaid
+graph TD;
+    subgraph SurvivorAI
+        A[Buscando generador]
+        B[Reparando generador]
+        C[Huyendo]
+        D[Rescatando superviviente]
+        A -->|Generador encontrado| B
+        B -->|Asesino cerca| C
+        C -->|No hay asesino cerca| B
+        D -->|Asesino cerca| C
+        A -->|Superviviente enganchado| D
+        B -->|Superviviente enganchado| D
+        D -->|Superviviente rescatado / se acerca el asesino| C
+        B -->|Generador reparado| A
+        A -->|Asesino cerca| C
+    end
+```
+![AC](/SurvivorDiagram.png "AC")
+
+#### 2. Arbol de comportamiento
+
+#### 3. Cooperación
+ Los supervivientes pueden compartir información sobre la ubicación del asesino, los generadores encontrados y su progreso y su localización en caso de ser atrapado. Debido a la compartición de información y a la toma de decisiones que tiene en cuenta a los compañeros de equipo, en ocasiones se conseguirá que aparezca una cooperación emergente entre los NPCs. La información compartida hace que los NPCs aparentan corrdinarse, aunque si se perdiese uno funcionaría igual. Para sincronizarse se usan además envío y esperas de señales o eventos. 
 ## Pruebas y métricas
 ### Pruebas
 A.Mundo virtual:
 
-B.Supervivientes:
+B.Ganchos:
 
-D.Generadores:
+C.Generadores:
 
-C.Asesino:
+D.Asesino:
 
-E.Ganchos:
+E.Supervivientes:
 
 - [Vídeo con la batería de pruebas](https://youtu.be/)
 
