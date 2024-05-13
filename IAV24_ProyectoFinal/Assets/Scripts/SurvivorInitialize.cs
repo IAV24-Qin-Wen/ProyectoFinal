@@ -17,5 +17,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             levelMap.Value = GameObject.Find("MyLevel");
             killer.Value = GameObject.FindGameObjectWithTag("Killer");
         }
+
+
     }
 }

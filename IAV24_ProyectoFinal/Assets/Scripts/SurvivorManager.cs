@@ -11,6 +11,8 @@ public class SurvivorManager : MonoBehaviour
     private int nSurvivors;
     [SerializeField]
     private GameObject survivorPrefab;
+    [SerializeField]
+    private GameObject survivors;
 
 
     // Start is called before the first frame update
@@ -32,7 +34,8 @@ public class SurvivorManager : MonoBehaviour
                 if (!used[aux])
                 {
                     used[aux] = spawned = true;
-                    Instantiate(survivorPrefab, spawnPoints.transform.GetChild(aux).transform.position, spawnPoints.transform.GetChild(aux).transform.rotation);
+                    Instantiate(survivorPrefab, spawnPoints.transform.GetChild(aux).transform.position, 
+                        spawnPoints.transform.GetChild(aux).transform.rotation, survivors.transform);
                 }
             }
 
