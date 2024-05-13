@@ -18,18 +18,28 @@ Este proyecto consiste en una competición entre dos bandos, los supervivientes 
 El juego cuenta con los siguientes comportamientos:
 </p>
 <p align="justify">  
+  
 ### Resumen:
 Las cosas nuevas que se van a implementear van a ser los mapas de influencia y la comunicación entre IAs.
-También se usarán cosas de las prácticas anteriores como el merodeo, los sentidos, las mallas de navegación...
+También se usarán cosas aprendidas y usadas en las prácticas anteriores como el merodeo, los sentidos, la malla de navegación...
 
 ### A. Escena
 - Es un mundo virtual 3D en donde están distribuidos una cantidad N de **generadores** (máquinas con luz verde) y una cantidad M de **ganchos** (ganchos con luz roja) repartidos por el mapa.
-- Tanto los generadores como los ganchos tienen una **barra de progreso**, para indicar el progreso de reparacion y el progreso para morir, respectivamente.
+
 - Inicialmente, los supervivientes se spawnean de forma aleatoria en un punto del mapa, mientras que el asesino siempre empieza desde un mismo lugar.
 - La **cámara se mueve** con las teclas WASD y se hace zoom con Q y E.
 - Se puede alternar el modo de cámara entre perspectiva y ortogonal vista cenital con la tecla Ctrl.
 - Se puede observar visualmente el mapa de influencias afectado por los generadores, en color verde, y por los ganchos, en color rojo.
 
+### B. Generadores
+- Tiene una barra de progreso, para indicar el progreso de reparación.
+- Cuanto mayor sea su progreso, más influirá en el mapa de influencias.
+- Cuando su progreso se complete, dejará de influir en el mapa.
+  
+### C. Generadores
+- Tiene una barra de progreso para indicar el progreso de muerte del superviviente enganchado. Solo se muestra esta barra cuando hay uno enganchado.
+- Cuanto mayor sea su progreso, más influirá en el mapa de influencias.
+- Cuando su progreso se complete o cuando no haya supervivientes, dejará de influir en el mapa.
 ### D. Asesino
 - El asesino tiene un **mapa de influencia** que va variando según cambia el estado del juego (número y disposición de generadores, estado de los ganchos, ...), de tal manera que cada vez que detecte un cambio en el lugar más influido
 del mapa, irá directamente a ese sitio y merodeará desde allí.
@@ -87,6 +97,8 @@ Los índices mostrados a continuación son relativos al apartado del enunciado a
 
 ### A. Escena:
 #### 1. Diseño de nivel
+![Nivel](/IAV24_ProyectoFinal/nivel.png "Nivel")
+
 Como se muestra en la imagen, habra 1 asesino, 4 supervivientes, 5 generadores, 4 ganchos y 1 puerta.
 
 ### D. Asesino:
@@ -108,10 +120,27 @@ graph TD;
         J -->|Superviviente escapa / Superviviente esquiva el attaque| H
     end
 ```
-#### 2. Arbol de comportamiento
+#### 2. Árbol de comportamiento
+
+![AC](/IAV24_ProyectoFinal/arbol_asesino.png "AC")
 
 #### 3. Mapa de influencia
-El asesino tiene varios mapas de influencia que determinan la zona por la que va a patrullar. Los distintos mapas de influencia se combinan para determinar el punto más importante
+
+El proyecto original en el que se ha basado para crear el mapa de influencias movía a los personajes hacia una dirección resultante de sumar los valores de influencia de las 8 direcciones posibles. Sin embargo, este enfoque generaba resultados insatisfactorios al intentar aplicarlo al asesino. A pesar de ajustar parámetros y añadir condiciones, el personaje se desplazaba de forma poco inteligente y predecible. Esto provocaba que se moviera repetidamente en la misma posición o entre puntos cercanos, lo cual no resultaba visualmente atractivo ni transmitía la sensación de merodear de manera efectiva. <br>
+
+Después de diversas pruebas, se ha llegado a la versión actual: el asesino cuenta con dos mapas de influencia que se combinan para determinar el punto más relevante. Uno evalúa la influencia de los generadores, mientras que el otro se enfoca en los ganchos. En cada frame, se identifica el punto más influido del mapa resultante de ambos, que puede ser la posición de un generador o un gancho. Este mapa resultante se calcula como X * valor de la posicion en el mapa de genradores + Y * valor de la posicion en el mapa de ganchos, siendo X el peso para el mapa de generadores e Y el peso para el mapa de ganchos. Así, el asesino se dirige hacia el generador o gancho más afectado en todo el mapa, y desde esa posición, vuelve a merodear. Si en un frame el punto más influido sigue siendo el mismo que en el anterior, el asesino continuará en su ruta original. <br>
+
+- ¿Por qué calcular el punto más influido entre los generadores y los ganchos en lugar de un punto general del mapa? <br>
+Aunque puede haber zonas con mayor influencia que las posiciones de los generadores y los ganchos, estos dos elementos son los principales afectados por cambios de influencia: la reparación de un generador o la cercanía de un superviviente al gancho a punto de morir. Además, en el juego original de Dead By Daylight, el asesino ya conoce desde el principio las ubicaciones exactas de los generadores y los ganchos. Por lo tanto, tiene sentido dirigirse específicamente hacia estos puntos en lugar de deambular aleatoriamente por el mapa sin un objetivo claro.
+
+- ¿Por qué no merodear siempre cerca del punto más influido? <br> <br>
+Como en otros juegos competitivos, permanecer constantemente en un mismo lugar en espera de un superviviente no es efectivo. Si el asesino se queda en un lugar demasiado tiempo, los supervivientes lo perciben y evitan acercarse a esa zona. Es preferible, después de verificar el punto más influido, explorar otras áreas del mapa para evitar que los supervivientes predigan sus movimientos y mantener la incertidumbre sobre su ubicación.
+
+Para mejorar la visualización del estado del mapa, se ha asignado colores específicos a las áreas influenciadas por los generadores y los ganchos. Las áreas influenciadas por los generadores se muestran en verde, mientras que las influenciadas por los ganchos se muestran en rojo. <br>
+
+
+![AC](/IAV24_ProyectoFinal/gen_influencia.png "AC")
+![AC](/IAV24_ProyectoFinal/hook_influencia.png "AC")
 
 ### E. Supervivientes:
 
@@ -135,12 +164,15 @@ graph TD;
         A -->|Asesino cerca| C
     end
 ```
-![AC](/SurvivorDiagram.png "AC")
 
-#### 2. Arbol de comportamiento
+#### 2. Árbol de comportamiento
+![AC](/IAV24_ProyectoFinal/SurvivorDiagram.png "AC")
 
 #### 3. Cooperación
- Los supervivientes pueden compartir información sobre la ubicación del asesino, los generadores encontrados y su progreso y su localización en caso de ser atrapado. Debido a la compartición de información y a la toma de decisiones que tiene en cuenta a los compañeros de equipo, en ocasiones se conseguirá que aparezca una cooperación emergente entre los NPCs. La información compartida hace que los NPCs aparentan corrdinarse, aunque si se perdiese uno funcionaría igual. Para sincronizarse se usan además envío y esperas de señales o eventos. 
+- Los supervivientes pueden compartir información sobre la ubicación del asesino, los generadores encontrados y su progreso y su localización en caso de ser atrapado.
+- Debido a la compartición de información y a la toma de decisiones que tiene en cuenta a los compañeros de equipo, en ocasiones se conseguirá que aparezca una cooperación emergente entre los supervivientes. La información compartida hace que los supervivientes aparentan corrdinarse, aunque si se perdiese uno funcionaría igual.
+- Para sincronizarse se usan además envío y esperas de señales o eventos. 
+
 ## Pruebas y métricas
 ### Pruebas
 A.Mundo virtual:
@@ -179,6 +211,11 @@ El enlace desde el que por tanto se podrá hacer el seguimiento de la evolución
 - [https://github.com/orgs/IAV24-Qin-Wen/projects/1](https://github.com/orgs/IAV24-Qin-Wen/projects/1)
 <p align="justify">
 Además,dentro de la pestaña de project las distintas tareas tienen asignadas distintas labels para poder comprender con mayor facilidad la tarea concreta a la que hacen referencia.
+</p>
+<p align="justify">
+En resumen, Nanxi Qin se encargará principalmente del diseño del asesino, incluyendo comportamientos y animaciones, así como del desarrollo del mapa de influencias. Por otro lado, Jianuo Wen se enfocará en los supervivientes, abordando comportamientos, animaciones y la comunicación entre ellos.
+Sin embargo, existen tareas en las que se colabora mutuamente para garantizar una interacción fluida entre supervivientes y asesino. Además, debido a la variabilidad en la dificultad de las tareas, la distribución de responsabilidades entre ambos también difiere.
+
 </p>
 
 ## Licencia
