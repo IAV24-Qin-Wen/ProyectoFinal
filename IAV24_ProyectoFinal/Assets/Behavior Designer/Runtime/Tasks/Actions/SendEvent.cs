@@ -49,7 +49,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             if (behaviorTree == null) {
                 return TaskStatus.Failure;
             }
-
+            Debug.Log("Event sent");
             // Send the event and return success
             if (argument1 == null || argument1.IsNone) {
                 behaviorTree.SendEvent(eventName.Value);
