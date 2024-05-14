@@ -35,6 +35,7 @@ namespace LiquidSnake.Character
         InfluencePropagator propagator;
 
         public GameObject survivorAttached=null;
+        public GameObject bar;
 
         [SerializeField]
         private float speed =50;
@@ -55,7 +56,13 @@ namespace LiquidSnake.Character
         {
             propagator.Value = ((float)(((maxValue - minValue) / maxProgress) * currentProgress));
         }
-
+        //Hay un superviviente atrapado, se activa el progreso
+        public void Activate(GameObject o)
+        {
+            enabled = true;
+            survivorAttached = o;
+            bar.SetActive(true);
+        }
         /// <summary>
         /// Evento que notifica de la muerte del personaje cuando sus puntos de vida llegan a 0.
         /// </summary>
@@ -127,7 +134,9 @@ namespace LiquidSnake.Character
 
         public void OnCompleted()
         {
-           // survivorManager.
+            // survivorManager.
+            SetProgress(-maxProgress);
+            bar.SetActive(false);
         }
          void Update()
         {

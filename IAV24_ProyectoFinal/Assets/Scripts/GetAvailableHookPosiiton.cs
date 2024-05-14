@@ -43,10 +43,8 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                     found = true;
                     mapInfo.hooks[hookId].used=true;
 
-                    HookProgress h = mapInfo.hooks[hookId].go.GetComponent<HookProgress>();
-                    h.enabled=true;
-                    h.survivorAttached = gameObject;
-
+                    mapInfo.hooks[hookId].go.GetComponent<HookProgress>().Activate(gameObject);
+                 
                     m_ReturnedPosition.Value= mapInfo.hooks[hookId].go.transform.Find("HookPoint").transform.position;
                 }
             }

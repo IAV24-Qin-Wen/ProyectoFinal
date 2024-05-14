@@ -7,6 +7,7 @@ using LiquidSnake.Character;
 
 public class MapInfo : MonoBehaviour
 {
+    int nRepaired = 0;
     [System.Serializable]
     public class HookInfo
     {
@@ -27,6 +28,8 @@ public class MapInfo : MonoBehaviour
     public SharedTransformList sharedTransformList;
     public List<HookInfo> hooks;
     public GameObject destination;
+    public GameObject doors;
+
     void Start()
     {
         sharedTransformList = new SharedTransformList();
@@ -37,6 +40,13 @@ public class MapInfo : MonoBehaviour
         Debug.Log("fjfj " + sharedTransformList.Value.Count);
 
     }
-
+    public void OnGeneratorRepaired()
+    {
+        nRepaired++;
+        if(nRepaired == generators.Count)
+        {
+            doors.SetActive(false);
+        }
+    }
 
 }

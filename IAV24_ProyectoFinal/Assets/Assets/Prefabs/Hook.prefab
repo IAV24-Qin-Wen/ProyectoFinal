@@ -356,6 +356,9 @@ MonoBehaviour:
   tickTimer: 1
   minValue: 0
   maxValue: 50
+  survivorManagerGo: {fileID: 0}
+  survivorAttached: {fileID: 0}
+  bar: {fileID: 4298895977602919959}
   speed: 2
   OnProgressCompleted:
     m_PersistentCalls:
@@ -778,6 +781,12 @@ PrefabInstance:
 --- !u!224 &2624832044806798480 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6956850676088094208, guid: a6d99b2de4e032a41b636be825b2ceb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 4964923932113093264}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4298895977602919959 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9173352090621144199, guid: a6d99b2de4e032a41b636be825b2ceb2,
     type: 3}
   m_PrefabInstance: {fileID: 4964923932113093264}
   m_PrefabAsset: {fileID: 0}

@@ -15,9 +15,13 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         [UnityEngine.Serialization.FormerlySerializedAs("list")]
         public SharedTransformList list;
 
-        [UnityEngine.Serialization.FormerlySerializedAs("map")]
-        public SharedGameObject mapGO;
-        private InfluenceMapControl map;
+        [UnityEngine.Serialization.FormerlySerializedAs("genMap")]
+        public SharedGameObject genMapGO;
+        private InfluenceMapControl genMap;
+
+        [UnityEngine.Serialization.FormerlySerializedAs("hookMap")]
+        public SharedGameObject hookMapGO;
+        private InfluenceMapControl hookMap;
 
         [UnityEngine.Serialization.FormerlySerializedAs("level")]
         public SharedGameObject level;
@@ -33,7 +37,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         // Use this for initialization
         public override void OnStart()
         {
-            map = mapGO.Value.GetComponent<InfluenceMapControl>();
+            genMap = genMapGO.Value.GetComponent<InfluenceMapControl>();
             list.Value = level.Value.GetComponent<MapInfo>().sharedTransformList.Value;
             //Debug.Log(list.Value.Count);
         }
@@ -43,11 +47,11 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         {
             if (list.Value.Count == 0) return TaskStatus.Failure;
             priorPosition.Value = list.Value[1].position;
-            float maxValue = map.GetInfluence(map.GetGridPosition(priorPosition.Value));
+            float maxValue = genMap.GetInfluence(genMap.GetGridPosition(priorPosition.Value));
 
             for (int i = 1; i < list.Value.Count; ++i)
             {
-                float auxValue = map.GetInfluence(map.GetGridPosition(list.Value[i].position));
+                float auxValue = genMap.GetInfluence(genMap.GetGridPosition(list.Value[i].position));
                 if (auxValue > maxValue)
                 {
                     maxValue = auxValue;

@@ -31,11 +31,13 @@ namespace LiquidSnake.Character
         private bool finished;
 
         InfluencePropagator propagator;
+        GameObject level;
 
         void Start()
         {
             propagator = GetComponent<InfluencePropagator>();
             SetValue();
+            level = GameObject.Find("MyLevel");
         }
 
         //----------------------------------------------------------------------------
@@ -46,6 +48,7 @@ namespace LiquidSnake.Character
         {
             propagator.Value=((float)(((maxValue - minValue) / maxProgress) * currentProgress));
         }
+        
 
         /// <summary>
         /// Evento que notifica de la muerte del personaje cuando sus puntos de vida llegan a 0.
@@ -59,6 +62,7 @@ namespace LiquidSnake.Character
         public void OnFinished()
         {
             propagator.Value = 0;
+            level.GetComponent<MapInfo>().OnGeneratorRepaired();
         }
 
         override public float MinValue()
