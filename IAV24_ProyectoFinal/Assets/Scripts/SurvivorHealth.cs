@@ -61,7 +61,7 @@ namespace BehaviorDesigner.Runtime.Tactical
                 }
                 isCaught=true;
                 sMbehaviorTree.SendEvent<object>("HasCaught", true);
-                behaviorTree.SendEvent<object>("Caught", true);
+                behaviorTree.SendEvent("Caught");
                 animator.SetBool("caught", true);
                 navMesh.enabled = false;
             }
