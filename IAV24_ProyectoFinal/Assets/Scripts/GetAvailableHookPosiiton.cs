@@ -3,6 +3,7 @@ using UnityEngine;
 using static Cinemachine.DocumentationSortingAttribute;
 using System.Collections;
 using System.Collections.Generic;
+using LiquidSnake.Character;
 
 
 namespace BehaviorDesigner.Runtime.Tasks.Movement
@@ -41,6 +42,11 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                 if (!mapInfo.hooks[hookId].used) { 
                     found = true;
                     mapInfo.hooks[hookId].used=true;
+
+                    HookProgress h = mapInfo.hooks[hookId].go.GetComponent<HookProgress>();
+                    h.enabled=true;
+                    h.survivorAttached = gameObject;
+
                     m_ReturnedPosition.Value= mapInfo.hooks[hookId].go.transform.Find("HookPoint").transform.position;
                 }
             }

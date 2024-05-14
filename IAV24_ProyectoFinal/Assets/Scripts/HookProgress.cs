@@ -28,14 +28,22 @@ namespace LiquidSnake.Character
         [SerializeField]
         private float minValue = 0, maxValue = 50;
 
+        [SerializeField]
+        private GameObject survivorManagerGo;
+        SurvivorManager survivorManager;
+
         InfluencePropagator propagator;
-       
+
+        public GameObject survivorAttached=null;
+
         [SerializeField]
         private float speed =50;
 
         void Start()
         {
             propagator = GetComponent<InfluencePropagator>();
+            survivorManagerGo = GameObject.Find("SurvivorManager");
+            survivorManager = survivorManagerGo.GetComponent<SurvivorManager>();
             SetValue();
         }
 
@@ -117,6 +125,10 @@ namespace LiquidSnake.Character
             SetValue();
         }
 
+        public void OnCompleted()
+        {
+           // survivorManager.
+        }
          void Update()
         {
            

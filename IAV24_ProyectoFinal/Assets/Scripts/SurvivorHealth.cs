@@ -19,8 +19,7 @@ namespace BehaviorDesigner.Runtime.Tactical
 
         //si ya no le quedan oportunidades, se muere. Se resta 1 oportunidad cada vez que es pillado por el asesino 
         public int opportunities;
-        [SerializeField]
-        private GameObject survivorManager;
+        public GameObject survivorManager;
 
         BehaviorTree behaviorTree;
         BehaviorTree sMbehaviorTree;
@@ -40,7 +39,8 @@ namespace BehaviorDesigner.Runtime.Tactical
         public void Start()
         {
             behaviorTree=GetComponent<BehaviorTree>();
-            sMbehaviorTree=survivorManager.GetComponent<BehaviorTree>();
+            survivorManager = GameObject.Find("SurvivorManager");
+            sMbehaviorTree =survivorManager.GetComponent<BehaviorTree>();
             animator= GetComponent<Animator>();
             navMesh=GetComponent<NavMeshAgent>();
         }
@@ -60,7 +60,7 @@ namespace BehaviorDesigner.Runtime.Tactical
                     isAlive = false;
                 }
                 isCaught=true;
-                sMbehaviorTree.SendEvent<object>("Caught", true);
+                sMbehaviorTree.SendEvent<object>("HasCaught", true);
                 behaviorTree.SendEvent<object>("Caught", true);
                 animator.SetBool("caught", true);
                 navMesh.enabled = false;

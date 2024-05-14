@@ -15,6 +15,8 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
     {
         [UnityEngine.Serialization.FormerlySerializedAs("attacked")]
         public SharedBool attacked;
+        [UnityEngine.Serialization.FormerlySerializedAs("target")]
+        public SharedGameObject target;
         public override TaskStatus OnUpdate()
         {
             var baseStatus = base.OnUpdate();
@@ -23,10 +25,11 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
                 return baseStatus;
             }
 
-            if (MoveToAttackPosition())
-            {
-                attacked.Value = tacticalAgent.TryAttack();
-            }
+            //if (MoveToAttackPosition())
+            //{
+            tacticalAgent.TargetTransform = target.Value.transform;
+            attacked.Value = tacticalAgent.TryAttack();
+            //}
             if (attacked.Value) return TaskStatus.Success;
             else return TaskStatus.Running;
         }

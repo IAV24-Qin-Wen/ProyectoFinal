@@ -26,6 +26,7 @@ public class MapInfo : MonoBehaviour
     public List<GeneratorInfo> generators;
     public SharedTransformList sharedTransformList;
     public List<HookInfo> hooks;
+    public GameObject destination;
     void Start()
     {
         sharedTransformList = new SharedTransformList();
