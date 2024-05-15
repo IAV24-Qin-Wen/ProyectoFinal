@@ -148,7 +148,89 @@ Para mejorar la visualización del estado del mapa, se ha asignado colores espec
 ![AC](/IAV24_ProyectoFinal/hook_influencia.png "AC")
 
 ### E. Supervivientes:
+El codigo es una version muy adaptada del seek de Behavior Designer
+Pseudocódigo Evasión:
+```
+# algorithm of Evasion
+class EvadeWithWalls:
+    # The agent has evaded when the magnitude is greater than this value
+    evadeDistance: Float
+    # The distance to look ahead when evading
+    lookAheadDistance: Float
+    # How far to predict the distance ahead of the target. Lower values indicate less distance should be predicated
+    targetDistPrediction: Float
+    # Multiplier for predicting the look ahead distance
+    targetDistPredictionMult: Float
+    # The GameObject that the agent is evading
+    target: GameObject
 
+    # The position of the GameObject that the agent is evading
+    targetPosition: GameObject
+    # The anglein which the agent goes towards to if it can't run away directly
+    angle: Float
+
+    function OnUpdate() -> Status
+        if(distanceFromTarget > evadeDistance) return Success
+
+        CalculatePath(Target())
+
+        return running
+```
+```
+# algorithm of CalculatePath
+
+function CalculatePath()
+    v = target - position
+    v2 = v rotated angle degrees
+    v3 = v rotated -angle degrees
+
+    if(there is a path to v)
+        SetDestination(v);
+    else if(there is a path to v2)
+        SetDestination(v2)
+    else
+        SetDestination(v3)
+```
+```
+# algorithm of Target
+
+function Target() -> Vector3
+    distance = (target.position - position).magnitude
+    speed = velocity.magnitude;
+
+    futurePrediction = 0;
+    // Set the future prediction to max prediction if the speed is too small to give an accurate prediction
+    if (speed <= distance / targetDistPrediction) {
+        futurePrediction = targetDistPrediction;
+    } else {
+        futurePrediction = (distance / speed) * targetDistPredictionMult; // the prediction should be accurate enough
+    }
+
+    // Predict the future by taking the velocity of the target and multiply it by the future prediction
+    prevTargetPosition = targetPosition;
+    targetPosition = target.position;
+    auxPosition = targetPosition + (targetPosition - prevTargetPosition) * futurePrediction;
+
+    return position + (position - auxPosition).normalized * lookAheadDistance;
+```
+El codigo es una version modificada de SendEvent de Behavior Designer
+Pseudocódigo Evasión:
+```
+# algorithm of SendEventToSurvivors
+class SendEventToSurvivors:
+    # The event to send
+    eventName: String
+    # The group of the behavior tree that the event should be sent to
+    group: Int
+    # The survivors
+    survivors: GameObject
+
+fuction OnUpdate() -> Status
+    if (behaviorTrees == null)
+        return TaskStatus.Failure;
+    else
+        foreach(survivor) SendEvent(EventName)
+```
 #### 1. Diagrama de los estados:
 
 ```mermaid
@@ -188,14 +270,17 @@ A.Escena:<br>
 A.1. Mover la camara con WASD , hacer zoom con Q y E, y cambiar de modo con Ctrl <br>
 A.2. Esperar a que todos los generadores se reparen para comprobar que la puerta se desbloquea <br>
 A.3. Resetear el juego varias veces para comprobar que los supervivientes se spawnean en lugares distintos <br>
+A.4. Comprobar que el juego termina si todos los supervivientes han sido enganchados
 
 B.Generadores:<br>
 B.1. Esperar a que un superviviente repare el generador y comprobar que está aumentando su influencia linealmente. <br>
 B.2. Esperar a que un generador se termine de reparar y comprobar que ya no influye en el mapa de influencia. <br>
+B.3. Poner varios supervivientes reparando el mismo generador para commprobar que la velocidad de reparacion es mayor. 
 
 C.Ganchos:<br>
 C.1. Esperar a que un asesino golpee a un superviviente y comprobar que se traslada a un gancho aleatorio y su influencia aumenta exponencialmente. <br>
 C.2. Esperar a que un gancho complete el progreso y comprobar que ya no influye en el mapa de influencia. <br>
+C.3. Comprobar que la barra de progreso se resetea correctamente cuando el superviviente es rescatado.
 
 D.Asesino:<br>
 D.1. Comprobar que el asesino persigue al superviviente cuando este está dentro de su área de visión. <br>
@@ -204,6 +289,12 @@ D.3. Comprobar que cuando el asesino esté lo suficientemente cerca del superviv
 D.4. Comprobar que el asesino va al nuevo lugar más influido del mapa mientras esté merodeando. <br>
 
 E.Supervivientes:<br>
+E.1. Comprobar que los supervivientes merodean alrededor del mapa en busca de generadores. <br>
+E.2. Comprobar que los supervivientes van a reparar un generador si no están siendo perseguidos. <br>
+E.3. Comprobar que un superviviente va a un generador aunque no lo haya visto debido a que le ha informado otro superviviente. <br>
+E.4. Comprobar que los supervivientes van a rescatar a los supervivientes que han sido enganchados si no están siendo perseguidos. <br>
+E.5. Comprobar que los supervivientes están inactivos si están enganchados. <br>
+E.6. Comprobar que los supervivientes huyen del asesino cuando está cerca y tienen línea de visión sobre él.
 
 - [Vídeo con la batería de pruebas](https://youtu.be/)
 
