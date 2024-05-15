@@ -668,7 +668,7 @@ MonoBehaviour:
   maxProgress: 100
   tickTimer: 1
   minValue: 0
-  maxValue: 50
+  maxValue: 40
   OnProgressCompleted:
     m_PersistentCalls:
       m_Calls:

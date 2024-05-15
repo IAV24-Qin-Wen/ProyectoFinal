@@ -34,11 +34,13 @@ namespace LiquidSnake.Character
 
         InfluencePropagator propagator;
 
-        public GameObject survivorAttached=null;
+        public GameObject survivorAttached = null;
         public GameObject bar;
 
         [SerializeField]
-        private float speed =50;
+        private float speed = 50;
+
+        public float k = 0.05f; // Controla la rapidez con la que aumenta la influencia
 
         void Start()
         {
@@ -54,7 +56,12 @@ namespace LiquidSnake.Character
         #region Comunicación por Eventos
         public void SetValue()
         {
-            propagator.Value = ((float)(((maxValue - minValue) / maxProgress) * currentProgress));
+            float x = currentProgress / (maxProgress*0.9f);
+
+            float y = Mathf.Exp(x) - 1;
+
+            propagator.Value = y * (maxValue / (Mathf.Exp(1) - 1));
+           // propagator.Value = maxValue * (1 - Mathf.Exp(-k * (currentProgress)));
         }
         //Hay un superviviente atrapado, se activa el progreso
         public void Activate(GameObject o)
@@ -137,10 +144,12 @@ namespace LiquidSnake.Character
             // survivorManager.
             SetProgress(-maxProgress);
             bar.SetActive(false);
+            enabled = false;
+            survivorAttached = null;
         }
-         void Update()
+        void Update()
         {
-           
+
             timerProgress += Time.deltaTime;
             if (timerProgress > tickTimer)
             {
@@ -149,7 +158,7 @@ namespace LiquidSnake.Character
             }
         }
 
-    
+
         #endregion
     }
 } // namespace LiquidSnake.Character
