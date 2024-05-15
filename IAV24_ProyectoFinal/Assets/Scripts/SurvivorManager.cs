@@ -20,7 +20,6 @@ public class SurvivorManager : MonoBehaviour
     {
         GameObject spawnPoints = GameObject.FindGameObjectWithTag("SpawnPoint");
         bool[] used = new bool[spawnPoints.transform.childCount];
-        int aux;
 
         if (spawnPoints.transform.childCount < nSurvivors) return;
 
