@@ -25,7 +25,7 @@ También se usarán cosas aprendidas y usadas en las prácticas anteriores como 
 
 ### A. Escena
 - Es un mundo virtual 3D en donde están distribuidos una cantidad N de **generadores** (máquinas con luz verde) y una cantidad M de **ganchos** (ganchos con luz roja) repartidos por el mapa.
-
+- Una vez reparados todos los generadores la puerta escapatoria puede ser desbloqueadas.
 - Inicialmente, los supervivientes se spawnean de forma aleatoria en un punto del mapa, mientras que el asesino siempre empieza desde un mismo lugar.
 - La **cámara se mueve** con las teclas WASD y se hace zoom con Q y E.
 - Se puede alternar el modo de cámara entre perspectiva y ortogonal vista cenital con la tecla Ctrl.
@@ -36,10 +36,11 @@ También se usarán cosas aprendidas y usadas en las prácticas anteriores como 
 - Cuanto mayor sea su progreso, más influirá en el mapa de influencias.
 - Cuando su progreso se complete, dejará de influir en el mapa.
   
-### C. Generadores
+### C. Ganchos
 - Tiene una barra de progreso para indicar el progreso de muerte del superviviente enganchado. Solo se muestra esta barra cuando hay uno enganchado.
 - Cuanto mayor sea su progreso, más influirá en el mapa de influencias.
 - Cuando su progreso se complete o cuando no haya supervivientes, dejará de influir en el mapa.
+  
 ### D. Asesino
 - El asesino tiene un **mapa de influencia** que va variando según cambia el estado del juego (número y disposición de generadores, estado de los ganchos, ...), de tal manera que cada vez que detecte un cambio en el lugar más influido
 del mapa, irá directamente a ese sitio y merodeará desde allí.
@@ -53,8 +54,7 @@ del mapa, irá directamente a ese sitio y merodeará desde allí.
 - Los supervivientes pueden **comunicarse entre ellos** para enviar información relevante (han descubierto un nuevo generador, ha sido atrapado y necesita ayuda...).
 - Los supervivientes deben salir de la mansión, para esto deberán **reparar** una cantidad N de generadores repartidos por el mapa. Es controlado por un **árbol de comportamiento** complejo.
 - Los generadores tardan un tiempo T en ser reparados, los supervivientes no pueden moverse mientras estan reparando un generador.
-- Una vez reparados todos los generadores las puertas pueden ser desbloqueadas.
-- Para desbloquear una puerta, los supervivientes tardan un tiempo T, los supervivientes no pueden moverse mientras desbloquean la puerta.
+- Cuando la puerta se desbloquea, los supervivientes escapan por alli.
 - Cuando un superviviente ha sido golpeado, se teletransporta a uno de los ganchos disponibles.
 - Los supervivientes atrapados en un gancho no pueden moverse hasta que les rescata otro superviviente.
 - Los supervivientes mueren tras estar un tiempo X enganchados, o tras ser enganchados Y veces.
@@ -63,23 +63,22 @@ del mapa, irá directamente a ese sitio y merodeará desde allí.
 
 ## Punto de partida
 
-- Se parte de un proyecto base de **John Lemon's Haunted Jaunt: 3D Beginner** [https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner].
+- Se parte de un proyecto base de **John Lemon's Haunted Jaunt: 3D Beginner**.
 
 El proyecto sólo se ha cogido para la parte estética del juego (modelos, sonidos, animaciones), los scripts han sido todos implementados por los estudiantes.
 Se han usado también otros assets gratis encontrados por internet.
 
-- Para la implementación del árbol de comportamiento, se ha usado la herramienta **Behavior Designer** [https://assetstore.unity.com/packages/tools/visual-scripting/behavior-designer-behavior-trees-for-everyone-15277] y parte de los scripts ya creados por este. Los más importantes son:
+- Para la implementación del árbol de comportamiento, se ha usado la herramienta **Behavior Designer** y parte de los scripts ya creados por este. Los más importantes son:
 
 
 | Clase  | Descripción | 
 | ------------- | ------------- |
 | **Seek** | Persigue el objetivo especificado utilizando el NavMesh de Unity calculando el camino con A*. |
 | **Pursue** | Igual que Seek más el uso de predicción según la distancia al objetivo y su propia velocidad. |
-| **Flee** | Huir del objetivo usando las mismas técnicas que Pursue pero calculando la dirección contraria. |
 | **Wander** | Merodea utilizando el NavMesh de Unity con un movimiento continuo y aleatorio. Cada cierto tiempo intenta establecer un nuevo destino dentro de los parámetros configurados para la distancia y el ángulo de deambulación máximos.|
 <br>
 
-- Para el mapa de influencias, se parte de unos scripts de un proyecto **influence map (threaded).unitypackage** del foro de Unity [https://forum.unity.com/threads/ai-influence-maps.145368/].
+- Para el mapa de influencias, se parte de unos scripts de un proyecto **influence map (threaded).unitypackage** del foro de Unity .
 Este mapa de influencias trata de dividir el mundo en N*M casillas en 2D. Cada casilla tendrá un valor que será la suma de todos los valores de los propagadores que influyen a dicho mapa.
 Las clases principalmente son:
 
@@ -126,9 +125,15 @@ graph TD;
 
 #### 3. Mapa de influencia
 
+##### a. Versiones y pruebas
 El proyecto original en el que se ha basado para crear el mapa de influencias movía a los personajes hacia una dirección resultante de sumar los valores de influencia de las 8 direcciones posibles. Sin embargo, este enfoque generaba resultados insatisfactorios al intentar aplicarlo al asesino. A pesar de ajustar parámetros y añadir condiciones, el personaje se desplazaba de forma poco inteligente y predecible. Esto provocaba que se moviera repetidamente en la misma posición o entre puntos cercanos, lo cual no resultaba visualmente atractivo ni transmitía la sensación de merodear de manera efectiva. <br>
 
-Después de diversas pruebas, se ha llegado a la versión actual: el asesino cuenta con dos mapas de influencia que se combinan para determinar el punto más relevante. Uno evalúa la influencia de los generadores, mientras que el otro se enfoca en los ganchos. En cada frame, se identifica el punto más influido del mapa resultante de ambos, que puede ser la posición de un generador o un gancho. Este mapa resultante se calcula como X * valor de la posicion en el mapa de genradores + Y * valor de la posicion en el mapa de ganchos, siendo X el peso para el mapa de generadores e Y el peso para el mapa de ganchos. Así, el asesino se dirige hacia el generador o gancho más afectado en todo el mapa, y desde esa posición, vuelve a merodear. Si en un frame el punto más influido sigue siendo el mismo que en el anterior, el asesino continuará en su ruta original. <br>
+Después de diversas pruebas, se ha llegado a la versión actual: el asesino cuenta con dos mapas de influencia que se combinan para determinar el punto más relevante. Uno evalúa la influencia de los generadores, mientras que el otro se enfoca en los ganchos. En cada frame, se identifica el punto más influido del mapa resultante de ambos, que puede ser la posición de un generador o un gancho. El valor del punto resultante se calcula como X + Y ,siendo X la influencia de ese punto en el mapa de generadores e Y en el mapa de ganchos. Así, el asesino se dirige hacia el generador o gancho más afectado en todo el mapa, y desde esa posición, vuelve a merodear. Si en un frame el punto más influido sigue siendo el mismo que en el anterior, el asesino continuará en su ruta original,ya que si en un mismo punto esta continuamente aumentando su valor, no tiene sentido que el asesino esté todo el rato en ese sitio. <br>
+
+##### b. Relación de influencia
+Para ser más lógico, la influencia de un generador es directamente proporcional (lineal) a su progreso de reparación, mientras que la influencia y el progreso de un gancho tienen una relación exponencial. Ya que le interesa más al asesino vigilar el gancho cuando más cerca esté el superviviente de su muerte y no al principio. Además, la influencia final del gancho será mayor que la de un generador, como se muestra en la siguiente imagen: <br>
+
+![grafica](/IAV24_ProyectoFinal/grafica.png "grafica")
 
 - ¿Por qué calcular el punto más influido entre los generadores y los ganchos en lugar de un punto general del mapa? <br>
 Aunque puede haber zonas con mayor influencia que las posiciones de los generadores y los ganchos, estos dos elementos son los principales afectados por cambios de influencia: la reparación de un generador o la cercanía de un superviviente al gancho a punto de morir. Además, en el juego original de Dead By Daylight, el asesino ya conoce desde el principio las ubicaciones exactas de los generadores y los ganchos. Por lo tanto, tiene sentido dirigirse específicamente hacia estos puntos en lugar de deambular aleatoriamente por el mapa sin un objetivo claro.
@@ -179,13 +184,25 @@ graph TD;
 
 ## Pruebas y métricas
 ### Pruebas
-A.Mundo virtual:
+A.Escena:
+A.1. Mover la camara con WASD , hacer zoom con Q y E, y cambiar de modo con Ctrl <br>
+A.2. Esperar a que todos los generadores se reparen para comprobar que la puerta se desbloquea <br>
+A.3. Resetear el juego varias veces para comprobar que los supervivientes se spawnean en lugares distintos <br>
 
-B.Ganchos:
+B.Generadores:
+B.1. Esperar a que un superviviente repare el generador y comprobar que está aumentando su influencia linealmente. <br>
+B.2. Esperar a que un generador se termine de reparar y comprobar que ya no influye en el mapa de influencia. <br>
 
-C.Generadores:
+C.Ganchos:
+C.1. Esperar a que un asesino golpee a un superviviente y comprobar que se traslada a un gancho aleatorio y su influencia aumenta exponencialmente. <br>
+C.2. Esperar a que un gancho complete el progreso y comprobar que ya no influye en el mapa de influencia. <br>
 
 D.Asesino:
+
+D.1. Comprobar que el asesino persigue al superviviente cuando este está dentro de su área de visión. <br>
+D.2. Comprobar que cuando el asesino pierde de vista al superviviente que estaba persiguiendo, deja de perseguir. <br>
+D.3. Comprobar que cuando el asesino esté lo suficientemente cerca del superviviente, le intenta atacar. <br>
+D.4. Comprobar que el asesino va al nuevo lugar más influido del mapa mientras esté merodeando. <br>
 
 E.Supervivientes:
 
@@ -235,5 +252,6 @@ Una vez superada con éxito la asignatura se prevee publicar todo en abierto (la
 Los recursos de terceros utilizados son de uso público.
 
 - *AI for Games*, Ian Millington.
-- UnityLearn(https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner).
-
+- UnityLearn[https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner].
+- Behavior Designer [https://assetstore.unity.com/packages/tools/visual-scripting/behavior-designer-behavior-trees-for-everyone-15277].
+- Influence map (threaded).unitypackage [https://forum.unity.com/threads/ai-influence-maps.145368/].

@@ -25,19 +25,24 @@ public class MapInfo : MonoBehaviour
     }
     [SerializeField]
     public List<GeneratorInfo> generators;
-    public SharedTransformList sharedTransformList;
+    public SharedTransformList sharedGenTransformList;
+    public SharedTransformList sharedHookTransformList;
     public List<HookInfo> hooks;
     public GameObject destination;
     public GameObject doors;
 
     void Start()
     {
-        sharedTransformList = new SharedTransformList();
+        sharedGenTransformList = new SharedTransformList();
         for (int i = 0; i < generators.Count; ++i)
         {
-            sharedTransformList.Value.Add(generators[i].go.transform);
+            sharedGenTransformList.Value.Add(generators[i].go.transform);
         }
-        Debug.Log("fjfj " + sharedTransformList.Value.Count);
+        sharedHookTransformList = new SharedTransformList();
+        for (int i = 0; i < hooks.Count; ++i)
+        {
+            sharedHookTransformList.Value.Add(hooks[i].go.transform);
+        }
 
     }
     public void OnGeneratorRepaired()
