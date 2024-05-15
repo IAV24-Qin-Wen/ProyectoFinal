@@ -24,18 +24,25 @@ public class SurvivorManager : MonoBehaviour
 
         if (spawnPoints.transform.childCount < nSurvivors) return;
 
-        for (uint i = 0; i < nSurvivors; i++)
+        for (int i = 0; i < nSurvivors; i++)
         {
             bool spawned = false;
             while (!spawned)
             {
-                aux = UnityEngine.Random.Range(0, spawnPoints.transform.childCount);
+                //aux = UnityEngine.Random.Range(0, spawnPoints.transform.childCount);
 
-                if (!used[aux])
+                //if (!used[aux])
+                //{
+                //    used[aux] = spawned = true;
+                //    Instantiate(survivorPrefab, spawnPoints.transform.GetChild(aux).transform.position, 
+                //        spawnPoints.transform.GetChild(aux).transform.rotation, survivors.transform);
+                //}
+
+                if (!used[i])
                 {
-                    used[aux] = spawned = true;
-                    Instantiate(survivorPrefab, spawnPoints.transform.GetChild(aux).transform.position, 
-                        spawnPoints.transform.GetChild(aux).transform.rotation, survivors.transform);
+                    used[i] = spawned = true;
+                    Instantiate(survivorPrefab, spawnPoints.transform.GetChild(i).transform.position, 
+                        spawnPoints.transform.GetChild(i).transform.rotation, survivors.transform);
                 }
             }
 
