@@ -342,6 +342,14 @@ Una vez superada con éxito la asignatura se prevee publicar todo en abierto (la
 Los recursos de terceros utilizados son de uso público.
 
 - *AI for Games*, Ian Millington.
+    - 3.2.1 "Seek", 52.
+    - 3.2.2 "Wandering", 55.
+    - 3.3.3 "Seek and Flee", 58.
+    - 3.3.4 "Arrive", 62.
+    - 3.3.8 "Pursue and Evade", 68.
+    - 3.3.13 "Separation", 82.
+    - 6.2.2 "Simple Influence Maps", 500.
+    - 6.4.2 "Emergent Cooperation", 551
 - UnityLearn[https://learn.unity.com/project/john-lemon-s-haunted-jaunt-3d-beginner].
 - Behavior Designer [https://assetstore.unity.com/packages/tools/visual-scripting/behavior-designer-behavior-trees-for-everyone-15277].
 - Influence map (threaded).unitypackage [https://forum.unity.com/threads/ai-influence-maps.145368/].
