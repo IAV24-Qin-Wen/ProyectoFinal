@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace BehaviorDesigner.Runtime.Tasks
 {
-    [TaskDescription("Sends an event to evvery survivor's behavior tree")]
+    [TaskDescription("Sends an event to every survivor's behavior tree")]
     [HelpURL("https://www.opsive.com/support/documentation/behavior-designer/events/")]
     [TaskIcon("{SkinColor}SendEventIcon.png")]
     public class SendEventToSurvivors : Action

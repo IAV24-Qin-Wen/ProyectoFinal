@@ -51,22 +51,6 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                 return TaskStatus.Success;
             }
 
-            //Vector3 target = Target();
-            //var v = transform.forward - transform.position;
-            //Vector3 aux2 = Quaternion.Euler(0, angle, 0) * v;
-            //Vector3 aux3 = Quaternion.Euler(0, -angle, 0) * v;
-            //aux2 = transform.position + (aux2.normalized );
-            //aux3 = transform.position + (aux3.normalized );
-
-            //Debug.DrawLine(transform.position, target);
-            //Debug.DrawLine(transform.position, aux2);
-            //Debug.DrawLine(transform.position, aux3);
-
-            //Debug.Log("dest: " + m_NavMeshAgent.destination);   
-            //Debug.Log(SetDestination(target));
-
-            //if(SetDestination(target) || SetDestination(aux2) || SetDestination(aux3))
-            //    return TaskStatus.Running;
             CalculatePath(Target());
 
             return TaskStatus.Running;
