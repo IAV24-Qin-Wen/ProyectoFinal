@@ -184,27 +184,26 @@ graph TD;
 
 ## Pruebas y métricas
 ### Pruebas
-A.Escena:
+A.Escena:<br>
 A.1. Mover la camara con WASD , hacer zoom con Q y E, y cambiar de modo con Ctrl <br>
 A.2. Esperar a que todos los generadores se reparen para comprobar que la puerta se desbloquea <br>
 A.3. Resetear el juego varias veces para comprobar que los supervivientes se spawnean en lugares distintos <br>
 
-B.Generadores:
+B.Generadores:<br>
 B.1. Esperar a que un superviviente repare el generador y comprobar que está aumentando su influencia linealmente. <br>
 B.2. Esperar a que un generador se termine de reparar y comprobar que ya no influye en el mapa de influencia. <br>
 
-C.Ganchos:
+C.Ganchos:<br>
 C.1. Esperar a que un asesino golpee a un superviviente y comprobar que se traslada a un gancho aleatorio y su influencia aumenta exponencialmente. <br>
 C.2. Esperar a que un gancho complete el progreso y comprobar que ya no influye en el mapa de influencia. <br>
 
-D.Asesino:
-
+D.Asesino:<br>
 D.1. Comprobar que el asesino persigue al superviviente cuando este está dentro de su área de visión. <br>
 D.2. Comprobar que cuando el asesino pierde de vista al superviviente que estaba persiguiendo, deja de perseguir. <br>
 D.3. Comprobar que cuando el asesino esté lo suficientemente cerca del superviviente, le intenta atacar. <br>
 D.4. Comprobar que el asesino va al nuevo lugar más influido del mapa mientras esté merodeando. <br>
 
-E.Supervivientes:
+E.Supervivientes:<br>
 
 - [Vídeo con la batería de pruebas](https://youtu.be/)
 
