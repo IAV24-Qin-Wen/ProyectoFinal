@@ -64,9 +64,9 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             aux2 = transform.position + (aux2.normalized);
             aux3 = transform.position + (aux3.normalized);
 
-            Debug.Log("aux: " + target);
-            Debug.Log("aux2: " + aux2);
-            Debug.Log("aux3: " + aux3);
+            //Debug.Log("aux: " + target);
+            //Debug.Log("aux2: " + aux2);
+            //Debug.Log("aux3: " + aux3);
 
             Debug.DrawLine(transform.position, target);
             Debug.DrawLine(transform.position, aux2);

@@ -48,10 +48,12 @@ public class MapInfo : MonoBehaviour
     public void OnGeneratorRepaired()
     {
         nRepaired++;
+        Debug.Log("repaired");
         if(nRepaired == generators.Count)
         {
             doors.SetActive(false);
         }
     }
+
 
 }

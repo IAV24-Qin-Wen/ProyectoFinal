@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using ThreadNinja;
 using System.Collections.Generic;
+using BehaviorDesigner.Runtime.Tactical;
 
 namespace LiquidSnake.Character
 {
@@ -47,7 +48,9 @@ namespace LiquidSnake.Character
             propagator = GetComponent<InfluencePropagator>();
             survivorManagerGo = GameObject.Find("SurvivorManager");
             survivorManager = survivorManagerGo.GetComponent<SurvivorManager>();
-            SetValue();
+            bar.SetActive(false);
+            enabled = false;
+            survivorAttached = null;
         }
 
         //----------------------------------------------------------------------------
@@ -69,6 +72,7 @@ namespace LiquidSnake.Character
             enabled = true;
             survivorAttached = o;
             bar.SetActive(true);
+            if(!survivorAttached.GetComponent<SurvivorHealth>().IsAlive()) { OnCompleted(); }
         }
         /// <summary>
         /// Evento que notifica de la muerte del personaje cuando sus puntos de vida llegan a 0.
@@ -141,10 +145,11 @@ namespace LiquidSnake.Character
 
         public void OnCompleted()
         {
-            // survivorManager.
+            Debug.Log(survivorAttached);
             SetProgress(-maxProgress);
             bar.SetActive(false);
             enabled = false;
+            survivorManager.OnSurvivorDie(survivorAttached);
             survivorAttached = null;
         }
         void Update()
