@@ -32,11 +32,14 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         public override TaskStatus OnUpdate()
         {
             m_ReturnedObject.Value = null;
+            float minDist = float.MaxValue;
 
             foreach (var obj in mapinfo.Value.GetComponent<MapInfo>().generators)
             {
-                if (!obj.progress.isFinished() && IsWithinDistance(obj.go))
+                float dist = IsWithinDistance(obj.go);
+                if (!obj.progress.isFinished() && dist > 0.0f && minDist > dist)
                 {
+                    minDist = dist;
                     m_ReturnedObject.Value = obj.go;
                 }
             }
@@ -53,17 +56,18 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         /// <summary>
         /// Is the target within distance?
         /// </summary>
-        private bool IsWithinDistance(GameObject target)
+        private float IsWithinDistance(GameObject target)
         {
             var direction = target.transform.position - transform.position;
+            float ret = Vector3.SqrMagnitude(direction);
             // check to see if the square magnitude is less than what is specified
-            if (Vector3.SqrMagnitude(direction) < m_SqrMagnitude)
+            if (ret < m_SqrMagnitude)
             {
                 // The object has a magnitude less than the specified magnitude. Return true.
-                return true;
+                return ret;
             }
 
-            return false;
+            return -1.0f;
         }
 
         public override void OnReset()

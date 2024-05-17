@@ -95,6 +95,7 @@ namespace LiquidSnake.Character
             {
                 currentProgress = Mathf.Max(currentProgress, maxProgress);
                 finished = true;
+                gameObject.GetComponent<BoxCollider>().enabled = false;
                 OnProgressCompleted?.Invoke();
             }
         }

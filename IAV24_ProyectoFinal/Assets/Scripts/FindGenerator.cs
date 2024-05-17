@@ -1,3 +1,4 @@
+using LiquidSnake.Character;
 using System.Collections.Generic;
 using UnityEngine;
 using static MapInfo;
@@ -64,7 +65,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                         if (hit.collider.gameObject == obj)
                         {
                             float d = dir.sqrMagnitude;
-                            if (d < minDistance)
+                            if (d < minDistance && !obj.GetComponent<Progress>().isFinished())
                             {
                                 minDistance = d; closest = obj;
 
