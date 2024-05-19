@@ -70315,6 +70315,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
         type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1648876286}
+    - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
+        type: 3}
+      propertyPath: IDPos.x
+      value: 291.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
+        type: 3}
+      propertyPath: IDPos.y
+      value: 183.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
+        type: 3}
       propertyPath: levelGo
       value: 
       objectReference: {fileID: 1884618003}
@@ -70325,14 +70340,36 @@ PrefabInstance:
       objectReference: {fileID: 330868777}
     - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
         type: 3}
+      propertyPath: statePos.x
+      value: 329.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
+        type: 3}
+      propertyPath: statePos.y
+      value: 183.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
+        type: 3}
       propertyPath: survivorsParent
       value: 
       objectReference: {fileID: 330868777}
     - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
         type: 3}
+      propertyPath: survivorIDTextPrefab
+      value: 
+      objectReference: {fileID: 8527721347457891468, guid: c92fb6738d236e648a8045eda1ad9d31,
+        type: 3}
+    - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
+        type: 3}
       propertyPath: survivors.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
+        type: 3}
+      propertyPath: survivorStateTextPrefab
+      value: 
+      objectReference: {fileID: 3017658664687387406, guid: ef1a488d490b16c4193efd7ac512747b,
+        type: 3}
     - target: {fileID: 1555446046075869133, guid: e352da3b885376a4a9bdc813e78faf6f,
         type: 3}
       propertyPath: m_Name
