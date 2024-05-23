@@ -44,7 +44,9 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                     mapInfo.hooks[hookId].used=true;
 
                     mapInfo.hooks[hookId].go.GetComponent<HookProgress>().Activate(gameObject);
-                 
+
+                    mapInfo.hooks[hookId].hookedSurvivor = gameObject;
+
                     m_ReturnedPosition.Value= mapInfo.hooks[hookId].go.transform.Find("HookPoint").transform.position;
                 }
             }

@@ -1,5 +1,6 @@
 using BBUnity.Managers;
 using BehaviorDesigner.Runtime.Tasks.Unity.UnityQuaternion;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.AI;
@@ -32,11 +33,13 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
 
         // The position of the target at the last frame
         private Vector3 m_TargetPosition;
-        private float angle = 115;
+        private float[] angles;
 
         public override void OnStart()
         {
             base.OnStart();
+
+            angles = new float[6] { 45, -45, 90, -90, 115, -115};
 
             m_TargetPosition = m_Target.Value.transform.position;
 
@@ -59,36 +62,22 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         private void CalculatePath(Vector3 target)
         {
             var v = target - transform.position;
-            Vector3 aux2 = Quaternion.Euler(0, -angle, 0) * v;
-            Vector3 aux3 = Quaternion.Euler(0, angle, 0) * v;
-            aux2 = transform.position + (aux2.normalized);
-            aux3 = transform.position + (aux3.normalized);
-
-            //Debug.Log("aux: " + target);
-            //Debug.Log("aux2: " + aux2);
-            //Debug.Log("aux3: " + aux3);
-
-            Debug.DrawLine(transform.position, target);
-            Debug.DrawLine(transform.position, aux2);
-            Debug.DrawLine(transform.position, aux3);
-
             NavMeshPath path = new NavMeshPath();
-
             m_NavMeshAgent.CalculatePath(target, path);
             SetDestination(target);
-            int i = 0;
-            while (i < 2 && path.status != NavMeshPathStatus.PathComplete)
+            Debug.DrawLine(transform.position, target);
+
+            foreach (var angle in angles) 
             {
-                if(i++ == 0)
-                {
-                    m_NavMeshAgent.CalculatePath(aux2, path);
-                    SetDestination(aux2);
-                }
-                else
-                {
-                    m_NavMeshAgent.CalculatePath(aux3, path);
-                    SetDestination(aux3);
-                }
+                if (path.status == NavMeshPathStatus.PathComplete)
+                    break;
+
+                Vector3 aux = Quaternion.Euler(0, -angle, 0) * v;
+                aux = transform.position + (aux.normalized * 2.0f);
+                Debug.DrawLine(transform.position, aux);
+
+                m_NavMeshAgent.CalculatePath(aux, path);
+                SetDestination(aux);
             }
         }
 

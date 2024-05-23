@@ -13,6 +13,7 @@ public class MapInfo : MonoBehaviour
     {
         public GameObject go;
         public bool used;
+        public GameObject hookedSurvivor;
     }
 
     [System.Serializable]

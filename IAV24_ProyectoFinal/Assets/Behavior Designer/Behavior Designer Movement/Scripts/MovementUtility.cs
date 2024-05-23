@@ -159,6 +159,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                 if (Physics.Linecast(transform.TransformPoint(positionOffset), targetObject.transform.TransformPoint(targetOffset), out hit, ~ignoreLayerMask, QueryTriggerInteraction.Ignore)) {
                     hitTransform = hit.transform;
                 }
+                if(drawDebugRay) Debug.DrawLine(transform.TransformPoint(positionOffset), targetObject.transform.TransformPoint(targetOffset));
             }
             return hitTransform;
         }
