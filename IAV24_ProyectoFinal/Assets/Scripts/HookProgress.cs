@@ -145,13 +145,18 @@ namespace LiquidSnake.Character
 
         public void OnCompleted()
         {
-            Debug.Log(survivorAttached);
-            SetProgress(-maxProgress);
+            
+            survivorManager.OnSurvivorDie(survivorAttached);
+            Desactivate();
+        }
+        public void Desactivate()
+        {
+            SetProgress(-currentProgress);
             bar.SetActive(false);
             enabled = false;
-            survivorManager.OnSurvivorDie(survivorAttached);
             survivorAttached = null;
         }
+        
         void Update()
         {
 

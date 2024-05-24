@@ -20,6 +20,10 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         [Tooltip("Level")]
         [UnityEngine.Serialization.FormerlySerializedAs("level")]
         public SharedGameObject level ;
+
+        [UnityEngine.Serialization.FormerlySerializedAs("returnedHook")]
+        public SharedGameObject returnedHook;
+
         MapInfo mapInfo;
         public override void OnStart()
         {
@@ -47,7 +51,8 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
 
                     mapInfo.hooks[hookId].hookedSurvivor = gameObject;
 
-                    m_ReturnedPosition.Value= mapInfo.hooks[hookId].go.transform.Find("HookPoint").transform.position;
+                    returnedHook.Value = mapInfo.hooks[hookId].go;
+                    m_ReturnedPosition.Value = returnedHook.Value.transform.Find("HookPoint").transform.position;
                 }
             }
             return found;

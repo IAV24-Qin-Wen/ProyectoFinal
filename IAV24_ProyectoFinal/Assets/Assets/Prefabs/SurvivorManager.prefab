@@ -48,7 +48,13 @@ MonoBehaviour:
   nSurvivors: 4
   survivorPrefab: {fileID: 6077229646317852079, guid: e58a8494f35e17f45ba5bbffdfb92517,
     type: 3}
-  survivors: {fileID: 0}
+  survivorsParent: {fileID: 0}
+  canvas: {fileID: 0}
+  survivorIDTextPrefab: {fileID: 0}
+  survivorStateTextPrefab: {fileID: 0}
+  IDPos: {x: 0, y: 0}
+  statePos: {x: 0, y: 0}
+  levelGo: {fileID: 0}
 --- !u!114 &4779236185989449013
 MonoBehaviour:
   m_ObjectHideFlags: 0
