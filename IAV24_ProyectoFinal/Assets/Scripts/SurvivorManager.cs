@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using BehaviorTree = BehaviorDesigner.Runtime.BehaviorTree;
 
 public class SurvivorManager : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class SurvivorManager : MonoBehaviour
     private Vector2 IDPos;
     [SerializeField]
     private Vector2 statePos;
+    [SerializeField]
+    private GameObject exit;
 
     public Dictionary<GameObject, TextMeshProUGUI> survivors;
 
@@ -117,4 +120,10 @@ public class SurvivorManager : MonoBehaviour
         if (survivors.Count == 0 && survived<minSurvive) level.OnKillerWin();
     }
     public int getNSurvivors() { return nSurvivors; }
+
+    public void gensRepaired()
+    {
+        BehaviorTree bt = gameObject.GetComponent<BehaviorTree>();
+        bt.SendEvent<object>("ExitOpen", exit);
+    }
 }
