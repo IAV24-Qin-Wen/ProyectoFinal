@@ -24,7 +24,7 @@ namespace BehaviorDesigner.Runtime.Tasks
 
         public override void OnStart()
         {
-            //Debug.Log("RESET");
+            Debug.Log("RESET");
             // Remember the start time.
             startTime = Time.time;
             if (randomWait.Value) {
@@ -40,6 +40,7 @@ namespace BehaviorDesigner.Runtime.Tasks
             if (startTime + waitDuration < Time.time) {
                 return TaskStatus.Success;
             }
+            Debug.Log(startTime + waitDuration + " " + Time.time);
             // Otherwise we are still waiting.
             return TaskStatus.Running;
         }
