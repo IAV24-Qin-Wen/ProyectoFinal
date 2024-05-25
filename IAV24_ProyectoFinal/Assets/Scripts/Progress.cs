@@ -21,7 +21,10 @@ namespace LiquidSnake.Character
         private float maxProgress = 90;
         
         [SerializeField]
-        private float tickTimer = 1.0f;
+        private float tickTimer = 1.0f;        
+        
+        [SerializeField]
+        private float fixAmount = 50.0f;
 
         private float timerProgress = 0.0f;
 
@@ -132,7 +135,7 @@ namespace LiquidSnake.Character
             if(timerProgress > tickTimer)
             {
                 //Debug.Log(currentProgress);
-                Fix(2.0f);
+                Fix(fixAmount);
                 timerProgress = 0.0f;
             }
         }

@@ -4,6 +4,7 @@ using UnityEngine.Events;
 using ThreadNinja;
 using System.Collections.Generic;
 using BehaviorDesigner.Runtime.Tactical;
+using BehaviorDesigner.Runtime;
 
 namespace LiquidSnake.Character
 {
@@ -24,6 +25,9 @@ namespace LiquidSnake.Character
         [SerializeField]
         private float tickTimer = 1.0f;
 
+        [SerializeField]
+        private MapInfo m_MapInfo;
+
         private float timerProgress = 0.0f;
 
         [SerializeField]
@@ -43,6 +47,8 @@ namespace LiquidSnake.Character
 
         public float k = 0.05f; // Controla la rapidez con la que aumenta la influencia
 
+        public int ID = -1;
+
         void Start()
         {
             propagator = GetComponent<InfluencePropagator>();
@@ -51,6 +57,20 @@ namespace LiquidSnake.Character
             bar.SetActive(false);
             enabled = false;
             survivorAttached = null;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "Survivor" && survivorAttached != null)
+            {
+                MapInfo.HookInfo m = m_MapInfo.hooks[ID];
+                if (m.used && ReferenceEquals(gameObject, m.go))
+                {
+                    m.hookedSurvivor.GetComponent<BehaviorTree>().SendEvent<object>("Rescued", false);
+                    m.used = false;
+                    m.hookedSurvivor = null;
+                }
+            }
         }
 
         //----------------------------------------------------------------------------

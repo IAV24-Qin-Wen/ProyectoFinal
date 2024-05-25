@@ -47,7 +47,9 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                     found = true;
                     mapInfo.hooks[hookId].used=true;
 
-                    mapInfo.hooks[hookId].go.GetComponent<HookProgress>().Activate(gameObject);
+                    HookProgress hkPg = mapInfo.hooks[hookId].go.GetComponent<HookProgress>();
+                    hkPg.Activate(gameObject);
+                    hkPg.ID = hookId;
 
                     mapInfo.hooks[hookId].hookedSurvivor = gameObject;
 

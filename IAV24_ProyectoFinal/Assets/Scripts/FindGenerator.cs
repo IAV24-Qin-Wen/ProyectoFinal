@@ -32,7 +32,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                 return TaskStatus.Success;
             }
 
-            return TaskStatus.Failure;
+            return TaskStatus.Running;
         }
 
         private GameObject DetectClosestTarget()

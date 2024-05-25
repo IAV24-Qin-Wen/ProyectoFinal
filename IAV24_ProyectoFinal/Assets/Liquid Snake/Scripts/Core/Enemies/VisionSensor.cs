@@ -56,7 +56,7 @@ namespace LiquidSnake.Enemies
 
         private void OnValidate()
         {
-            Debug.Log("alidate");
+            //Debug.Log("alidate");
             _defaultMaterial = GetComponent<MeshRenderer>().sharedMaterial;
             BuildMesh();
         }

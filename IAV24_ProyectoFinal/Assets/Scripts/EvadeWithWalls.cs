@@ -61,6 +61,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
 
         private void CalculatePath(Vector3 target)
         {
+            if (HasPath() && m_NavMeshAgent.path.status == NavMeshPathStatus.PathComplete) return; 
             var v = target - transform.position;
             NavMeshPath path = new NavMeshPath();
             m_NavMeshAgent.CalculatePath(target, path);
@@ -73,7 +74,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                     break;
 
                 Vector3 aux = Quaternion.Euler(0, -angle, 0) * v;
-                aux = transform.position + (aux.normalized * 2.0f);
+                aux = transform.position + (aux.normalized * 4.0f);
                 Debug.DrawLine(transform.position, aux);
 
                 m_NavMeshAgent.CalculatePath(aux, path);
