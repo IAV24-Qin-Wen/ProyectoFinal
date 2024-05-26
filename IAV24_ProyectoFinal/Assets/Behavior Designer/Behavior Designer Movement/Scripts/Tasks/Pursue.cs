@@ -1,4 +1,6 @@
+using System.IO;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace BehaviorDesigner.Runtime.Tasks.Movement
 {
@@ -17,6 +19,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         [Tooltip("The GameObject that the agent is pursuing")]
         [UnityEngine.Serialization.FormerlySerializedAs("target")]
         public SharedGameObject m_Target;
+        private NavMeshPath path;
 
         // The position of the target at the last frame
         private Vector3 targetPosition;
@@ -24,23 +27,32 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         public override void OnStart()
         {
             base.OnStart();
-
+            
             targetPosition = m_Target.Value.transform.position;
             SetDestination(Target());
+            path = new NavMeshPath();
         }
 
         // Pursue the destination. Return success once the agent has reached the destination.
         // Return running if the agent hasn't reached the destination yet
         public override TaskStatus OnUpdate()
         {
-            if (HasArrived()) {
+            if (HasArrived())
+            {
                 return TaskStatus.Success;
             }
 
             // Target will return the predicated position
-            SetDestination(Target());
+            //SetDestination(Target());
+            Debug.Log(m_NavMeshAgent);
+            if (CalculatePath(m_NavMeshAgent.transform.position, Target(), NavMesh.AllAreas, path))
+            {
 
-            return TaskStatus.Running;
+                return TaskStatus.Running;
+
+            }
+            return TaskStatus.Failure;
+
         }
 
         // Predict the position of the target
@@ -52,9 +64,12 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
 
             float futurePrediction = 0;
             // Set the future prediction to max prediction if the speed is too small to give an accurate prediction
-            if (speed <= distance / m_TargetDistPrediction.Value) {
+            if (speed <= distance / m_TargetDistPrediction.Value)
+            {
                 futurePrediction = m_TargetDistPrediction.Value;
-            } else {
+            }
+            else
+            {
                 futurePrediction = (distance / speed) * m_TargetDistPredictionMult.Value; // the prediction should be accurate enough
             }
 

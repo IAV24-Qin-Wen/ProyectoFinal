@@ -22,6 +22,7 @@ namespace BehaviorDesigner.Runtime.Tactical
 
         private Animator animator;
 
+        private bool attacking;
         /// <summary>
         /// Initialize the default values.
         /// </summary>
@@ -34,6 +35,7 @@ namespace BehaviorDesigner.Runtime.Tactical
         {
             animator= GetComponent<Animator>();
             attackArea.SetActive(false);
+            attacking= false;
         }
         /// <summary>
         /// Returns the furthest distance that the agent is able to attack from.
@@ -72,7 +74,7 @@ namespace BehaviorDesigner.Runtime.Tactical
         public void DisableAttack()
         {
             attackArea.SetActive(false);
-            
+            attacking = false;
 
         }
 
@@ -86,6 +88,16 @@ namespace BehaviorDesigner.Runtime.Tactical
             lastAttackTime = Time.time;
             Invoke("Attacking", 0.2f);
             
+        }
+
+        public bool IsAttacking() { return attacking; }
+        public void TryAttack()
+        {
+            animator.SetBool("attack", true);
+            lastAttackTime = Time.time;
+            Invoke("Attacking", 0.2f);
+            attacking= true;    
+
         }
     }
 }

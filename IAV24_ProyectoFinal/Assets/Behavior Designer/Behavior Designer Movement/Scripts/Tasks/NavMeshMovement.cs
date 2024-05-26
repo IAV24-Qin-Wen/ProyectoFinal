@@ -20,7 +20,6 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         [Tooltip("Should the NavMeshAgent rotation be updated when the task ends?")]
         [UnityEngine.Serialization.FormerlySerializedAs("updateRotation")]
         public SharedBool m_UpdateRotation = true;
-
         // Component references
         protected NavMeshAgent m_NavMeshAgent;
         private bool m_StartUpdateRotation;
@@ -54,6 +53,23 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         {
             m_NavMeshAgent.isStopped = false;
             return m_NavMeshAgent.SetDestination(destination);
+        }
+
+        /// <summary>
+        /// Set a new pathfinding destination.
+        /// </summary>
+        /// <param name="destination">The destination to set.</param>
+        /// <returns>True if the destination is valid.</returns>
+        protected bool CalculatePath(Vector3 sourcePosition, Vector3 targetPosition, int areaMask, NavMeshPath path)
+        {
+
+            m_NavMeshAgent.isStopped = false;
+            if (NavMesh.CalculatePath(sourcePosition, targetPosition, areaMask, path))
+            {
+                m_NavMeshAgent.SetPath(path);
+                return true;
+            }
+            else return false;
         }
 
         /// <summary>

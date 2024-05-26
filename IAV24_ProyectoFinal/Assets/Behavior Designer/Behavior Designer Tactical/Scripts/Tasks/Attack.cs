@@ -2,6 +2,7 @@
 using BehaviorDesigner.Runtime.Tasks;
 using Tooltip = BehaviorDesigner.Runtime.Tasks.TooltipAttribute;
 using HelpURL = BehaviorDesigner.Runtime.Tasks.HelpURLAttribute;
+using Unity.VisualScripting;
 
 namespace BehaviorDesigner.Runtime.Tactical.Tasks
 {
@@ -17,21 +18,25 @@ namespace BehaviorDesigner.Runtime.Tactical.Tasks
         public SharedBool attacked;
         [UnityEngine.Serialization.FormerlySerializedAs("target")]
         public SharedGameObject target;
+        bool triedAttacked;
+        private AttackArea attackArea;
+        public override void OnAwake()
+        {
+            attackArea=gameObject.GetComponent<AttackArea>();
+            triedAttacked = false;
+        }
+
+
         public override TaskStatus OnUpdate()
         {
-            var baseStatus = base.OnUpdate();
-            if (baseStatus != TaskStatus.Running || !started)
+            if (!triedAttacked) { attackArea.TryAttack(); triedAttacked = true; return TaskStatus.Running; }
+            else if (attackArea.IsAttacking()) 
             {
-                return baseStatus;
-            }
+                return TaskStatus.Running; }
 
-            //if (MoveToAttackPosition())
-            //{
-            tacticalAgent.TargetTransform = target.Value.transform;
-            attacked.Value = tacticalAgent.TryAttack();
-            //}
-            if (attacked.Value) return TaskStatus.Success;
-            else return TaskStatus.Running;
+
+            else { triedAttacked = false; return TaskStatus.Success; }
+     
         }
     }
 }
