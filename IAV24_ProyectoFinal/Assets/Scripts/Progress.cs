@@ -143,7 +143,6 @@ namespace LiquidSnake.Character
         private void OnTriggerExit(Collider other)
         {
             if (!other.CompareTag("Survivor")) return;
-            Debug.Log("Exited");
             timerProgress = 0.0f;
         }
         #endregion

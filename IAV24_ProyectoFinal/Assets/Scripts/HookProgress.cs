@@ -31,7 +31,7 @@ namespace LiquidSnake.Character
         private float timerProgress = 0.0f;
 
         [SerializeField]
-        private float minValue = 0, maxValue = 50;
+        private float /*minValue = 0,*/ maxValue = 50;
 
         [SerializeField]
         private GameObject survivorManagerGo;

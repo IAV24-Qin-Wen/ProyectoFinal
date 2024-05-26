@@ -31,6 +31,7 @@ public class MapInfo : MonoBehaviour
     public List<HookInfo> hooks;
     public GameObject destination;
     public GameObject doors;
+    public SurvivorManager survivorManager;
 
     void Start()
     {
@@ -50,9 +51,11 @@ public class MapInfo : MonoBehaviour
     {
         nRepaired++;
         Debug.Log("repaired");
-        if(nRepaired == generators.Count)
+        //if(nRepaired == generators.Count)
+        if(nRepaired >= 1)
         {
             doors.SetActive(false);
+            survivorManager.gensRepaired();
         }
     }
 
