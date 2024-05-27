@@ -10,7 +10,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
     [TaskDescription("Update MapInfluenced List")]
     [TaskCategory("IAV24")]
     [TaskIcon("{SkinColor}RepeaterIcon.png")]
-    public class UpdateMapInfluencedList : Action
+    public class UpdateMapInfluencedList : Conditional
     {
         [UnityEngine.Serialization.FormerlySerializedAs("genTrList")]
         public SharedTransformList genTrList;
@@ -37,20 +37,31 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         [UnityEngine.Serialization.FormerlySerializedAs("priorPosition")]
         public SharedVector3 priorPosition;
 
+
+        private bool isGenerator;
         // Use this for initialization
-        public override void OnStart()
+
+
+        public override void OnAwake()
         {
+            Debug.Log("esgsgf");
             genMap = genMapGO.Value.GetComponent<InfluenceMapControl>();
             hookMap = hookMapGO.Value.GetComponent<InfluenceMapControl>();
-            genTrList.Value = level.Value.GetComponent<MapInfo>().sharedGenTransformList.Value;
-            hookTrList.Value = level.Value.GetComponent<MapInfo>().sharedHookTransformList.Value;
+            genTrList = level.Value.GetComponent<MapInfo>().sharedGenTransformList;
+            hookTrList = level.Value.GetComponent<MapInfo>().sharedHookTransformList;
+
+        }
+        public override void OnStart()
+        {
+           
         }
 
         // Returns success if an object was found otherwise failure
         public override TaskStatus OnUpdate()
         {
+            Debug.Log("aaa");
             if (genTrList.Value.Count == 0) return TaskStatus.Failure;
-            priorPosition.Value = genTrList.Value[1].position;
+            priorPosition.Value = genTrList.Value[0].position;
             float maxValue = getSumValue(priorPosition.Value);
             for (int i = 1; i < genTrList.Value.Count; ++i)
             {
@@ -59,6 +70,7 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                 {
                     maxValue = auxValue;
                     priorPosition.Value = genTrList.Value[i].position;
+                    isGenerator = true;
                 }
             }
             for (int i = 0; i < hookTrList.Value.Count; ++i)
@@ -68,12 +80,13 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                 {
                     maxValue = auxValue;
                     priorPosition.Value = hookTrList.Value[i].position;
+                    isGenerator = false;
                 }
             }
-
-            Debug.Log(lastMostInfluencedPosition.Value + " " + priorPosition.Value);
-            if (lastMostInfluencedPosition.Value == priorPosition.Value) return TaskStatus.Failure;
-            else { lastMostInfluencedPosition.Value = priorPosition.Value; return TaskStatus.Success; }
+            bool b = maxValue <= 0 || lastMostInfluencedPosition.Value == priorPosition.Value ;
+            Debug.Log( b+ " " + lastMostInfluencedPosition.Value+ " " + priorPosition.Value + "Gen: "+isGenerator+" "+ maxValue);
+            if (maxValue<=0 || lastMostInfluencedPosition.Value == priorPosition.Value) return TaskStatus.Failure;
+            else {  Debug.Log("gg"); return TaskStatus.Success; }
         }
 
         //suma de valor en los 2 mapas

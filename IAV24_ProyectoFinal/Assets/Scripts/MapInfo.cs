@@ -33,7 +33,7 @@ public class MapInfo : MonoBehaviour
     public GameObject doors;
     public SurvivorManager survivorManager;
 
-    void Start()
+    void Awake()
     {
         sharedGenTransformList = new SharedTransformList();
         for (int i = 0; i < generators.Count; ++i)

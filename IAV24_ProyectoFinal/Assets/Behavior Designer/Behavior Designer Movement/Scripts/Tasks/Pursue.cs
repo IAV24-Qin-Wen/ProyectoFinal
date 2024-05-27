@@ -24,19 +24,26 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
         // The position of the target at the last frame
         private Vector3 targetPosition;
 
+        public override void OnAwake()
+        {
+            base.OnAwake();
+            path = new NavMeshPath();
+        }
+        
         public override void OnStart()
         {
             base.OnStart();
-            
-            targetPosition = m_Target.Value.transform.position;
-            SetDestination(Target());
-            path = new NavMeshPath();
+            if (m_Target.Value != null)
+                targetPosition = m_Target.Value.transform.position;
+            //SetDestination(Target());
+          
         }
 
         // Pursue the destination. Return success once the agent has reached the destination.
         // Return running if the agent hasn't reached the destination yet
         public override TaskStatus OnUpdate()
         {
+            if(m_Target.Value == null) return TaskStatus.Failure;
             if (HasArrived())
             {
                 return TaskStatus.Success;

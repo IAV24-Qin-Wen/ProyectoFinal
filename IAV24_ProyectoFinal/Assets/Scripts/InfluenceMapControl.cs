@@ -128,24 +128,24 @@ public class InfluenceMapControl : MapServer
 	{
 		_influenceMap.Decay = _decay;
 		_influenceMap.Momentum = _momentum;
-		
-		Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit mouseHit;
-		if (Physics.Raycast(mouseRay, out mouseHit) && Input.GetMouseButton(0) || Input.GetMouseButton(1))
-		{
-			// is it within the grid
-			// if so, call SetInfluence in that grid position to 1.0
-			Vector3 hit = mouseHit.point;
-			if (hit.x > _bottomLeft.position.x && hit.x < _upperRight.position.x && hit.z > _bottomLeft.position.z && hit.z < _upperRight.position.z)
-			{
-				Vector2I gridPos = GetGridPosition(hit);
 
-				if (gridPos.x < _influenceMap.Width && gridPos.y < _influenceMap.Height)
-				{
-					SetInfluence(gridPos, (Input.GetMouseButton(0) ? 1.0f : -1.0f));
-				}
-			}
-		}
+		//Ray mouseRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+		//RaycastHit mouseHit;
+		//if (Physics.Raycast(mouseRay, out mouseHit) && Input.GetMouseButton(0) || Input.GetMouseButton(1))
+		//{
+		//	 is it within the grid
+		//	 if so, call SetInfluence in that grid position to 1.0
+		//	Vector3 hit = mouseHit.point;
+		//	if (hit.x > _bottomLeft.position.x && hit.x < _upperRight.position.x && hit.z > _bottomLeft.position.z && hit.z < _upperRight.position.z)
+		//	{
+		//		Vector2I gridPos = GetGridPosition(hit);
+
+		//		if (gridPos.x < _influenceMap.Width && gridPos.y < _influenceMap.Height)
+		//		{
+		//			SetInfluence(gridPos, (Input.GetMouseButton(0) ? 1.0f : -1.0f));
+		//		}
+		//	}
+		//}
 	}
 }
 
