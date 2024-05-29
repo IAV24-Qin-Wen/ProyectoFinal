@@ -48,8 +48,10 @@ public class GameEnding : MonoBehaviour
     }
     private void Update()
     {
-        if (killerWin) { EndLevel(caughtBackgroundImageCanvasGroup, true, caughtAudio); }
+        if (Input.GetKeyUp(KeyCode.R)) { SceneManager.LoadScene(0); }
+        else if (killerWin) { EndLevel(caughtBackgroundImageCanvasGroup, true, caughtAudio); }
         else if (survivorWin) EndLevel(exitBackgroundImageCanvasGroup, true, exitAudio);
+
     }
 
     void EndLevel(CanvasGroup imageCanvasGroup, bool doRestart, AudioSource audioSource)

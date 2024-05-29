@@ -54,9 +54,13 @@ namespace LiquidSnake.Enemies
 
         #region Creación del Mesh de Cono de visión
 
+        private void Start()
+        {
+            BuildMesh();
+        }
         private void OnValidate()
         {
-            //Debug.Log("alidate");
+   
             _defaultMaterial = GetComponent<MeshRenderer>().sharedMaterial;
             BuildMesh();
         }

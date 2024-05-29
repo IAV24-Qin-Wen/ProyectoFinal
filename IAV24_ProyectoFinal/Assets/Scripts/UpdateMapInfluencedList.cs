@@ -44,22 +44,17 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
 
         public override void OnAwake()
         {
-            Debug.Log("esgsgf");
             genMap = genMapGO.Value.GetComponent<InfluenceMapControl>();
             hookMap = hookMapGO.Value.GetComponent<InfluenceMapControl>();
             genTrList = level.Value.GetComponent<MapInfo>().sharedGenTransformList;
             hookTrList = level.Value.GetComponent<MapInfo>().sharedHookTransformList;
 
         }
-        public override void OnStart()
-        {
-           
-        }
+
 
         // Returns success if an object was found otherwise failure
         public override TaskStatus OnUpdate()
         {
-            Debug.Log("aaa");
             if (genTrList.Value.Count == 0) return TaskStatus.Failure;
             priorPosition.Value = genTrList.Value[0].position;
             float maxValue = getSumValue(priorPosition.Value);
@@ -84,9 +79,8 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
                 }
             }
             bool b = maxValue <= 0 || lastMostInfluencedPosition.Value == priorPosition.Value ;
-            Debug.Log( b+ " " + lastMostInfluencedPosition.Value+ " " + priorPosition.Value + "Gen: "+isGenerator+" "+ maxValue);
             if (maxValue<=0 || lastMostInfluencedPosition.Value == priorPosition.Value) return TaskStatus.Failure;
-            else {  Debug.Log("gg"); return TaskStatus.Success; }
+            else {  return TaskStatus.Success; }
         }
 
         //suma de valor en los 2 mapas

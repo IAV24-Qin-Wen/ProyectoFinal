@@ -50,8 +50,6 @@ namespace BehaviorDesigner.Runtime.Tasks.Movement
             }
 
             // Target will return the predicated position
-            //SetDestination(Target());
-            Debug.Log(m_NavMeshAgent);
             if (CalculatePath(m_NavMeshAgent.transform.position, Target(), NavMesh.AllAreas, path))
             {
 

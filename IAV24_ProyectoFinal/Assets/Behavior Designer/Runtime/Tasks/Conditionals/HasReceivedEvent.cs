@@ -52,7 +52,6 @@ namespace BehaviorDesigner.Runtime.Tasks
 
         private void ReceivedEvent()
         {
-            Debug.Log("Received " + gameObject.name);
             eventReceived = true;
         }
 
