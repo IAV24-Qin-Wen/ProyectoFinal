@@ -30,12 +30,10 @@ namespace BehaviorDesigner.Runtime.Tasks
         public override void OnStart()
         {
             behaviorTrees = survivors.Value.GetComponentsInChildren<BehaviorTree>();
-            Debug.Log("Started");
         }
 
         public override TaskStatus OnUpdate()
         {
-            Debug.Log("Sending events");
             if (behaviorTrees == null)
             {
                 return TaskStatus.Failure;

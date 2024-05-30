@@ -50,8 +50,7 @@ public class MapInfo : MonoBehaviour
     public void OnGeneratorRepaired()
     {
         nRepaired++;
-        //if(nRepaired == generators.Count)
-        if(nRepaired >= 1)
+        if(nRepaired == generators.Count)
         {
             doors.SetActive(false);
             survivorManager.gensRepaired();
