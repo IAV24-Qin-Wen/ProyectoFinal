@@ -297,7 +297,7 @@ E.5. Comprobar que los supervivientes están inactivos si están enganchados. <b
 E.6. Comprobar que los supervivientes huyen del asesino cuando está cerca y tienen línea de visión sobre él.
 E.7. Comprobar que los supervivientes van a la salida una vez desbloqueada
 
-- [Vídeo con la batería de pruebas](https://youtu.be/izWqv_JyrkI)
+- [Vídeo con la batería de pruebas](https://youtu.be/61pVqBo8jkA)
 
 ____________________________________________________________________________________________________________________________________________________________________
 ### Métricas
