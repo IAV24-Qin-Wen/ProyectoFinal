@@ -295,8 +295,9 @@ E.3. Comprobar que un superviviente va a un generador aunque no lo haya visto de
 E.4. Comprobar que los supervivientes van a rescatar a los supervivientes que han sido enganchados si no están siendo perseguidos. <br>
 E.5. Comprobar que los supervivientes están inactivos si están enganchados. <br>
 E.6. Comprobar que los supervivientes huyen del asesino cuando está cerca y tienen línea de visión sobre él.
+E.7. Comprobar que los supervivientes van a la salida una vez desbloqueada
 
-- [Vídeo con la batería de pruebas](https://youtu.be/)
+- [Vídeo con la batería de pruebas](https://youtu.be/izWqv_JyrkI)
 
 ____________________________________________________________________________________________________________________________________________________________________
 ### Métricas
