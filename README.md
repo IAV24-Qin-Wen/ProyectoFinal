@@ -30,6 +30,7 @@ También se usarán cosas aprendidas y usadas en las prácticas anteriores como 
 - La **cámara se mueve** con las teclas WASD y se hace zoom con Q y E.
 - Se puede alternar el modo de cámara entre perspectiva y ortogonal vista cenital con la tecla Ctrl.
 - Se puede observar visualmente el mapa de influencias afectado por los generadores, en color verde, y por los ganchos, en color rojo.
+- El juego termina cuando escapan 2 supervivientes.
 
 ### B. Generadores
 - Tiene una barra de progreso, para indicar el progreso de reparación.
