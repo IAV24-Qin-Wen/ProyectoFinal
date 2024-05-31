@@ -345,7 +345,7 @@ Además,dentro de la pestaña de project las distintas tareas tienen asignadas d
      &emsp;  - Ataque. <br>
     &emsp; - Encontrar la zona más afectada por el mapa de influencia. <br>
     &emsp;- Merodeo. <br>
-  Supervivientes: <br>
+  - Supervivientes: <br>
  &emsp;  - Recibo de daño ante el ataque del asesino y traslado a unos de los ganchos aleatoriamente quedando paralizado. <br>
   &emsp; - Morir al ser atacado por segunda vez o por terminar el progreso del gancho. <br>
 
