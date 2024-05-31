@@ -68654,6 +68654,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
         type: 3}
+      propertyPath: survivorPrefab
+      value: 
+      objectReference: {fileID: 6077229646317852079, guid: 7d9d8ac5a46bc2047b18752cc50d43e7,
+        type: 3}
+    - target: {fileID: 1115221127898999976, guid: e352da3b885376a4a9bdc813e78faf6f,
+        type: 3}
       propertyPath: survivorsParent
       value: 
       objectReference: {fileID: 330868777}
