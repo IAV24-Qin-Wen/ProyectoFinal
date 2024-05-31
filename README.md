@@ -370,6 +370,7 @@ Además,dentro de la pestaña de project las distintas tareas tienen asignadas d
 <p align="justify">
 En resumen, Nanxi Qin se encargará principalmente del diseño del asesino, incluyendo comportamientos y animaciones, así como del desarrollo del mapa de influencias. Por otro lado, Jianuo Wen se enfocará en los supervivientes, abordando comportamientos, animaciones y la comunicación entre ellos.
 Sin embargo, existen tareas en las que se colabora mutuamente para garantizar una interacción fluida entre supervivientes y asesino. Además, debido a la variabilidad en la dificultad de las tareas, la distribución de responsabilidades entre ambos también difiere.
+
 </p>
 
 ## Licencia
