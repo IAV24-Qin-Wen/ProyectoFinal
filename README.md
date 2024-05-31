@@ -25,12 +25,12 @@ También se usarán cosas aprendidas y usadas en las prácticas anteriores como 
 
 ### A. Escena
 - Es un mundo virtual 3D en donde están distribuidos una cantidad N de **generadores** (máquinas con luz verde) y una cantidad M de **ganchos** (ganchos con luz roja) repartidos por el mapa.
-- Una vez reparados todos los generadores la puerta escapatoria puede ser desbloqueadas.
+- Una vez reparados todos los generadores, la puerta escapatoria puede ser desbloqueadas.
 - Inicialmente, los supervivientes se spawnean de forma aleatoria en un punto del mapa, mientras que el asesino siempre empieza desde un mismo lugar.
 - La **cámara se mueve** con las teclas WASD y se hace zoom con Q y E.
 - Se puede alternar el modo de cámara entre perspectiva y ortogonal vista cenital con la tecla Ctrl.
 - Se puede observar visualmente el mapa de influencias afectado por los generadores, en color verde, y por los ganchos, en color rojo.
-- El juego termina cuando escapan 2 supervivientes.
+- El juego termina cuando escapan 2 supervivientes o cuando ya quedan menos de 2 superviviedntes vivos.
 
 ### B. Generadores
 - Tiene una barra de progreso, para indicar el progreso de reparación.
@@ -48,6 +48,8 @@ del mapa, irá directamente a ese sitio y merodeará desde allí.
 - El comportamiento del asesino está controlado por un **árbol de comportamiento**.
 - El asesino **merodea** por el mapa en el resto del tiempo.
 - Cuando descubre a los supervivientes, **persigue** ,aumentando su velocidad, al más cercano hasta que esté en su alcance e intenta atacar.
+- Si pierde la vista durante 2 segundos, deja de perseguir al superviviente.
+- Puede hacer daño a todos los supervivientes dentro del área de ataque.
 - Cuando intenta atacar, da igual si ha podido golpear al superviviente o no, tiene un tiempo de recuperación para volver a moverse.
 - Se muestra visualmente su área de visión (pirámide) y área de ataque (esfera).
 
@@ -117,7 +119,7 @@ graph TD;
         H -->|El punto más influyente ha cambiado| K
         K -->|Llegado al punto| H
         I -->|Superviviente suficientemente cerca| J
-        J -->|Superviviente escapa / Superviviente esquiva el attaque| H
+        J -->|Superviviente escapa / Superviviente esquiva el ataque| H
     end
 ```
 #### 2. Árbol de comportamiento
@@ -129,7 +131,7 @@ graph TD;
 ##### a. Versiones y pruebas
 El proyecto original en el que se ha basado para crear el mapa de influencias movía a los personajes hacia una dirección resultante de sumar los valores de influencia de las 8 direcciones posibles. Sin embargo, este enfoque generaba resultados insatisfactorios al intentar aplicarlo al asesino. A pesar de ajustar parámetros y añadir condiciones, el personaje se desplazaba de forma poco inteligente y predecible. Esto provocaba que se moviera repetidamente en la misma posición o entre puntos cercanos, lo cual no resultaba visualmente atractivo ni transmitía la sensación de merodear de manera efectiva. <br>
 
-Después de diversas pruebas, se ha llegado a la versión actual: el asesino cuenta con dos mapas de influencia que se combinan para determinar el punto más relevante. Uno evalúa la influencia de los generadores, mientras que el otro se enfoca en los ganchos. En cada frame, se identifica el punto más influido del mapa resultante de ambos, que puede ser la posición de un generador o un gancho. El valor del punto resultante se calcula como X + Y ,siendo X la influencia de ese punto en el mapa de generadores e Y en el mapa de ganchos. Así, el asesino se dirige hacia el generador o gancho más afectado en todo el mapa, y desde esa posición, vuelve a merodear. Si en un frame el punto más influido sigue siendo el mismo que en el anterior, el asesino continuará en su ruta original,ya que si en un mismo punto esta continuamente aumentando su valor, no tiene sentido que el asesino esté todo el rato en ese sitio. <br>
+Después de diversas pruebas, se ha llegado a la versión actual: el asesino cuenta con dos mapas de influencia que se combinan para determinar el punto más relevante. Uno evalúa la influencia de los generadores, mientras que el otro se enfoca en los ganchos. En cada frame, se identifica el punto más influido del mapa resultante de ambos, que puede ser la posición de un generador o un gancho. El valor del punto resultante se calcula como X + Y , siendo X la influencia de ese punto en el mapa de generadores e Y en el mapa de ganchos. Así, el asesino se dirige hacia el generador o gancho más afectado en todo el mapa, y desde esa posición, vuelve a merodear. Si en un frame el punto más influido sigue siendo el mismo que en el anterior, el asesino continuará en su ruta original,ya que si en un mismo punto esta continuamente aumentando su valor, no tiene sentido que el asesino esté todo el rato en ese sitio. <br>
 
 ##### b. Relación de influencia
 Para ser más lógico, la influencia de un generador es directamente proporcional (lineal) a su progreso de reparación, mientras que la influencia y el progreso de un gancho tienen una relación exponencial. Ya que le interesa más al asesino vigilar el gancho cuando más cerca esté el superviviente de su muerte y no al principio. Además, la influencia final del gancho será mayor que la de un generador, como se muestra en la siguiente imagen: <br>
@@ -271,17 +273,17 @@ A.Escena:<br>
 A.1. Mover la camara con WASD , hacer zoom con Q y E, y cambiar de modo con Ctrl <br>
 A.2. Esperar a que todos los generadores se reparen para comprobar que la puerta se desbloquea <br>
 A.3. Resetear el juego varias veces para comprobar que los supervivientes se spawnean en lugares distintos <br>
-A.4. Comprobar que el juego termina si todos los supervivientes han sido enganchados
+A.4. Comprobar que el juego termina si todos los supervivientes han sido enganchados <br>
 
 B.Generadores:<br>
 B.1. Esperar a que un superviviente repare el generador y comprobar que está aumentando su influencia linealmente. <br>
 B.2. Esperar a que un generador se termine de reparar y comprobar que ya no influye en el mapa de influencia. <br>
-B.3. Poner varios supervivientes reparando el mismo generador para commprobar que la velocidad de reparacion es mayor. 
+B.3. Poner varios supervivientes reparando el mismo generador para commprobar que la velocidad de reparacion es mayor.  <br>
 
 C.Ganchos:<br>
 C.1. Esperar a que un asesino golpee a un superviviente y comprobar que se traslada a un gancho aleatorio y su influencia aumenta exponencialmente. <br>
 C.2. Esperar a que un gancho complete el progreso y comprobar que ya no influye en el mapa de influencia. <br>
-C.3. Comprobar que la barra de progreso se resetea correctamente cuando el superviviente es rescatado.
+C.3. Comprobar que la barra de progreso se resetea correctamente cuando el superviviente es rescatado. <br>
 
 D.Asesino:<br>
 D.1. Comprobar que el asesino persigue al superviviente cuando este está dentro de su área de visión. <br>
@@ -295,26 +297,24 @@ E.2. Comprobar que los supervivientes van a reparar un generador si no están si
 E.3. Comprobar que un superviviente va a un generador aunque no lo haya visto debido a que le ha informado otro superviviente. <br>
 E.4. Comprobar que los supervivientes van a rescatar a los supervivientes que han sido enganchados si no están siendo perseguidos. <br>
 E.5. Comprobar que los supervivientes están inactivos si están enganchados. <br>
-E.6. Comprobar que los supervivientes huyen del asesino cuando está cerca y tienen línea de visión sobre él.
-E.7. Comprobar que los supervivientes van a la salida una vez desbloqueada
+E.6. Comprobar que los supervivientes huyen del asesino cuando está cerca y tienen línea de visión sobre él. <br>
+E.7. Comprobar que los supervivientes van a la salida una vez desbloqueada <br>
 
 - [Vídeo con la batería de pruebas](https://youtu.be/61pVqBo8jkA)
 
 ____________________________________________________________________________________________________________________________________________________________________
 ### Métricas
 
-_Las métricas se han realizado con todos los scripts activados, con movimiento de jugador con teclado en el ejecutable._
+Las métricas se han realizado con todos los scripts activados, con movimiento de jugador en el ejecutable. <br>
 
-Ordenador de miembro 1 (Procesador 13th Gen Intel Core i5-13600K, 32GB RAM, RX 7800XT)
+Ordenador de miembro 1 (Procesador 13th Gen Intel Core i5-13600K, 32GB RAM, RX 7800XT) <br>
 
-| Tamaño del mapa | Supervivientes | FPS |
-| ------------- | ------------- | ------------- |
+FPS : 54 <br>
 
 
-Ordenador de miembro 2 (AMD Ryzen 7 4800H, 16GB RAM, RTX 2060)
+Ordenador de miembro 2 (AMD Ryzen 7 4800H, 16GB RAM, RTX 2060) <br>
 
-| Tamaño del mapa | Supervivientes | FPS |
-| ------------- | ------------- | ------------- |
+FPS : 52 <br>
 
 ## Producción
 <p align="justify">
@@ -325,32 +325,55 @@ El enlace desde el que por tanto se podrá hacer el seguimiento de la evolución
 <p align="justify">
 Además,dentro de la pestaña de project las distintas tareas tienen asignadas distintas labels para poder comprender con mayor facilidad la tarea concreta a la que hacen referencia.
 </p>
+
+
+### Reparto
+  
+#### Nanxi Qin:
+  
+  - Búsqueda de assets. <br>
+  - Modo, movimiento y zoom de cámara. <br>
+  - Barra de progreso para los generadores y los ganchos. <br>
+  - HUD (estado de los supervivientes y del asesino). <br>
+  - Diseño del nivel. <br>
+  - Gestión del final del juego (desbloqueo de puerta, ganar el asesino o los supervivientes, reseteo de nivel) <br>
+  - Mapa de influencias para los generadores y los ganchos. <br>
+  - Asesino: <br>
+    &emsp; - Gestión de animaciones. <br>
+     &emsp; - Persecución  <br>
+    &emsp; - Abandono de persecucion despues de perder la vista. <br>
+     &emsp;  - Ataque. <br>
+    &emsp; - Encontrar la zona más afectada por el mapa de influencia. <br>
+    &emsp;- Merodeo. <br>
+  Supervivientes: <br>
+ &emsp;  - Recibo de daño ante el ataque del asesino y traslado a unos de los ganchos aleatoriamente quedando paralizado. <br>
+  &emsp; - Morir al ser atacado por segunda vez o por terminar el progreso del gancho. <br>
+
+
+#### Jianuo Wen: 
+  
+  - FPS por pantalla. <br>
+  - Supervivientes: <br>
+&emsp; - Spawn aleatorio inicialmente. <br>
+&emsp; - Reparo de generadores. <br>
+&emsp; - Detección de generadores no encontrados <br>
+&emsp;  - Dirigirse al generador encontrado más próximo. <br>
+&emsp;   - Comunicación con los supervivientes al encontrar generador, ser colgado y reparar todos los generadores. <br>
+&emsp; - Evasión contra el asesino cuando se acerca. <br>
+&emsp;  - Script de evasión que evita también paredes. <br>
+&emsp; - Rescate de supervivientes colgados. <br>
+&emsp;  - Huida a la puerta cuando se reparan todos los generadores. <br>
+&emsp; - Merodeo. <br>
+&emsp;  - Gestión de animaciones. <br>
+&emsp; - Envío de eventos a supervivientes. <br>
+
 <p align="justify">
 En resumen, Nanxi Qin se encargará principalmente del diseño del asesino, incluyendo comportamientos y animaciones, así como del desarrollo del mapa de influencias. Por otro lado, Jianuo Wen se enfocará en los supervivientes, abordando comportamientos, animaciones y la comunicación entre ellos.
 Sin embargo, existen tareas en las que se colabora mutuamente para garantizar una interacción fluida entre supervivientes y asesino. Además, debido a la variabilidad en la dificultad de las tareas, la distribución de responsabilidades entre ambos también difiere.
 </p>
 
-### Reparto
-<p align="justify">
-Nanxi Qin:
-</p>
-<p align="justify">
-Jianuo Wen:
-Supervivientes:
-  - Reparo de generadores
-  - Detección de generadores no encontrados
-  - Dirigirse al generador encontrado más próximo
-  - Spawn aleatorio
-  - Comunicación con los supervivientes al encontrar generador, ser colgado y reparar todos los generadores
-  - Evasión contra el asesino cuando se acerca
-  - Script de evasión que evita también paredes
-  - Rescate de supervivientes colgados
-  - Huida cuando se reparan todos los generadores
-  - Merodeo
-  - Gestión de animaciones
-  - Envío de eventos a supervivientes
-</p>
 ## Licencia
+
 <p align="justify">
 Nanxi Qin y Jianuo Wen, autores de la documentación, código y recursos de este trabajo, concedemos permiso permanente a los profesores de la Facultad de Informática de la Universidad Complutense de Madrid para utilizar nuestro material, con sus comentarios y evaluaciones, con fines educativos o de investigación; ya sea para obtener datos agregados de forma anónima como para utilizarlo total o parcialmente reconociendo expresamente nuestra autoría.
 </p>
