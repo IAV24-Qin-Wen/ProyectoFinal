@@ -1,158 +1,147 @@
-# ProyectoFinal : [Alive by night-time]
+# Final proyect : [Alive by night-time]
 
-## Autores
+## Authors
 - Nanxi Qin ([NanxiQin](https://github.com/NanxiQin))
 - Jianuo Wen Hu ([Jjianuo](https://github.com/Jjianuo))
 
-## Propuesta
+## Proposal
 <p align="justify">
-Este es el proyecto final de la asignatura de Inteligencia Artificial para Videojuegos del Grado en Desarrollo de Videojuegos de la UCM en 2024.
+This is the final project for the Artificial Intelligence for Video Games course in the Game Development degree at UCM in 2024.
 </p>
 
 
 <p align="justify">
-Este proyecto consiste en una competición entre dos bandos, los supervivientes y el asesino. 
-  Los supervivientes deben intentar escapar de la mansión.
-  El asesino debe intentar matar a los supervivientes antes de que consigan escapar 
+The project is a competition between two sides: the survivors and the killer. 
+  The survivors must try to escape from the mansion, while the killer must try to kill the survivors before they escape.
+  
+The game includes the following behaviors:
 
-El juego cuenta con los siguientes comportamientos:
 </p>
 <p align="justify">  
-  
-### Resumen:
-Las cosas nuevas que se van a implementear van a ser los mapas de influencia y la comunicación entre IAs.
-También se usarán cosas aprendidas y usadas en las prácticas anteriores como el merodeo, los sentidos, la malla de navegación...
 
-### A. Escena
-- Es un mundo virtual 3D en donde están distribuidos una cantidad N de **generadores** (máquinas con luz verde) y una cantidad M de **ganchos** (ganchos con luz roja) repartidos por el mapa.
-- Una vez reparados todos los generadores, la puerta escapatoria puede ser desbloqueadas.
-- Inicialmente, los supervivientes se spawnean de forma aleatoria en un punto del mapa, mientras que el asesino siempre empieza desde un mismo lugar.
-- La **cámara se mueve** con las teclas WASD y se hace zoom con Q y E.
-- Se puede alternar el modo de cámara entre perspectiva y ortogonal vista cenital con la tecla Ctrl.
-- Se puede observar visualmente el mapa de influencias afectado por los generadores, en color verde, y por los ganchos, en color rojo.
-- El juego termina cuando escapan 2 supervivientes o cuando ya quedan menos de 2 superviviedntes vivos.
+### Summary:
+New implementations include influence maps and AI communication. Elements learned and used in previous exercises, such as patrolling, senses, and the navigation mesh, will also be utilized.
 
-### B. Generadores
-- Tiene una barra de progreso, para indicar el progreso de reparación.
-- Cuanto mayor sea su progreso, más influirá en el mapa de influencias.
-- Cuando su progreso se complete, dejará de influir en el mapa.
-  
-### C. Ganchos
-- Tiene una barra de progreso para indicar el progreso de muerte del superviviente enganchado. Solo se muestra esta barra cuando hay uno enganchado.
-- Cuanto mayor sea su progreso, más influirá en el mapa de influencias.
-- Cuando su progreso se complete o cuando no haya supervivientes, dejará de influir en el mapa.
-  
-### D. Asesino
-- El asesino tiene un **mapa de influencia** que va variando según cambia el estado del juego (número y disposición de generadores, estado de los ganchos, ...), de tal manera que cada vez que detecte un cambio en el lugar más influido
-del mapa, irá directamente a ese sitio y merodeará desde allí.
-- El comportamiento del asesino está controlado por un **árbol de comportamiento**.
-- El asesino **merodea** por el mapa en el resto del tiempo.
-- Cuando descubre a los supervivientes, **persigue** ,aumentando su velocidad, al más cercano hasta que esté en su alcance e intenta atacar.
-- Si pierde la vista durante 2 segundos, deja de perseguir al superviviente.
-- Puede hacer daño a todos los supervivientes dentro del área de ataque.
-- Cuando intenta atacar, da igual si ha podido golpear al superviviente o no, tiene un tiempo de recuperación para volver a moverse.
-- Se muestra visualmente su área de visión (pirámide) y área de ataque (esfera).
+### A. Scene
+- It is a 3D virtual world with a number of **generators** (machines with green light) and **hooks** (hooks with red light) scattered across the map.
+- Once all generators are repaired, the escape door can be unlocked.
+- Initially, survivors spawn randomly on the map, while the killer always starts from the same location.
+- The **camera can be moved** using the WASD keys and zoomed with Q and E.
+- The camera mode can be toggled between perspective and orthogonal top-down view with the Ctrl key.
+- The influence map can be visually observed, with areas influenced by generators in green and by hooks in red.
+- The game ends when 2 survivors escape or fewer than 2 survivors remain alive.
 
-### E. Supervivientes
-- Los supervivientes pueden **comunicarse entre ellos** para enviar información relevante (han descubierto un nuevo generador, ha sido atrapado y necesita ayuda...).
-- Los supervivientes deben salir de la mansión, para esto deberán **reparar** una cantidad N de generadores repartidos por el mapa. Es controlado por un **árbol de comportamiento** complejo.
-- Los generadores tardan un tiempo T en ser reparados, los supervivientes no pueden moverse mientras estan reparando un generador.
-- Cuando la puerta se desbloquea, los supervivientes escapan por alli.
-- Cuando un superviviente ha sido golpeado, se teletransporta a uno de los ganchos disponibles.
-- Los supervivientes atrapados en un gancho no pueden moverse hasta que les rescata otro superviviente.
-- Los supervivientes mueren tras estar un tiempo X enganchados, o tras ser enganchados Y veces.
+### B. Generators
+- They have a progress bar indicating the repair progress.
+- The more repaired a generator is, the more it influences the influence map.
+- Once fully repaired, it stops influencing the map.
+
+### C. Hooks
+- They have a progress bar indicating the progress of the hooked survivor's death, visible only when a survivor is hooked.
+- The more progressed, the more it influences the influence map.
+- Once the progress is complete or there are no hooked survivors, it stops influencing the map.
+
+### D. Killer
+- The killer has an influence map that changes as the game progresses (number and location of generators, state of hooks, etc.). When a change is detected in the most influenced area, the killer moves directly there and patrols.
+- The killer's behavior is controlled by a behavior tree.
+- The killer patrols the map otherwise.
+- Upon discovering survivors, the killer chases the nearest one, increasing speed, until within attack range, and attempts to attack.
+- If the survivor is lost from sight for 2 seconds, the killer stops chasing.
+- The killer can damage all survivors within the attack area.
+- Whether or not the attack hits, there is a cooldown period before the killer can move again.
+- The killer's vision cone and attack area are visually represented.
+
+### E. Survivors
+- Survivors can communicate to share relevant information (discovered a new generator, needs help, etc.).
+- Survivors must escape the mansion by repairing a number of generators scattered across the map, controlled by a complex behavior tree.
+- Generators take time T to repair, and survivors cannot move while repairing.
+- Survivors escape through the door once it's unlocked.
+- When hit, survivors are teleported to one of the available hooks.
+- Hooked survivors cannot move until rescued by another survivor.
+- Survivors die after being hooked for time X or after being hooked Y times.
 
 </p>
 
-## Punto de partida
+## Starting Point
 
-- Se parte de un proyecto base de **John Lemon's Haunted Jaunt: 3D Beginner**.
+- The project is based on John Lemon's Haunted Jaunt: 3D Beginner for aesthetics (models, sounds, animations), with all scripts implemented by the students. Other free assets found online were also used.
 
-El proyecto sólo se ha cogido para la parte estética del juego (modelos, sonidos, animaciones), los scripts han sido todos implementados por los estudiantes.
-Se han usado también otros assets gratis encontrados por internet.
+- The Behavior Designer tool and some pre-existing scripts were used for the implementation of the behavior tree. The most important scripts are:
 
-- Para la implementación del árbol de comportamiento, se ha usado la herramienta **Behavior Designer** y parte de los scripts ya creados por este. Los más importantes son:
-
-
-| Clase  | Descripción | 
+| Class | Description | 
 | ------------- | ------------- |
-| **Seek** | Persigue el objetivo especificado utilizando el NavMesh de Unity calculando el camino con A*. |
-| **Pursue** | Igual que Seek más el uso de predicción según la distancia al objetivo y su propia velocidad. |
-| **Wander** | Merodea utilizando el NavMesh de Unity con un movimiento continuo y aleatorio. Cada cierto tiempo intenta establecer un nuevo destino dentro de los parámetros configurados para la distancia y el ángulo de deambulación máximos.|
+| **Seek** | Pursues a specified target using Unity's NavMesh with pathfinding via A*. |
+| **Pursue** | Similar to Seek with added prediction based on the target's distance and speed. |
+| **Wander** | Roams around using Unity's NavMesh with random movement within configured distance and angle parameters.|
 <br>
 
-- Para el mapa de influencias, se parte de unos scripts de un proyecto **influence map (threaded).unitypackage** del foro de Unity .
-Este mapa de influencias trata de dividir el mundo en N*M casillas en 2D. Cada casilla tendrá un valor que será la suma de todos los valores de los propagadores que influyen a dicho mapa.
-Las clases principalmente son:
+- For the influence map, scripts from an influence map (threaded).unitypackage project from the Unity forum were used. This influence map divides the world into an N*M 2D grid. Each cell has a value representing the sum of influences from various sources.
 
 <br>
 
-| Clase  | Descripción | Parámetros principales | Métodos principales |
+| Class  | Description | Main parameters | Main methods |
 | ------------- | ------------- | ------------- | ------------- |
-| **MapServer** | Es la clase abstracta para el mapa de influencia, utilizado para simular la propagación de influencia en un entorno determinado. | **- _influenceMap:** Objeto que representa el mapa de influencia.<br> | **- GetGridPosition(Vector3 pos):** Convierte una posición del mundo en coordenadas de cuadrícula dentro del mapa de influencia.<br> **- GetInfluence(Vector2I position):** Obtiene la influencia en una posición dada del mapa.<br> **- GetGridLength():** Obtiene la longitud de la cuadrícula del mapa.<br> **- SetInfluence(Vector2I pos, float value):** Establece la influencia en una posición específica del mapa.<br> |
-| **InfluenceMapControl** | Controla un mapa de influencia, incluyendo su creación, actualización y gestión de objetos propagadores y obstáculos. | **- _display:** Componente de visualización de cuadrícula.<br> **- _bottomLeft:** Transformación de la esquina inferior izquierda del mapa.<br> **- _upperRight:** Transformación de la esquina superior derecha del mapa.<br> **- _gridSize:** Tamaño de la cuadrícula del mapa.<br> **- _decay:** Factor de decaimiento de la influencia.<br> **- _momentum:** Factor de impulso de la influencia.<br> | **- CreateMap():** Crea el mapa de influencia y configura el componente de visualización.<br> **- RegisterPropagator(IPropagator p):** Registra un propagador de influencia en el mapa.<br> **- RegisterObstacle(InfluenceObstacle o):** Registra un obstáculo en el mapa de influencia.<br> **- GetGridPosition(Vector3 pos):** Convierte una posición del mundo en coordenadas de cuadrícula dentro del mapa de influencia.<br> **- SetInfluence(Vector2I pos, float value):** Establece la influencia en una posición específica del mapa.<br> |
-| **GridDisplay** | Se encarga de crear la malla que mostrará el mapa de influencia en escena visualmente.| **- _material:** material utilizado para la visualización de la malla.<br> **- _neutralColor:** color para los valores neutrales.<br> **- _positiveColor:** color para los valores positivos bajos.<br> **- _negativeColor:** color para los valores negativos bajos. | **- SetGridData(IGridData m):** establece los datos de la cuadrícula para la visualización.<br> **- CreateMesh(Vector3 bottomLeftPos, float gridSize):** crea la malla para visualizar el mapa de influencia.<br> **- Update():** actualiza los colores de la malla en función de los valores de influencia. |
+| **MapServer** | Abstract class for the influence map, simulating influence propagation. | **- _influenceMap:** Object representing the influence map.<br> | **- GetGridPosition(Vector3 pos):** Converts a world position to grid coordinates within the influence map.<br> **- GetInfluence(Vector2I position):** Gets the influence at a given map position.<br> **- GetGridLength():** Gets the map's grid length.<br> **- SetInfluence(Vector2I pos, float value):** ets the influence at a specific map position.<br> |
+| **InfluenceMapControl** | Manages an influence map, including creation, updates, and management of propagators and obstacles. | **- _display:** Grid display component.<br> **- _bottomLeft:** Bottom-left map corner transformation.<br> **- _upperRight:** op-right map corner transformation.<br> **- _gridSize:** Grid size of the map.<br> **- _decay:** Influence decay factor.<br> **- _momentum:** Influence momentum factor.<br> | **- CreateMap():** Creates the influence map and sets up the display component.<br> **- RegisterPropagator(IPropagator p):** Registers an influence propagator on the map.<br> **- RegisterObstacle(InfluenceObstacle o):** Registers an obstacle on the influence map.<br> **- GetGridPosition(Vector3 pos):** Converts a world position to grid coordinates within the influence map.<br> **- SetInfluence(Vector2I pos, float value):** Sets the influence at a specific map position.<br> |
+| **GridDisplay** | Creates the mesh that visually represents the influence map in the scene.| **- _material:** Material used for mesh visualization.<br> **- _neutralColor:** Color for neutral values.<br> **- _positiveColor:** Color for low positive values.<br> **- _negativeColor:** Color for low negative values. | **- SetGridData(IGridData m):** Sets the grid data for display.<br> **- CreateMesh(Vector3 bottomLeftPos, float gridSize):** Creates the mesh to visualize the influence map.<br> **- Update():** Updates mesh colors based on influence values. |
 
-## Diseño de la solución
+## Solution Design
 
-Los índices mostrados a continuación son relativos al apartado del enunciado al que hacen referencia.
-
-### A. Escena:
-#### 1. Diseño de nivel
+### A. Scene:
+#### 1. Level design
 ![Nivel](/IAV24_ProyectoFinal/nivel.png "Nivel")
 
-Como se muestra en la imagen, habra 1 asesino, 4 supervivientes, 5 generadores, 4 ganchos y 1 puerta.
+As shown on the image, there will be 1 killer, 4 survivors, 5 generators, 4 hooks and 1 door.
 
-### D. Asesino:
+### D. Killer:
 
-#### 1. Diagrama de los estados:
+#### 1. State diagram:
 
 ```mermaid
 graph TD;
     subgraph KillerAI
-        H[Merodeando]
-        I[Persiguiendo]
-        J[Atacando]
-        K[Buscando punto más influyente]
+        H[Patrolling]
+        I[Chasing]
+        J[Attacking]
+        K[Searching most influenced point]
     
-        H -->|Superviviente detectado| I
-        H -->|El punto más influyente ha cambiado| K
-        K -->|Llegado al punto| H
-        I -->|Superviviente suficientemente cerca| J
-        J -->|Superviviente escapa / Superviviente esquiva el ataque| H
+        H -->|Survivor detected| I
+        H -->|Most influenced point changed| K
+        K -->|Arrived at point| H
+        I -->|Survivor close enough| J
+        J -->|Survivor escaped / Attack missed| H
     end
 ```
-#### 2. Árbol de comportamiento
+#### 2. Behavior tree
 
 ![AC](/IAV24_ProyectoFinal/arbol_asesino.png "AC")
 
-#### 3. Mapa de influencia
+#### 3. Influence map
 
-##### a. Versiones y pruebas
-El proyecto original en el que se ha basado para crear el mapa de influencias movía a los personajes hacia una dirección resultante de sumar los valores de influencia de las 8 direcciones posibles. Sin embargo, este enfoque generaba resultados insatisfactorios al intentar aplicarlo al asesino. A pesar de ajustar parámetros y añadir condiciones, el personaje se desplazaba de forma poco inteligente y predecible. Esto provocaba que se moviera repetidamente en la misma posición o entre puntos cercanos, lo cual no resultaba visualmente atractivo ni transmitía la sensación de merodear de manera efectiva. <br>
+##### a. Versions and testing
+The original project for the influence map moved characters toward a direction based on the sum of influence values from 8 possible directions. However, this approach yielded unsatisfactory results for the killer. Despite parameter adjustments and added conditions, the character moved predictably and unintelligently, often staying in the same spot or moving between close points, which did not effectively convey patrolling behavior. <br>
 
-Después de diversas pruebas, se ha llegado a la versión actual: el asesino cuenta con dos mapas de influencia que se combinan para determinar el punto más relevante. Uno evalúa la influencia de los generadores, mientras que el otro se enfoca en los ganchos. En cada frame, se identifica el punto más influido del mapa resultante de ambos, que puede ser la posición de un generador o un gancho. El valor del punto resultante se calcula como X + Y , siendo X la influencia de ese punto en el mapa de generadores e Y en el mapa de ganchos. Así, el asesino se dirige hacia el generador o gancho más afectado en todo el mapa, y desde esa posición, vuelve a merodear. Si en un frame el punto más influido sigue siendo el mismo que en el anterior, el asesino continuará en su ruta original,ya que si en un mismo punto esta continuamente aumentando su valor, no tiene sentido que el asesino esté todo el rato en ese sitio. <br>
+After various tests, the current version has the killer using two influence maps that combine to determine the most relevant point. One map assesses generator influence, while the other focuses on hooks. Each frame, the most influenced point from the combined map is identified, representing either a generator or hook position. The point's value is calculated as X + Y, where X is the generator influence and Y is the hook influence. The killer heads to the most affected generator or hook and patrols from there. If the same point remains most influenced over consecutive frames, the killer continues on its original route, avoiding staying in one spot. <br>
 
-##### b. Relación de influencia
-Para ser más lógico, la influencia de un generador es directamente proporcional (lineal) a su progreso de reparación, mientras que la influencia y el progreso de un gancho tienen una relación exponencial. Ya que le interesa más al asesino vigilar el gancho cuando más cerca esté el superviviente de su muerte y no al principio. Además, la influencia final del gancho será mayor que la de un generador, como se muestra en la siguiente imagen: <br>
+##### b. Influence Relationship
+To be more logical, generator influence is linearly proportional to repair progress, while hook influence and progress have an exponential relationship. The killer is more interested in monitoring the hook as a survivor approaches death. Additionally, the final hook influence is greater than that of a generator, as shown in the following image: <br>
 
 ![grafica](/IAV24_ProyectoFinal/grafica.png "grafica")
 
-- ¿Por qué calcular el punto más influido entre los generadores y los ganchos en lugar de un punto general del mapa? <br>
-Aunque puede haber zonas con mayor influencia que las posiciones de los generadores y los ganchos, estos dos elementos son los principales afectados por cambios de influencia: la reparación de un generador o la cercanía de un superviviente al gancho a punto de morir. Además, en el juego original de Dead By Daylight, el asesino ya conoce desde el principio las ubicaciones exactas de los generadores y los ganchos. Por lo tanto, tiene sentido dirigirse específicamente hacia estos puntos en lugar de deambular aleatoriamente por el mapa sin un objetivo claro.
+- Why calculate the most influenced point among generators and hooks instead of a general map point? <br> <br>
+Although other areas might have higher influence than generator and hook locations, these two elements are the primary focus for changes in influence: generator repairs or a survivor nearing death at a hook. Moreover, in the original game Dead By Daylight, the killer already knows the exact locations of generators and hooks from the start. Therefore, it makes sense for the killer to move toward these points and patrol until the next significant event occurs.
 
-- ¿Por qué no merodear siempre cerca del punto más influido? <br> <br>
-Como en otros juegos competitivos, permanecer constantemente en un mismo lugar en espera de un superviviente no es efectivo. Si el asesino se queda en un lugar demasiado tiempo, los supervivientes lo perciben y evitan acercarse a esa zona. Es preferible, después de verificar el punto más influido, explorar otras áreas del mapa para evitar que los supervivientes predigan sus movimientos y mantener la incertidumbre sobre su ubicación.
+- Why calculate the most influenced point among generators and hooks instead of a general map point? <br> <br>
+Although other areas might have higher influence than generator and hook locations, these two elements are the primary focus for changes in influence: generator repairs or a survivor nearing death at a hook. Moreover, in the original game "Dead By Daylight", the killer already knows the exact locations of generators and hooks from the start. Therefore, it makes sense for the killer to move toward these points and patrol until the next significant event occurs.
 
-Para mejorar la visualización del estado del mapa, se ha asignado colores específicos a las áreas influenciadas por los generadores y los ganchos. Las áreas influenciadas por los generadores se muestran en verde, mientras que las influenciadas por los ganchos se muestran en rojo. <br>
-
+To aid in the map's visuallizaction, colors hace been assigned to hooks and generators. areas influenced bu generators are shown in green, while areas influenced by hooks are shown in red. <br>
 
 ![AC](/IAV24_ProyectoFinal/gen_influencia.png "AC")
 ![AC](/IAV24_ProyectoFinal/hook_influencia.png "AC")
 
-### E. Supervivientes:
-El codigo es una version muy adaptada del seek de Behavior Designer
-Pseudocódigo Evasión:
+### E. Survivors:
+The following code is a very modified version of the "Seek" algorithm used in Behavior Bricks
+Evade pseudocode:
 ```
 # algorithm of Evasion
 class EvadeWithWalls:
@@ -216,8 +205,8 @@ function Target() -> Vector3
 
     return position + (position - auxPosition).normalized * lookAheadDistance;
 ```
-El codigo es una version modificada de SendEvent de Behavior Designer
-Pseudocódigo Evasión:
+The following code is a modified version of the "SendEvent" script used in Behavior BricksThe following code is a very modified version of the "Seek" algorithm used in Behavior Bricks
+SendEvent pseudocode:
 ```
 # algorithm of SendEventToSurvivors
 class SendEventToSurvivors:
@@ -234,157 +223,152 @@ fuction OnUpdate() -> Status
     else
         foreach(survivor) SendEvent(EventName)
 ```
-#### 1. Diagrama de los estados:
+#### 1. State diagram:
 
 ```mermaid
 graph TD;
     subgraph SurvivorAI
-        A[Buscando generador]
-        B[Reparando generador]
-        C[Huyendo]
-        D[Rescatando superviviente]
-        A -->|Generador encontrado| B
-        B -->|Asesino cerca| C
-        C -->|No hay asesino cerca| B
-        D -->|Asesino cerca| C
-        A -->|Superviviente enganchado| D
-        B -->|Superviviente enganchado| D
-        D -->|Superviviente rescatado / se acerca el asesino| C
-        B -->|Generador reparado| A
-        A -->|Asesino cerca| C
+        A[Searching for generator]
+        B[Repairing generator]
+        C[Fleeing]
+        D[Rescueing survivor]
+        A -->|Generator found| B
+        B -->|Killer nearby| C
+        C -->|Killer not nearby| B
+        D -->|Killer nearby| C
+        A -->|Survivor hooked| D
+        B -->|Survivor hooked| D
+        D -->|Survivor unhooked / killer approaching| C
+        B -->|Generator repaired| A
+        A -->|Killer nearby| C
     end
 ```
 
-#### 2. Árbol de comportamiento
+#### 2. Behavior tree
 ![AC](/IAV24_ProyectoFinal/SurvivorDiagram.png "AC")
 
-#### 3. Cooperación
-- Los supervivientes pueden compartir información sobre la ubicación del asesino, los generadores encontrados y su progreso y su localización en caso de ser atrapado.
-- Debido a la compartición de información y a la toma de decisiones que tiene en cuenta a los compañeros de equipo, en ocasiones se conseguirá que aparezca una cooperación emergente entre los supervivientes. La información compartida hace que los supervivientes aparentan corrdinarse, aunque si se perdiese uno funcionaría igual.
-- Para sincronizarse se usan además envío y esperas de señales o eventos.
-- La información sobre los generadores (posición, progreso, completado...) se guardan en una lista común para todos los supervivientes.
-- Cuando se encuentra un generador, cada superviviente decide si ir o no dependiendo de su distancia o si ya están reparando otro generador.
-- Cuando un superviviente es colgado de un gancho, se envía un evento a todos los otros supervivientes para informarles de ello.
-- Para facilitar la comunicación entre los supervivientes se usa un manager que instancia y guarda las referencias a los supervivientes.
+#### 3. Cooperation
+- Survivors can share information about the killer's location, found generators and their progress and their location if they get hooked.
+- Due to the sharing of information and decision-making that considers team members, emergent cooperation among the survivors may sometimes appear. The shared information allows the survivors to seem coordinated, even though the game would function the same if one were lost.
+- To synchronize, signals or event waits are also used.
+- Information about the generators (position, progress, completion, etc.) is stored in a common list accessible to all survivors.
+- When a generator is found, each survivor decides whether to go to it based on their distance or if they are already repairing another generator.
+- When a survivor is hooked, an event is sent to all other survivors to inform them.
+- A manager is used to facilitate communication between survivors, instantiating and storing references to the survivors.
 
-## Pruebas y métricas
-### Pruebas
-A.Escena:<br>
-A.1. Mover la camara con WASD , hacer zoom con Q y E, y cambiar de modo con Ctrl <br>
-A.2. Esperar a que todos los generadores se reparen para comprobar que la puerta se desbloquea <br>
-A.3. Resetear el juego varias veces para comprobar que los supervivientes se spawnean en lugares distintos <br>
-A.4. Comprobar que el juego termina si todos los supervivientes han sido enganchados <br>
+## Testing and metrics
+### Testing
+A. Scene: 
 
-B.Generadores:<br>
-B.1. Esperar a que un superviviente repare el generador y comprobar que está aumentando su influencia linealmente. <br>
-B.2. Esperar a que un generador se termine de reparar y comprobar que ya no influye en el mapa de influencia. <br>
-B.3. Poner varios supervivientes reparando el mismo generador para commprobar que la velocidad de reparacion es mayor.  <br>
+A.1. Move the camera with WASD, zoom with Q and E, and switch modes with Ctrl. <br>
+A.2. Wait for all generators to be repaired to check that the door unlocks. <br>
+A.3. Reset the game multiple times to ensure that survivors spawn in different locations. <br>
+A.4. Verify that the game ends if all survivors are hooked. <br>
 
-C.Ganchos:<br>
-C.1. Esperar a que un asesino golpee a un superviviente y comprobar que se traslada a un gancho aleatorio y su influencia aumenta exponencialmente. <br>
-C.2. Esperar a que un gancho complete el progreso y comprobar que ya no influye en el mapa de influencia. <br>
-C.3. Comprobar que la barra de progreso se resetea correctamente cuando el superviviente es rescatado. <br>
+B. Generators:
 
-D.Asesino:<br>
-D.1. Comprobar que el asesino persigue al superviviente cuando este está dentro de su área de visión. <br>
-D.2. Comprobar que cuando el asesino pierde de vista al superviviente que estaba persiguiendo, deja de perseguir. <br>
-D.3. Comprobar que cuando el asesino esté lo suficientemente cerca del superviviente, le intenta atacar. <br>
-D.4. Comprobar que el asesino va al nuevo lugar más influido del mapa mientras esté merodeando. <br>
+B.1. Wait for a survivor to repair the generator and check that its influence increases linearly. <br>
+B.2. Wait for a generator to be fully repaired and ensure that it no longer influences the influence map. <br>
+B.3. Place multiple survivors repairing the same generator to check that the repair speed is higher. <br> <br>
 
-E.Supervivientes:<br>
-E.1. Comprobar que los supervivientes merodean alrededor del mapa en busca de generadores. <br>
-E.2. Comprobar que los supervivientes van a reparar un generador si no están siendo perseguidos. <br>
-E.3. Comprobar que un superviviente va a un generador aunque no lo haya visto debido a que le ha informado otro superviviente. <br>
-E.4. Comprobar que los supervivientes van a rescatar a los supervivientes que han sido enganchados si no están siendo perseguidos. <br>
-E.5. Comprobar que los supervivientes están inactivos si están enganchados. <br>
-E.6. Comprobar que los supervivientes huyen del asesino cuando está cerca y tienen línea de visión sobre él. <br>
-E.7. Comprobar que los supervivientes van a la salida una vez desbloqueada <br>
+C. Hooks:
 
-- [Vídeo con la batería de pruebas](https://youtu.be/61pVqBo8jkA)
+C.1. Wait for the killer to hit a survivor and verify that they are moved to a random hook and their influence increases exponentially. <br>
+C.2. Wait for a hook to complete its progress and ensure that it no longer influences the influence map. <br>
+C.3. Check that the progress bar resets correctly when a survivor is rescued. <br>
+
+D. Killer:
+
+D.1. Verify that the killer chases a survivor when they are within its line of sight. <br>
+D.2. Confirm that the killer stops chasing if the survivor is lost from sight. <br>
+D.3. Check that the killer attempts to attack when close enough to the survivor. <br>
+D.3. Ensure that the killer moves to the new most influenced point on the map while patrolling. <br>
+
+E. Survivors:
+
+E.1. Check that the survivors wander around the map looking for generators. <br>
+E.2. Verify that survivors go to repair a generator if they are not being chased. <br>
+E.3. Confirm that a survivor goes to a generator even if they haven't seen it themselves, based on information from another survivor. <br>
+E.4. Ensure that survivors go to rescue hooked survivors if they are not being chased. <br>
+E.5. Check that survivors are inactive when hooked. <br>
+E.6. Verify that survivors flee from the killer when nearby and in line of sight. <br>
+E.7. Confirm that survivors head to the exit once it is unlocked. <br>
+
+- [Video with the test suite](https://youtu.be/61pVqBo8jkA)
 
 ____________________________________________________________________________________________________________________________________________________________________
-### Métricas
+### Metrics
 
-Las métricas se han realizado con todos los scripts activados, con movimiento de jugador en el ejecutable. <br>
+The metrics were measured with all scripts active, including player movement in the executable. <br>
 
-Ordenador de miembro 1 (Procesador 13th Gen Intel Core i5-13600K, 32GB RAM, RX 7800XT) <br>
+Member 1's Computer: (13th Gen Intel Core i5-13600K, 32GB RAM, RX 7800XT) <br>
+FPS: 54 <br>
 
-FPS : 54 <br>
+Member 2's Computer: (AMD Ryzen 7 4800H, 16GB RAM, RTX 2060) <br>
+FPS: 52 <br>
 
-
-Ordenador de miembro 2 (AMD Ryzen 7 4800H, 16GB RAM, RTX 2060) <br>
-
-FPS : 52 <br>
-
-## Producción
+## Production
 <p align="justify">
-Para el correcto desarrollo de la práctica el reparto de tareas y el seguimiento de las mismas se realizará utilizando como herramienta las issues de github desde la pestaña de Projects.
-El enlace desde el que por tanto se podrá hacer el seguimiento de la evolución del proyecto así como la organización del mismo es el siguiente: 
+To ensure proper development, task distribution and tracking will be managed using GitHub issues from the Projects tab. The progress and organization of the project can be followed at the following link:
 </p>
 - [https://github.com/orgs/IAV24-Qin-Wen/projects/1](https://github.com/orgs/IAV24-Qin-Wen/projects/1)
 <p align="justify">
-Además,dentro de la pestaña de project las distintas tareas tienen asignadas distintas labels para poder comprender con mayor facilidad la tarea concreta a la que hacen referencia.
+Additionally, within the Projects tab, various tasks are assigned different labels to clearly identify the specific task they refer to.
 </p>
 
 
-### Reparto
-  
+### Task Distribution
 #### Nanxi Qin:
-  
-  - Búsqueda de assets. <br>
-  - Modo, movimiento y zoom de cámara. <br>
-  - Barra de progreso para los generadores y los ganchos. <br>
-  - HUD (estado de los supervivientes y del asesino). <br>
-  - Diseño del nivel. <br>
-  - Gestión del final del juego (desbloqueo de puerta, ganar el asesino o los supervivientes, reseteo de nivel) <br>
-  - Mapa de influencias para los generadores y los ganchos. <br>
-  - Asesino: <br>
-    &emsp; - Gestión de animaciones. <br>
-     &emsp; - Persecución  <br>
-    &emsp; - Abandono de persecucion despues de perder la vista. <br>
-     &emsp;  - Ataque. <br>
-    &emsp; - Encontrar la zona más afectada por el mapa de influencia. <br>
-    &emsp;- Merodeo. <br>
-  - Supervivientes: <br>
- &emsp;  - Recibo de daño ante el ataque del asesino y traslado a unos de los ganchos aleatoriamente quedando paralizado. <br>
-  &emsp; - Morir al ser atacado por segunda vez o por terminar el progreso del gancho. <br>
+- Asset search. <br>
+- Camera mode, movement, and zoom. <br>
+- Progress bars for generators and hooks. <br>
+- HUD (status of survivors and the killer). <br>
+- Level design. <br>
+- Endgame management (door unlocking, winning by killer or survivors, level reset). <br>
+- Influence map for generators and hooks. <br>
+- Killer: <br>
+    &emsp; - Animation management. <br>
+    &emsp; - Chasing. <br>
+    &emsp; - Abandonment of chase after losing sight. <br>
+    &emsp; - Attack. <br>
+    &emsp; - Finding the most affected area on the influence map. <br>
+    &emsp; - Patrolling. <br>
+- Survivors: <br>
+    &emsp; - Taking damage when attacked by the killer and being randomly relocated to a hook and immobilized. <br>
+    &emsp; - Dying after being attacked a second time or after hook progress completion. <br>
+#### Jianuo Wen:
+- On-screen FPS display. <br>
+- Survivors: <br>
+&emsp; - Random spawning for survivors. <br>
+&emsp; - Generator repair. <br>
+&emsp; - Detection of unseen generators. <br>
+&emsp; - Moving to the nearest found generator. <br>
+&emsp; - Communication with survivors upon finding a generator, being hooked, and repairing all generators. <br>
+&emsp; - Evasion from the killer when nearby. <br>
+&emsp; - Evasion script that also avoids walls. <br>
+&emsp; - Rescue of hooked survivors. <br>
+&emsp; - Fleeing to the door when all generators are repaired. <br>
+&emsp; - Wandering. <br>
+&emsp; - Animation management. <br>
+&emsp; - Sending events to survivors. <br>
 
-
-#### Jianuo Wen: 
-  
-  - FPS por pantalla. <br>
-  - Supervivientes: <br>
-&emsp; - Spawn aleatorio inicialmente. <br>
-&emsp; - Reparo de generadores. <br>
-&emsp; - Detección de generadores no encontrados <br>
-&emsp;  - Dirigirse al generador encontrado más próximo. <br>
-&emsp;   - Comunicación con los supervivientes al encontrar generador, ser colgado y reparar todos los generadores. <br>
-&emsp; - Evasión contra el asesino cuando se acerca. <br>
-&emsp;  - Script de evasión que evita también paredes. <br>
-&emsp; - Rescate de supervivientes colgados. <br>
-&emsp;  - Huida a la puerta cuando se reparan todos los generadores. <br>
-&emsp; - Merodeo. <br>
-&emsp;  - Gestión de animaciones. <br>
-&emsp; - Envío de eventos a supervivientes. <br>
-
-<p align="justify">
-En resumen, Nanxi Qin se encargará principalmente del diseño del asesino, incluyendo comportamientos y animaciones, así como del desarrollo del mapa de influencias. Por otro lado, Jianuo Wen se enfocará en los supervivientes, abordando comportamientos, animaciones y la comunicación entre ellos.
-Sin embargo, existen tareas en las que se colabora mutuamente para garantizar una interacción fluida entre supervivientes y asesino. Además, debido a la variabilidad en la dificultad de las tareas, la distribución de responsabilidades entre ambos también difiere.
+In summary, Nanxi Qin will primarily handle the design of the killer, including behaviors and animations, and the development of the influence map. Jianuo Wen will focus on the survivors, addressing behaviors, animations, and communication among them. However, there will be mutual collaboration on tasks to ensure smooth interaction between survivors and the killer. Additionally, task difficulty variability will lead to different responsibilities for each member.
 
 </p>
 
-## Licencia
+## License
 
 <p align="justify">
-Nanxi Qin y Jianuo Wen, autores de la documentación, código y recursos de este trabajo, concedemos permiso permanente a los profesores de la Facultad de Informática de la Universidad Complutense de Madrid para utilizar nuestro material, con sus comentarios y evaluaciones, con fines educativos o de investigación; ya sea para obtener datos agregados de forma anónima como para utilizarlo total o parcialmente reconociendo expresamente nuestra autoría.
+License
+Nanxi Qin and Jianuo Wen, authors of the documentation, code, and resources of this work, grant permanent permission to the professors of the Faculty of Informatics at the Complutense University of Madrid to use our material, with their comments and evaluations, for educational or research purposes; either to obtain aggregated anonymous data or to use it in whole or in part while expressly recognizing our authorship.
 </p>
 <p align="justify">
-Una vez superada con éxito la asignatura se prevee publicar todo en abierto (la documentación con licencia Creative Commons Attribution 4.0 International (CC BY 4.0) y el código con licencia GNU Lesser General Public License 3.0).
+Upon successful completion of the course, we plan to publish everything openly (documentation under the Creative Commons Attribution 4.0 International (CC BY 4.0) license and code under the GNU Lesser General Public License 3.0).
 </p>
 
-## Referencias
+## References
 
-Los recursos de terceros utilizados son de uso público.
+Third-party resources used are for public use.
 
 - *AI for Games*, Ian Millington.
     - 3.2.1 "Seek", 52.
